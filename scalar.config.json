@@ -1,5 +1,6 @@
 {
   "subdomain": "neetocal",
+  "title": "NeetoCal API Docs",
   "guides": [
     {
       "name": "Guide",
@@ -14,5 +15,6 @@
   "references": [{
     "name": "References",
     "path": "docs/apiReferences.yaml"
-  }]
+  }],
+  "theme": "purple"
 }
