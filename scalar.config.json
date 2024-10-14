@@ -2,7 +2,7 @@
   "subdomain": "neetocal",
   "guides": [
     {
-      "name": "NeetoCal APIs documentation",
+      "name": "Guide",
       "sidebar": [
         {
           "path": "docs/introduction.md",
@@ -12,7 +12,7 @@
     }
   ],
   "references": [{
-    "name": "API Reference",
+    "name": "References",
     "path": "docs/apiReferences.yaml"
   }]
 }

@@ -1,2 +1,3 @@
-# Hello World
+## Info
 
+**Description**: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, you will need an API key. Make sure to keep your API key secure and do not share it publicly. [More info](https://help.neetocal.com/articles/api-keys)
