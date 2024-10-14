@@ -1,0 +1,577 @@
+openapi: 3.0.0
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart   # This is the default value
+        description: Your workspace's subdomain
+
+info:
+  description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, you will need an API key. Make sure to keep your API key secure and do not share it publicly. [More info](https://help.neetocal.com/articles/api-keys)
+
+  version: "1.0.0"
+  title: NeetoCal APIs
+
+tags:
+  - name: Bookings
+    description: APIs related to creating, rescheduling, cancelling, and listing bookings.
+  - name: Slots
+    description: APIs related to fetching available meeting slots.
+  - name: Availabilities
+    description: APIs related to managing availabilities of hosts.
+  - name: Meetings
+    description: APIs related to creating and managing meeting links.
+  - name: Team Members
+    description: APIs related to managing team members in the workspace.
+paths:
+  /slots/{meeting_slug}:
+    get:
+      summary: Fetches available slots
+      tags:
+        - Slots
+      description: |
+        The "Available slots" API allows users to retrieve a list of available times of the user (or users in the case of multi-host or round-robin meetings) for a specific meeting for a given month. These slots can later be used to book a meeting.
+      parameters:
+        - in: path
+          name: meeting_slug
+          description: Your meeting's slug
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: time_zone
+          description: The time zone in which to check available slots
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: year
+          description: The year for which to check available slots
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: month
+          description: The month for which to check available slots
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '501':
+          description: Internal server error
+
+  /bookings/{booking_sid}:
+    patch:
+      summary: Reschedules an existing booking
+      tags:
+        - Bookings
+      description: The "Rescheduling a booking" API allows users to reschedule an existing booking to a different slot.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: booking_sid
+          description: The booking SID that you want to reschedule
+          required: true
+          schema:
+            type: string
+            example: "hda6gxy"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the person making the booking
+                  example: "Eve Smith"
+                email:
+                  type: string
+                  description: The email of the person making the booking
+                  example: "eve@example.com"
+                slot_date:
+                  type: string
+                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
+                  example: "2024-07-25"
+                slot_start_time:
+                  type: string
+                  description: Start time for the booking. This should be in "HH:MM AM/PM"
+                  example: "10:30 AM"
+                time_zone:
+                  type: string
+                  description: The time zone in which to book the meeting
+                  example: "Asia/Calcutta"
+                form_responses:
+                  type: string
+                  description: Other form responses (optional)
+                  example: '{"introduction": "Hi I am Eve","platform": "LinkedIn","languages":["Python", "Java"],}'
+                reschedule_reason:
+                  type: string
+                  description: The reason for rescheduling the booking (optional)
+                  example: "Need to change the meeting time"
+              required:
+                - name
+                - email
+                - slot_date
+                - slot_start_time
+                - time_zone
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /bookings/{booking_sid}/cancel:
+    post:
+      summary: Cancels an existing booking
+      tags:
+        - Bookings
+      description: The "Canceling a booking" API allows users to cancel an existing booking.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: booking_sid
+          description: The booking SID that you want to reschedule
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: cancel_reason
+          description: The reason for cancelling the booking.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /bookings:
+    get:
+      summary: Fetches all the bookings
+      tags:
+        - Bookings
+      description: The "list all bookings" API allows users to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: host_email
+          description: For showing bookings of only a particular host.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: client_email
+          description: For showing bookings of only a particular client.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: type
+          description: For showing bookings of only a particular type. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+    post:
+      summary: Makes a new booking
+      tags:
+        - Bookings
+      description: The "Making a booking" API allows users to book for a specific meeting, in a particular slot.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meeting_slug:
+                  type: string
+                  description: The slug of the meeting link that you need to book
+                  example: "meeting-with-oliver-smith"
+                name:
+                  type: string
+                  description: The name of the person making the booking
+                  example: "Eve Smith"
+                email:
+                  type: string
+                  description: The email of the person making the booking
+                  example: "eve@example.com"
+                slot_date:
+                  type: string
+                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
+                  example: "2024-07-15"
+                slot_start_time:
+                  type: string
+                  description: Start time for the booking. This should be in "HH:MM AM/PM"
+                  example: "01:30 PM"
+                time_zone:
+                  type: string
+                  description: The time zone in which to book the meeting
+                  example: "Asia/Calcutta"
+                form_responses:
+                  type: string
+                  description: Other form responses (optional)
+                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn"}'
+              required:
+                - meeting_slug
+                - name
+                - email
+                - slot_date
+                - slot_start_time
+                - time_zone
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /availabilities/{availability_id}:
+    patch:
+      summary: Edits an existing availability
+      tags:
+        - Availabilities
+      description: The "Editing an availability" API allows users to edit an availability.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: availability_id
+          description: The availability ID can be retrieved by going to the particular availability page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: 7deafcdc-201d-4d40-a355-a12b20ee1efx
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periods:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      wday:
+                        type: string
+                        description: The weekday (e.g., "monday", "tuesday", etc.)
+                      start_time:
+                        type: string
+                        description: Start time in the format "HH:MM AM/PM"
+                      end_time:
+                        type: string
+                        description: End time in the format "HH:MM AM/PM"
+                  example:
+                    - wday: "monday"
+                      start_time: "09:00 AM"
+                      end_time: "05:00 PM"
+                    - wday: "tuesday"
+                      start_time: "11:00 AM"
+                      end_time: "04:00 PM"
+              required:
+                - periods
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /meetings:
+    post:
+      summary: Creates a new meeting link
+      tags:
+        - Meetings
+      description: The "Create a meeting" API allows users to create meeting-links.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  description: The slug of the meeting link that you want to create. This value should be unique.
+                  example: "meeting-with-oliver-smith"
+                name:
+                  type: string
+                  description: The name of the meeting link
+                  example: "Meeting with Oliver Smith"
+                description:
+                  type: string
+                  description: The description of the meeting link
+                  example: "Discuss project updates"
+                hosts:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of emails of hosts in the meeting.
+                  example: ["oliver@example.com", "jane@example.com"]
+                kind:
+                  type: string
+                  description: Kind of meeting. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  example: "one_on_one"
+                duration:
+                  type: integer
+                  description: Duration of the meeting in minutes.
+                  example: 30
+                start_time_increment:
+                  type: integer
+                  description: Start time increment for the meeting in minutes. Defaults to 30.
+                  example: 30
+              required:
+                - slug
+                - name
+                - hosts
+                - duration
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /meetings/{meeting_sid}:
+    patch:
+      summary: Updates an existing meeting link
+      tags:
+        - Meetings
+      description: This API allows users to update meeting-links.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: Meeting link Sid of the desired meeting link you like to update.
+          required: true
+          schema:
+            type: string
+          example: vj5pgkh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  description: The new slug of the meeting link that you want to update. This value should be unique.
+                  example: "meeting-with-oliver-smith"
+                name:
+                  type: string
+                  description: The name of the meeting link
+                  example: "Meeting with Oliver Smith"
+                description:
+                  type: string
+                  description: The description of the meeting link
+                  example: "Discuss project updates"
+                hosts:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of emails of hosts in the meeting.
+                  example: ["oliver@example.com", "jane@example.com"]
+                kind:
+                  type: string
+                  description: Kind of meeting. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  example: "one_on_one"
+                duration:
+                  type: integer
+                  description: Duration of the meeting in minutes.
+                  example: 30
+                start_time_increment:
+                  type: integer
+                  description: Start time increment for the meeting in minutes. Defaults to 30.
+                  example: 30
+              required:
+                - hosts
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /team_members:
+    post:
+      summary: Create a new team member
+      tags:
+        - Team Members
+      description: The "Create a team member" API allows users to create new team members in the workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_role:
+                  type: string
+                  description: The role that should be assigned to the newly created user. It must be a valid role from the "Roles" section in the settings page. The default is "Standard".
+                  example: "Admin"
+                emails:
+                  type: array
+                  items:
+                    type: string
+                  description: An array of email ids that will be created as team members in your workspace. Must be valid emails.
+                  example: ["oliver@example.com", "jane@example.com"]
+              required:
+                - emails
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /meetings/{meeting_sid}/availability:
+    patch:
+      summary: Edits the availability for an existing meeting link.
+      tags:
+        - Availabilities
+      description: The "Editing a meeting availability" API allows users to edit availabilities used in a meeting. Note that if the availability is used elsewhere, that would also be updated.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: The meeting link Sid can be retrieved by going to the particular meeting-link page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: a8yjkzb
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periods:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      wday:
+                        type: string
+                        description: The weekday (e.g., "monday", "tuesday", etc.)
+                      start_time:
+                        type: string
+                        description: Start time in the format "HH:MM AM/PM"
+                      end_time:
+                        type: string
+                        description: End time in the format "HH:MM AM/PM"
+                  example:
+                    - wday: "monday"
+                      start_time: "09:00 AM"
+                      end_time: "05:00 PM"
+                    - wday: "tuesday"
+                      start_time: "11:00 AM"
+                      end_time: "04:00 PM"
+              required:
+                - periods
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
