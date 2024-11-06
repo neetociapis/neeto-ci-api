@@ -73,6 +73,110 @@ paths:
         '501':
           description: Internal server error
 
+  /bookings:
+    post:
+      summary: Makes a new booking
+      tags:
+        - Bookings
+      description: The "Making a booking" API allows users to book for a specific meeting, in a particular slot.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meeting_slug:
+                  type: string
+                  description: The slug of the meeting link that you need to book
+                  example: "meeting-with-oliver-smith"
+                name:
+                  type: string
+                  description: The name of the person making the booking
+                  example: "Eve Smith"
+                email:
+                  type: string
+                  description: The email of the person making the booking
+                  example: "eve@example.com"
+                slot_date:
+                  type: string
+                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
+                  example: "2024-07-15"
+                slot_start_time:
+                  type: string
+                  description: Start time for the booking. This should be in "HH:MM AM/PM"
+                  example: "01:30 PM"
+                time_zone:
+                  type: string
+                  description: The time zone in which to book the meeting
+                  example: "Asia/Kolkata"
+                form_responses:
+                  type: string
+                  description: Other form responses (optional)
+                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn"}'
+              required:
+                - meeting_slug
+                - name
+                - email
+                - slot_date
+                - slot_start_time
+                - time_zone
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+    get:
+      summary: Fetches all the bookings
+      tags:
+        - Bookings
+      description: The "list all bookings" API allows users to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: host_email
+          description: For showing bookings of only a particular host.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: client_email
+          description: For showing bookings of only a particular client.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: type
+          description: For showing bookings of only a particular type. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
   /bookings/{booking_sid}:
     patch:
       summary: Reschedules an existing booking
@@ -119,7 +223,7 @@ paths:
                 time_zone:
                   type: string
                   description: The time zone in which to book the meeting
-                  example: "Asia/Calcutta"
+                  example: "Asia/Kolkata"
                 form_responses:
                   type: string
                   description: Other form responses (optional)
@@ -178,109 +282,6 @@ paths:
         '500':
           description: Internal server error
 
-  /bookings:
-    get:
-      summary: Fetches all the bookings
-      tags:
-        - Bookings
-      description: The "list all bookings" API allows users to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
-      parameters:
-        - in: header
-          name: X-Api-Key
-          description: Bearer token for API access
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: host_email
-          description: For showing bookings of only a particular host.
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: client_email
-          description: For showing bookings of only a particular client.
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: type
-          description: For showing bookings of only a particular type. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK - Request succeeded
-        '400':
-          description: Bad Request - Missing/Invalid parameters
-        '401':
-          description: Unauthorized - Invalid API key
-        '500':
-          description: Internal server error
-    post:
-      summary: Makes a new booking
-      tags:
-        - Bookings
-      description: The "Making a booking" API allows users to book for a specific meeting, in a particular slot.
-      parameters:
-        - in: header
-          name: X-Api-Key
-          description: Bearer token for API access
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                meeting_slug:
-                  type: string
-                  description: The slug of the meeting link that you need to book
-                  example: "meeting-with-oliver-smith"
-                name:
-                  type: string
-                  description: The name of the person making the booking
-                  example: "Eve Smith"
-                email:
-                  type: string
-                  description: The email of the person making the booking
-                  example: "eve@example.com"
-                slot_date:
-                  type: string
-                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
-                  example: "2024-07-15"
-                slot_start_time:
-                  type: string
-                  description: Start time for the booking. This should be in "HH:MM AM/PM"
-                  example: "01:30 PM"
-                time_zone:
-                  type: string
-                  description: The time zone in which to book the meeting
-                  example: "Asia/Calcutta"
-                form_responses:
-                  type: string
-                  description: Other form responses (optional)
-                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn"}'
-              required:
-                - meeting_slug
-                - name
-                - email
-                - slot_date
-                - slot_start_time
-                - time_zone
-      responses:
-        '200':
-          description: OK - Request succeeded
-        '400':
-          description: Bad Request - Missing/Invalid parameters
-        '401':
-          description: Unauthorized - Invalid API key
-        '500':
-          description: Internal server error
   /availabilities/{availability_id}:
     patch:
       summary: Edits an existing availability
@@ -517,7 +518,7 @@ paths:
           description: Internal server error
 
   /meetings/{meeting_sid}/availability:
-    patch:
+    post:
       summary: Edits the availability for an existing meeting link.
       tags:
         - Availabilities
