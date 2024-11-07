@@ -15,27 +15,27 @@ info:
 
 tags:
   - name: Bookings
-    description: APIs related to creating, rescheduling, cancelling, and listing bookings.
+    description: APIs to create, list, reschedule, and cancel bookings.
   - name: Slots
-    description: APIs related to fetching available meeting slots.
+    description: APIs to fetch available slots of meeting links.
   - name: Availabilities
-    description: APIs related to managing availabilities of hosts.
-  - name: Meetings
-    description: APIs related to creating and managing meeting links.
+    description: APIs to manage availabilities of meeting hosts.
+  - name: Meeting links
+    description: APIs to create and manage meeting links.
   - name: Team Members
-    description: APIs related to managing team members in the workspace.
+    description: APIs to manage team members in the workspace.
 paths:
   /slots/{meeting_slug}:
     get:
-      summary: Fetches available slots
+      summary: List all available slots
       tags:
         - Slots
       description: |
-        The "Available slots" API allows users to retrieve a list of available times of the user (or users in the case of multi-host or round-robin meetings) for a specific meeting for a given month. These slots can later be used to book a meeting.
+        This API allows to retrieve a list of available times of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting.
       parameters:
         - in: path
           name: meeting_slug
-          description: Your meeting's slug
+          description: The slug of the meeting link
           required: true
           schema:
             type: string
@@ -75,10 +75,10 @@ paths:
 
   /bookings:
     post:
-      summary: Makes a new booking
+      summary: Make a booking
       tags:
         - Bookings
-      description: The "Making a booking" API allows users to book for a specific meeting, in a particular slot.
+      description: This API allows to book for a specific meeting, in a particular slot.
       parameters:
         - in: header
           name: X-Api-Key
@@ -138,10 +138,10 @@ paths:
         '500':
           description: Internal server error
     get:
-      summary: Fetches all the bookings
+      summary: List all bookings
       tags:
         - Bookings
-      description: The "list all bookings" API allows users to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
+      description: This API allows users to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
       parameters:
         - in: header
           name: X-Api-Key
@@ -179,10 +179,10 @@ paths:
 
   /bookings/{booking_sid}:
     patch:
-      summary: Reschedules an existing booking
+      summary: Reschedule a booking
       tags:
         - Bookings
-      description: The "Rescheduling a booking" API allows users to reschedule an existing booking to a different slot.
+      description: This API allows to reschedule a booking to a different slot.
       parameters:
         - in: header
           name: X-Api-Key
@@ -214,7 +214,7 @@ paths:
                   example: "eve@example.com"
                 slot_date:
                   type: string
-                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
+                  description: Date on which the booking to be rescheduled. This should be in "YYYY-MM-DD" format
                   example: "2024-07-25"
                 slot_start_time:
                   type: string
@@ -222,7 +222,7 @@ paths:
                   example: "10:30 AM"
                 time_zone:
                   type: string
-                  description: The time zone in which to book the meeting
+                  description: The time zone in which to reschedule the booking
                   example: "Asia/Kolkata"
                 form_responses:
                   type: string
@@ -231,7 +231,7 @@ paths:
                 reschedule_reason:
                   type: string
                   description: The reason for rescheduling the booking (optional)
-                  example: "Need to change the meeting time"
+                  example: "I want to change the booking time"
               required:
                 - name
                 - email
@@ -249,10 +249,10 @@ paths:
           description: Internal server error
   /bookings/{booking_sid}/cancel:
     post:
-      summary: Cancels an existing booking
+      summary: Cancel a booking
       tags:
         - Bookings
-      description: The "Canceling a booking" API allows users to cancel an existing booking.
+      description: This API allows to cancel a booking.
       parameters:
         - in: header
           name: X-Api-Key
@@ -262,13 +262,14 @@ paths:
             type: string
         - in: path
           name: booking_sid
-          description: The booking SID that you want to reschedule
+          description: The booking SID that you want to cancel
           required: true
           schema:
             type: string
         - in: query
           name: cancel_reason
           description: The reason for cancelling the booking.
+          example: "I am not available"
           required: false
           schema:
             type: string
@@ -284,10 +285,10 @@ paths:
 
   /availabilities/{availability_id}:
     patch:
-      summary: Edits an existing availability
+      summary: update an availability
       tags:
         - Availabilities
-      description: The "Editing an availability" API allows users to edit an availability.
+      description: This API allows to update an availability.
       parameters:
         - in: header
           name: X-Api-Key
@@ -297,11 +298,11 @@ paths:
             type: string
         - in: path
           name: availability_id
-          description: The availability ID can be retrieved by going to the particular availability page, and copying it from the URL.
+          description: The availability SID can be retrieved by going to the particular availability page, and copying it from the URL.
           required: true
           schema:
             type: string
-          example: 7deafcdc-201d-4d40-a355-a12b20ee1efx
+          example: 5ybe3cq
       requestBody:
         required: true
         content:
@@ -341,12 +342,13 @@ paths:
           description: Unauthorized - Invalid API key
         '500':
           description: Internal server error
+
   /meetings:
     post:
-      summary: Creates a new meeting link
+      summary: Create a meeting link
       tags:
         - Meetings
-      description: The "Create a meeting" API allows users to create meeting-links.
+      description: This API allows to create meeting links.
       parameters:
         - in: header
           name: X-Api-Key
@@ -377,11 +379,11 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: Array of emails of hosts in the meeting.
+                  description: Array of emails of hosts of the meeting.
                   example: ["oliver@example.com", "jane@example.com"]
                 kind:
                   type: string
-                  description: Kind of meeting. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  description: Kind of meeting link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
                   example: "one_on_one"
                 duration:
                   type: integer
@@ -408,10 +410,10 @@ paths:
 
   /meetings/{meeting_sid}:
     patch:
-      summary: Updates an existing meeting link
+      summary: Update a meeting link
       tags:
         - Meetings
-      description: This API allows users to update meeting-links.
+      description: This API allows to update a meeting link.
       parameters:
         - in: header
           name: X-Api-Key
@@ -421,7 +423,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: Meeting link Sid of the desired meeting link you like to update.
+          description: Meeting link SID of the desired meeting link you like to update.
           required: true
           schema:
             type: string
@@ -436,14 +438,14 @@ paths:
                 slug:
                   type: string
                   description: The new slug of the meeting link that you want to update. This value should be unique.
-                  example: "meeting-with-oliver-smith"
+                  example: "meeting-with-oliver-smith-new"
                 name:
                   type: string
-                  description: The name of the meeting link
+                  description: The new name of the meeting link that you want to update.
                   example: "Meeting with Oliver Smith"
                 description:
                   type: string
-                  description: The description of the meeting link
+                  description: The new description of the meeting link
                   example: "Discuss project updates"
                 hosts:
                   type: array
@@ -477,10 +479,10 @@ paths:
 
   /team_members:
     post:
-      summary: Create a new team member
+      summary: Add a team member
       tags:
         - Team Members
-      description: The "Create a team member" API allows users to create new team members in the workspace.
+      description: This API allows to add team members in the workspace.
       parameters:
         - in: header
           name: X-Api-Key
@@ -497,13 +499,13 @@ paths:
               properties:
                 organization_role:
                   type: string
-                  description: The role that should be assigned to the newly created user. It must be a valid role from the "Roles" section in the settings page. The default is "Standard".
+                  description: The role that should be assigned to the newly added team member. It must be a valid role from the "Roles" section in the settings page. The default is "Standard".
                   example: "Admin"
                 emails:
                   type: array
                   items:
                     type: string
-                  description: An array of email ids that will be created as team members in your workspace. Must be valid emails.
+                  description: An array of email ids that will be added as team members in your workspace. Must be valid emails.
                   example: ["oliver@example.com", "jane@example.com"]
               required:
                 - emails
@@ -519,10 +521,10 @@ paths:
 
   /meetings/{meeting_sid}/availability:
     post:
-      summary: Edits the availability for an existing meeting link.
+      summary: Update the availability for a meeting link.
       tags:
         - Availabilities
-      description: The "Editing a meeting availability" API allows users to edit availabilities used in a meeting. Note that if the availability is used elsewhere, that would also be updated.
+      description: This API allows to update availabilities used in a meeting link. Note that if the availability is used elsewhere, that would also be updated.
       parameters:
         - in: header
           name: X-Api-Key
@@ -532,7 +534,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: The meeting link Sid can be retrieved by going to the particular meeting-link page, and copying it from the URL.
+          description: The meeting link SID can be retrieved by going to the particular meeting link page, and copying it from the URL.
           required: true
           schema:
             type: string
