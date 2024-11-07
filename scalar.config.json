@@ -1,5 +1,5 @@
 {
-  "metaData": {
+  "siteMeta": {
     "title": "NeetoCal API Docs",
     "description": "NeetoCal API docs guide to manage bookings from external channels"
   },
@@ -23,10 +23,9 @@
   }],
   "siteConfig": {
     "logo": {
-      "darkMode": "https://raw.githubusercontent.com/bigbinary/neeto-cal-api/refs/heads/main/neetoCal.svg?token=GHSAT0AAAAAACVG3VUYP6U5FB5JTQ5K76I2ZZNB77Q",
-      "lightMode": "https://raw.githubusercontent.com/bigbinary/neeto-cal-api/refs/heads/main/neetoCal.svg?token=GHSAT0AAAAAACVG3VUYP6U5FB5JTQ5K76I2ZZNB77Q"
+      "darkMode": "https://scalar.com/logo-light.svg",
+      "lightMode": "https://scalar.com/logo-dark.svg"
     },
     "footer": ""
-  },
-  "hideDownloadButton": true
+  }
 }
