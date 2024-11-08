@@ -23,8 +23,8 @@
   }],
   "siteConfig": {
     "logo": {
-      "darkMode": "https://scalar.com/logo-light.svg",
-      "lightMode": "https://scalar.com/logo-dark.svg"
+      "darkMode": "https://d2v7kzglnr2dnh.cloudfront.net/logos/neetocal.svg",
+      "lightMode": "https://d2v7kzglnr2dnh.cloudfront.net/typeface-logos/neetocal_dark.png"
     },
     "footer": ""
   }
