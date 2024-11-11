@@ -31,38 +31,38 @@ paths:
       tags:
         - Slots
       description: |
-        This API allows to retrieve a list of available times of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting.
+        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: meeting_slug
-          description: The slug of the meeting link
+          description: Slug of the meeting link.
           required: true
           schema:
             type: string
             example: "meeting-with-oliver-smith"
         - in: query
           name: time_zone
-          description: The time zone in which to check available slots
+          description: Time zone in which to check available slots.
           required: true
           schema:
             type: string
             example: "Asia/Kolkata"
         - in: query
           name: year
-          description: The year for which to check available slots
+          description: Year for which to check available slots.
           required: true
           schema:
             type: string
             example: "2024"
         - in: query
           name: month
-          description: The month for which to check available slots
+          description: Month for which to check available slots.
           required: true
           schema:
             type: string
@@ -86,7 +86,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
@@ -99,31 +99,31 @@ paths:
               properties:
                 meeting_slug:
                   type: string
-                  description: The slug of the meeting link that you need to book
+                  description: Slug of meeting link you want to book.
                   example: "meeting-with-oliver-smith"
                 name:
                   type: string
-                  description: The name of the person making the booking
+                  description: Name of person making the booking.
                   example: "Eve Smith"
                 email:
                   type: string
-                  description: The email of the person making the booking
+                  description: Email of person making the booking.
                   example: "eve@example.com"
                 slot_date:
                   type: string
-                  description: Date on which the booking is scheduled. This should be in "YYYY-MM-DD" format
+                  description: Date on which you want to book. This should be in "YYYY-MM-DD" format.
                   example: "2024-07-15"
                 slot_start_time:
                   type: string
-                  description: Start time for the booking. This should be in "HH:MM AM/PM"
+                  description: Start time for the booking. This should be in "HH:MM AM/PM" format.
                   example: "01:30 PM"
                 time_zone:
                   type: string
-                  description: The time zone in which to book the meeting
+                  description: Time zone of person making the booking.
                   example: "Asia/Kolkata"
                 form_responses:
                   type: string
-                  description: Other form responses (optional)
+                  description: Responses for the questions of booking form (optional)
                   example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn"}'
               required:
                 - meeting_slug
@@ -145,29 +145,29 @@ paths:
       summary: List all bookings
       tags:
         - Bookings
-      description: This API allows to retrieve a list of all the bookings in a workspace.The bookings can be filtered based on client email, host email or type of the booking.
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: query
           name: host_email
-          description: For showing bookings of only a particular host.
+          description: To get the bookings of a particular host only.
           required: false
           schema:
             type: string
         - in: query
           name: client_email
-          description: For showing bookings of only a particular client.
+          description: To get the bookings of a particular client only.
           required: false
           schema:
             type: string
         - in: query
           name: type
-          description: For showing bookings of only a particular type. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
+          description: To get the bookings of a particular type only. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
           required: false
           schema:
             type: string
@@ -186,17 +186,17 @@ paths:
       summary: Reschedule a booking
       tags:
         - Bookings
-      description: This API allows to reschedule a booking to a different slot.
+      description: This API allows to reschedule the booking to a different slot.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: booking_sid
-          description: The booking SID that you want to reschedule
+          description: Id of booking that you want to reschedule.
           required: true
           schema:
             type: string
@@ -210,31 +210,31 @@ paths:
               properties:
                 name:
                   type: string
-                  description: The name of the person making the booking
+                  description: Name of person making the booking.
                   example: "Eve Smith"
                 email:
                   type: string
-                  description: The email of the person making the booking
+                  description: Email of person making the booking.
                   example: "eve@example.com"
                 slot_date:
                   type: string
-                  description: Date on which the booking to be rescheduled. This should be in "YYYY-MM-DD" format
+                  description: Date on which the booking is to be rescheduled. This should be in "YYYY-MM-DD" format.
                   example: "2024-07-25"
                 slot_start_time:
                   type: string
-                  description: Start time for the booking. This should be in "HH:MM AM/PM"
+                  description: Start time for the booking. This should be in "HH:MM AM/PM" format.
                   example: "10:30 AM"
                 time_zone:
                   type: string
-                  description: The time zone in which to reschedule the booking
+                  description: Time zone of person rescheduling the booking.
                   example: "Asia/Kolkata"
                 form_responses:
                   type: string
-                  description: Other form responses (optional)
+                  description: Responses for the questions of booking form (optional)
                   example: '{"introduction": "Hi I am Eve","platform": "LinkedIn","languages":["Python", "Java"],}'
                 reschedule_reason:
                   type: string
-                  description: The reason for rescheduling the booking (optional)
+                  description: Reason for rescheduling the booking (optional).
                   example: "I want to change the booking time"
               required:
                 - name
@@ -260,20 +260,20 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: booking_sid
-          description: The booking SID that you want to cancel
+          description: Id of the booking that you want to cancel.
           required: true
           schema:
             type: string
             example: "hda6gxy"
         - in: query
           name: cancel_reason
-          description: The reason for cancelling the booking.
+          description: Reason for cancelling the booking.
           example: "I am not available"
           required: false
           schema:
@@ -297,13 +297,13 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: availability_id
-          description: The availability SID can be retrieved by going to the particular availability page, and copying it from the URL.
+          description: Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.
           required: true
           schema:
             type: string
@@ -322,13 +322,13 @@ paths:
                     properties:
                       wday:
                         type: string
-                        description: The weekday (e.g., "monday", "tuesday", etc.)
+                        description: The weekday (e.g., "monday", "tuesday", etc.).
                       start_time:
                         type: string
-                        description: Start time in the format "HH:MM AM/PM"
+                        description: Start time in "HH:MM AM/PM" format.
                       end_time:
                         type: string
-                        description: End time in the format "HH:MM AM/PM"
+                        description: End time in "HH:MM AM/PM" format.
                   example:
                     - wday: "monday"
                       start_time: "09:00 AM"
@@ -353,11 +353,11 @@ paths:
       summary: Create a meeting link
       tags:
         - Meeting links
-      description: This API allows to create meeting links.
+      description: This API allows to create a meeting link.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
@@ -370,21 +370,21 @@ paths:
               properties:
                 slug:
                   type: string
-                  description: The slug of the meeting link that you want to create. This value should be unique.
+                  description: Slug of the new meeting link. This value should be unique.
                   example: "meeting-with-oliver-smith"
                 name:
                   type: string
-                  description: The name of the meeting link
+                  description: New name of the meeting link.
                   example: "Meeting with Oliver Smith"
                 description:
                   type: string
-                  description: The description of the meeting link
+                  description: New description of the meeting link.
                   example: "Discuss project updates"
                 hosts:
                   type: array
                   items:
                     type: string
-                  description: Array of emails of hosts of the meeting.
+                  description: Emails of the hosts of meeting link in array format.
                   example: ["oliver@example.com", "jane@example.com"]
                 kind:
                   type: string
@@ -392,11 +392,11 @@ paths:
                   example: "one_on_one"
                 duration:
                   type: integer
-                  description: Duration of the meeting in minutes.
+                  description: Duration of the meeting link in minutes.
                   example: 30
                 start_time_increment:
                   type: integer
-                  description: Start time increment for the meeting in minutes. Defaults to 30.
+                  description: Start time increment for the meeting link in minutes. Defaults to 30.
                   example: 30
               required:
                 - slug
@@ -422,13 +422,13 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: meeting_sid
-          description: Meeting link SID of the desired meeting link you like to update.
+          description: Id of the meeting link you want to update.
           required: true
           schema:
             type: string
@@ -442,33 +442,33 @@ paths:
               properties:
                 slug:
                   type: string
-                  description: The new slug of the meeting link that you want to update. This value should be unique.
+                  description: New slug of the meeting link. This value should be unique.
                   example: "meeting-with-oliver-smith-new"
                 name:
                   type: string
-                  description: The new name of the meeting link that you want to update.
+                  description: New name of the meeting link.
                   example: "Meeting with Oliver Smith"
                 description:
                   type: string
-                  description: The new description of the meeting link
+                  description: New description of the meeting link.
                   example: "Discuss project updates"
                 hosts:
                   type: array
                   items:
                     type: string
-                  description: Array of emails of hosts in the meeting.
+                  description: Emails of the hosts of meeting link in array format.
                   example: ["oliver@example.com", "jane@example.com"]
                 kind:
                   type: string
-                  description: Kind of meeting. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  description: Kind of meeting link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
                   example: "one_on_one"
                 duration:
                   type: integer
-                  description: Duration of the meeting in minutes.
+                  description: Duration of the meeting link in minutes.
                   example: 30
                 start_time_increment:
                   type: integer
-                  description: Start time increment for the meeting in minutes. Defaults to 30.
+                  description: Start time increment for the meeting link in minutes. Defaults to 30.
                   example: 30
               required:
                 - hosts
@@ -484,14 +484,14 @@ paths:
 
   /team_members:
     post:
-      summary: Add a team member
+      summary: Add team members
       tags:
         - Team Members
       description: This API allows to add team members in the workspace.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
@@ -504,13 +504,13 @@ paths:
               properties:
                 organization_role:
                   type: string
-                  description: The role that should be assigned to the newly added team member. It must be a valid role from the "Roles" section in the settings page. The default is "Standard".
-                  example: "Admin"
+                  description: Role that should be assigned to the new team members. It must be a valid role from the "Roles" section in the settings page. The default is "Standard".
+                  example: "Standard"
                 emails:
                   type: array
                   items:
                     type: string
-                  description: An array of email ids that will be added as team members in your workspace. Must be valid emails.
+                  description: Emails of the team members to be added in the workspace in array format. Must be valid emails.
                   example: ["oliver@example.com", "jane@example.com"]
               required:
                 - emails
@@ -529,17 +529,17 @@ paths:
       summary: Update the availability for a meeting link.
       tags:
         - Availabilities
-      description: This API allows to update availabilities used in a meeting link. Note that if the availability is used elsewhere, that would also be updated.
+      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access
+          description: Bearer token for API access.
           required: true
           schema:
             type: string
         - in: path
           name: meeting_sid
-          description: The meeting link SID can be retrieved by going to the particular meeting link page, and copying it from the URL.
+          description: Id of the meeting link can be retrieved by going to the particular meeting link page, and copying it from the URL.
           required: true
           schema:
             type: string
@@ -558,13 +558,13 @@ paths:
                     properties:
                       wday:
                         type: string
-                        description: The weekday (e.g., "monday", "tuesday", etc.)
+                        description: The weekday (e.g., "monday", "tuesday", etc.).
                       start_time:
                         type: string
-                        description: Start time in the format "HH:MM AM/PM"
+                        description: Start time in "HH:MM AM/PM" format.
                       end_time:
                         type: string
-                        description: End time in the format "HH:MM AM/PM"
+                        description: End time in "HH:MM AM/PM" format.
                   example:
                     - wday: "monday"
                       start_time: "09:00 AM"
