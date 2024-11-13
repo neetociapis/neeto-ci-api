@@ -347,6 +347,34 @@ paths:
           description: Unauthorized - Invalid API key
         '500':
           description: Internal server error
+    get:
+      summary: Get details about an availability
+      tags:
+        - Availabilities
+      description: This API allows to get details about an availability.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: availability_id
+          description: Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: 5ybe3cq
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
 
   /meetings:
     post:
