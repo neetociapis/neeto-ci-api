@@ -9,7 +9,7 @@
   "guides": [],
   "references": [{
     "name": "APIs",
-    "path": "docs/api.yaml"
+    "path": "docs/apis.yaml"
   }],
   "siteConfig": {
     "logo": {
