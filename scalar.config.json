@@ -7,7 +7,7 @@
   "subdomain": "apis",
   "customDomain": "apis.neetocal.com",
   "theme": "default",
-  "apis": [{
+  "references": [{
     "name": "APIs",
     "path": "docs/apis.yaml"
   }],
