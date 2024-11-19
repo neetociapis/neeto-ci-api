@@ -4,11 +4,21 @@
     "description": "NeetoCal API docs guide to manage bookings from external channels"
   },
   "publishOnMerge": true,
-  "subdomain": "neetoCal",
+  "subdomain": "neetocal",
   "theme": "default",
-  "guides": [],
+  "guides": [
+    {
+      "name": "Guide",
+      "sidebar": [
+        {
+          "path": "README.md",
+          "type": "page"
+        }
+      ]
+    }
+  ],
   "references": [{
-    "name": "APIs",
+    "name": "References",
     "path": "docs/apis.yaml"
   }],
   "siteConfig": {
