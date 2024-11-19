@@ -5,6 +5,7 @@
   },
   "publishOnMerge": true,
   "subdomain": "neetocal",
+  "customDomain": "apis.neetocal.com",
   "theme": "default",
   "guides": [
     {
