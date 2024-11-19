@@ -13,7 +13,7 @@
       "sidebar": [
         {
           "path": "README.md",
-          "type": "link"
+          "type": "page"
         }
       ],
       "show": false
@@ -23,11 +23,6 @@
     "name": "APIs",
     "path": "docs/apis.yaml",
     "title": "APIs"
-  }],
-  "header": [{
-    "title": "Help docs",
-    "link": "https://help.neetocal.com/",
-    "isButton": true
   }],
   "siteConfig": {
     "logo": {
