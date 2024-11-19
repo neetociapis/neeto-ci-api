@@ -7,9 +7,27 @@
   "subdomain": "apis",
   "customDomain": "apis.neetocal.com",
   "theme": "default",
+  "guides": [
+    {
+      "name": "Guide",
+      "sidebar": [
+        {
+          "path": "README.md",
+          "type": "link"
+        }
+      ],
+      "show": false
+    }
+  ],
   "references": [{
     "name": "APIs",
-    "path": "docs/apis.yaml"
+    "path": "docs/apis.yaml",
+    "title": "APIs"
+  }],
+  "header": [{
+    "title": "Help docs",
+    "link": "https://help.neetocal.com/",
+    "isButton": true
   }],
   "siteConfig": {
     "logo": {
