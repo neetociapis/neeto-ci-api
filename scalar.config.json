@@ -7,10 +7,11 @@
   "subdomain": "apis",
   "customDomain": "apis.neetocal.com",
   "theme": "default",
-  "references": [{
+  "guides": [{
     "name": "APIs",
     "path": "docs/apis.yaml"
   }],
+  "references": [],
   "siteConfig": {
     "logo": {
       "darkMode": "https://d2v7kzglnr2dnh.cloudfront.net/logos/neetocal.svg",
