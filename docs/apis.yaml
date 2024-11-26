@@ -15,7 +15,7 @@ info:
 
 tags:
   - name: Bookings
-    description: APIs to create, list, reschedule, and cancel bookings.
+    description: APIs to create, list, reschedule, and cancel bookings. And
   - name: Slots
     description: APIs to manage slots availability of a meeting link.
   - name: Availabilities
