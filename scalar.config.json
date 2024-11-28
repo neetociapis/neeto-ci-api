@@ -1,24 +1,14 @@
 {
   "siteMeta": {
+    "favicon": "https://d2v7kzglnr2dnh.cloudfront.net/logos/neetocal.svg",
     "title": "NeetoCal API Docs",
     "description": "NeetoCal API docs guide to manage bookings from external channels"
   },
   "publishOnMerge": true,
-  "subdomain": "api",
-  "customDomain": "api.neetocal.com",
+  "subdomain": "apis",
+  "customDomain": "apis.neetocal.com",
   "theme": "default",
-  "guides": [
-    {
-      "name": "Guide",
-      "sidebar": [
-        {
-          "path": "README.md",
-          "type": "page"
-        }
-      ],
-      "show": false
-    }
-  ],
+  "guides": [],
   "references": [{
     "name": "APIs",
     "path": "docs/apis.yaml",
