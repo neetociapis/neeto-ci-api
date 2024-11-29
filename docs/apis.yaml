@@ -90,6 +90,15 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: page
+          schema: string
+          description: Used for pagination. 
+          required: false
+        - in: query
+          name: page_size
+          schema: string
+          description: Used to specify the number of bookings received. The default value is 30.
       requestBody:
         required: true
         content:
