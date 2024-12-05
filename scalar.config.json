@@ -8,16 +8,7 @@
   "subdomain": "apis",
   "customDomain": "apis.neetocal.com",
   "theme": "default",
-  "guides": [{
-    "name": "Guide",
-    "sidebar": [
-      {
-        "path": "README.md",
-        "type": "page"
-      }
-    ],
-    "show": false
-  }],
+  "guides": [],
   "references": [{
     "name": "APIs",
     "path": "docs/apis.yaml",
