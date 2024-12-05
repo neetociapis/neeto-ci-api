@@ -24,6 +24,35 @@ tags:
     description: APIs to create and manage meeting links.
   - name: Team Members
     description: APIs to manage team members in the workspace.
+components:
+  schemas:
+    BookingPagination:
+      type: object #TODO: add booking response schema
+      properties:
+        total_records:
+          type: integer
+          description: Total number of bookings
+        total_pages:
+          type: integer
+          description: Total number of pages available
+        current_page:
+          type: integer
+          description: Current page number
+        page_size:
+          type: integer
+          description: Number of bookings per page
+    Booking:
+        type: object
+
+    BookingListResponse:
+      type: object
+      properties:
+        bookings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+        pagination:
+          $ref: '#/components/schemas/BookingPagination'
 paths:
   /slots/{meeting_slug}:
     get:
@@ -183,9 +212,27 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: sorting_order
+          description: Sort bookings by booking creation date. Supported values are `asc` and `desc`. The default value is `desc`.
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingListResponse'
+              example:
+                bookings: []
+                  
+                pagination:
+                  total_records: 535
+                  total_pages: 268
+                  current_page: 1
+                  page_size: 30
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
