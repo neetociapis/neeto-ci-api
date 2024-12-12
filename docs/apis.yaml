@@ -15,7 +15,7 @@ info:
 
 tags:
   - name: Bookings
-    description: APIs to create, list, reschedule, and cancel bookings. And
+    description: APIs to create, list, reschedule, and cancel bookings.
   - name: Slots
     description: APIs to manage slots availability of a meeting link.
   - name: Availabilities
@@ -227,7 +227,7 @@ paths:
                 $ref: '#/components/schemas/BookingListResponse'
               example:
                 bookings: []
-                  
+
                 pagination:
                   total_records: 535
                   total_pages: 268
