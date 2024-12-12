@@ -435,6 +435,48 @@ paths:
         '500':
           description: Internal server error
 
+  /availabilities/team_member:
+    get:
+      summary: List all availabilities of a team member
+      tags:
+        - Team Members
+      description: This API allows to list availabilities of a team member in the workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: email
+          description: Email of the team member whose availabilities should be listed.
+          required: true
+          schema:
+            type: string
+            example: "oliver@spinkart.com"
+        - in: query
+          name: page
+          description: Page number.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of availabilities to receive. The default value is 30.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
   /meetings:
     post:
       summary: Create a meeting link
