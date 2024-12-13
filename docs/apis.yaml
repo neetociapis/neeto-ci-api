@@ -438,7 +438,7 @@ paths:
     get:
       summary: List all availabilities of a team member
       tags:
-        - Team Members
+        - Availabilities
       description: This API allows to list availabilities of a team member in the workspace.
       parameters:
         - in: header
@@ -611,6 +611,27 @@ paths:
           description: Internal server error
 
   /team_members:
+    get:
+      summary: List all team members
+      tags:
+        - Team Members
+      description: This API allows to list all team members in the workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
     post:
       summary: Add team members
       tags:
@@ -642,6 +663,67 @@ paths:
                   example: ["oliver@example.com", "jane@example.com"]
               required:
                 - emails
+      responses:
+        '200':
+          description: OK - Request succeeded
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /team_members/{team_member_id}:
+    patch:
+      summary: Update team member details
+      tags:
+        - Team Members
+      description: This API allows to update the details of a team member in the organization.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: team_member_id
+          description: Id of the team member that you want to update.
+          required: true
+          schema:
+            type: string
+            example: "13c02be6-8bd4-4dda-b9e6-07df53feb8a4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email of the team member.
+                  example: "oliver@spinkart.com"
+                first_name:
+                  type: string
+                  description: First name of the team member.
+                  example: "Oliver"
+                last_name:
+                  type: string
+                  description: Last name of the team member.
+                  example: "Smith"
+                time_zone:
+                  type: string
+                  description: Time zone for the team member. It should be a valid time zone.
+                  example: "Asia/Kolkata"
+                organization_role:
+                  type: string
+                  description: Organization role for the team member. This value should be one of the organization roles of your workspace. The list of organization roles can be seen in Roles page. This value is case sensitive.
+                  example: "Admin"
+                active:
+                  type: boolean
+                  description: Whether the team member is active or not.
+                  example: false
       responses:
         '200':
           description: OK - Request succeeded
