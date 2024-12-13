@@ -1,6 +1,6 @@
 {
   "siteMeta": {
-    "favicon": "/assets/neetoCal.svg",
+    "favicon": "./assets/neetoCal.svg",
     "title": "NeetoCal APIs",
     "description": "NeetoCal API docs guide to manage bookings from external channels"
   },
