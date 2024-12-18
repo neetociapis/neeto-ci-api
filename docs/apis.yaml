@@ -1,4 +1,3 @@
-openapi: 3.0.0
 servers:
   - description: NeetoCal APIs
     url: https://{workspace}.neetocal.com/api/external/v1
