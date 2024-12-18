@@ -9,7 +9,6 @@ servers:
 
 info:
   description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
-
   title: NeetoCal APIs
 
 tags:
@@ -34,7 +33,7 @@ components:
         total_pages:
           type: integer
           description: Total number of pages available
-        current_page:
+        current_page_number:
           type: integer
           description: Current page number
         page_size:
@@ -200,23 +199,26 @@ paths:
           schema:
             type: string
         - in: query
-          name: page
-          description: Page number.
+          name: page_number
+          description: Page number. The default value is 1.
           required: false
           schema:
-            type: string
+            type: Number
         - in: query
           name: page_size
           description: Number of bookings to receive. The default value is 30.
           required: false
           schema:
-            type: string
+            type: Number
         - in: query
           name: sorting_order
-          description: Sort bookings by booking creation date. Supported values are `asc` and `desc`. The default value is `desc`.
+          description: Sort bookings by booking creation date. The default value is `desc`.
           required: false
           schema:
             type: string
+            enum:
+              - asc
+              - desc
       responses:
         '200':
           description: OK - Request succeeded
@@ -230,7 +232,7 @@ paths:
                 pagination:
                   total_records: 535
                   total_pages: 268
-                  current_page: 1
+                  current_page_number: 1
                   page_size: 30
         '400':
           description: Bad Request - Missing/Invalid parameters
