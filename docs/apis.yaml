@@ -61,7 +61,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys). # TODO : Use permalink
           required: true
           schema:
             type: string
@@ -112,7 +112,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -175,7 +175,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -249,7 +249,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -319,7 +319,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -356,7 +356,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -414,7 +414,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -444,7 +444,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -486,7 +486,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -551,7 +551,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -620,7 +620,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -641,7 +641,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -683,7 +683,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -744,7 +744,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
