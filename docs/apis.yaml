@@ -61,7 +61,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys). # TODO : Use permalink
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys). # TODO : Use permalink instead of slugged URL
           required: true
           schema:
             type: string
@@ -96,6 +96,37 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slots:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          example: "2025-01-15"
+                        day:
+                          type: integer
+                          example: 15
+                        slots:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              start_time:
+                                type: string
+                                example: "11:30 AM"
+                              end_time:
+                                type: string
+                                example: "12:00 PM"
+                              count:
+                                type: integer
+                                example: 1
+
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -161,6 +192,143 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Booking successful"
+                  id:
+                    type: string
+                    example: "07a1a4cd-1a82-4699-8634-2a97ae080122"
+                  sid:
+                    type: string
+                    example: "b37xh8c"
+                  parent_booking_id:
+                    type: string
+                    nullable: true
+                    example: null
+                  email:
+                    type: string
+                    example: "eve@example.com"
+                  name:
+                    type: string
+                    example: "Eve Smith"
+                  host_name:
+                    type: string
+                    example: "Oliver Smith"
+                  host_email:
+                    type: string
+                    example: "oliver.smith@example.com"
+                  is_multihost:
+                    type: boolean
+                    example: false
+                  multihosts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "Oliver Smith"
+                        email:
+                          type: string
+                          example: "oliver.smith@example.com"
+                  starts_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-15T08:00:00.000Z"
+                  ends_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-15T08:30:00.000Z"
+                  time_zone:
+                    type: string
+                    example: "Asia/Kolkata"
+                  status:
+                    type: string
+                    example: "confirmed"
+                  cancel_reason:
+                    type: string
+                    nullable: true
+                    example: null
+                  cancelled_by:
+                    type: string
+                    nullable: true
+                    example: null
+                  reschedule_requested:
+                    type: boolean
+                    example: false
+                  room_type:
+                    type: string
+                    nullable: true
+                    example: null
+                  room_url:
+                    type: string
+                    nullable: true
+                    example: null
+                  room_id:
+                    type: string
+                    nullable: true
+                    example: null
+                  spot_details:
+                    type: string
+                    nullable: true
+                    example: null
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-14T13:05:11.813Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-14T13:05:11.813Z"
+                  meeting_id:
+                    type: string
+                    example: "061a1edd-c5ad-4955-ba29-eca0edc40667"
+                  no_show:
+                    type: boolean
+                    example: false
+                  notes_url:
+                    type: string
+                    nullable: true
+                    example: null
+                  internal_notes:
+                    type: string
+                    nullable: true
+                    example: null
+                  metadata:
+                    type: object
+                    nullable: true
+                    example: null
+                  admin_booking_url:
+                    type: string
+                    example: "https://spinkart.neetocal.com/admin/bookings/b37xh8c"
+                  client_booking_url:
+                    type: string
+                    example: "https://spinkart.neetocal.com/booking/b37xh8c"
+                  form_responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: "Name"
+                        value:
+                          type: string
+                          example: "Eve Smith"
+                        type:
+                          type: string
+                          example: "name"
+                        field_code:
+                          type: string
+                          example: "name"
+                        Name:
+                          type: string
+                          example: "Eve Smith"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -303,7 +471,144 @@ paths:
                 - time_zone
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Booking reschedule successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Booking reschedule successful"
+                  id:
+                    type: string
+                    example: "30a155b2-5dbc-4c8e-826c-8d30d378abd6"
+                  sid:
+                    type: string
+                    example: "ez6s32t"
+                  parent_booking_id:
+                    type: string
+                    nullable: true
+                    example: null
+                  email:
+                    type: string
+                    example: "pete@example.com"
+                  name:
+                    type: string
+                    example: "Peter Smith"
+                  host_name:
+                    type: string
+                    example: "Oliver Smith"
+                  host_email:
+                    type: string
+                    example: "oliver.smith@example.com"
+                  is_multihost:
+                    type: boolean
+                    example: false
+                  multihosts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "Oliver Smith"
+                        email:
+                          type: string
+                          example: "oliver.smith@example.com"
+                  starts_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-22T06:30:00.000Z"
+                  ends_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-22T07:00:00.000Z"
+                  time_zone:
+                    type: string
+                    example: "Asia/Kolkata"
+                  status:
+                    type: string
+                    example: "confirmed"
+                  cancel_reason:
+                    type: string
+                    nullable: true
+                    example: null
+                  cancelled_by:
+                    type: string
+                    nullable: true
+                    example: null
+                  reschedule_requested:
+                    type: boolean
+                    example: false
+                  room_type:
+                    type: string
+                    nullable: true
+                    example: null
+                  room_url:
+                    type: string
+                    nullable: true
+                    example: null
+                  room_id:
+                    type: string
+                    nullable: true
+                    example: null
+                  spot_details:
+                    type: string
+                    nullable: true
+                    example: null
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-14T15:34:58.448Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-01-14T15:37:33.109Z"
+                  meeting_id:
+                    type: string
+                    example: "061a1edd-c5ad-4955-ba29-eca0edc40667"
+                  no_show:
+                    type: boolean
+                    example: false
+                  notes_url:
+                    type: string
+                    nullable: true
+                    example: null
+                  internal_notes:
+                    type: string
+                    nullable: true
+                    example: null
+                  metadata:
+                    type: object
+                    nullable: true
+                    example: null
+                  admin_booking_url:
+                    type: string
+                    example: "https://spinkart.neetocal.com/admin/bookings/ez6s32t"
+                  client_booking_url:
+                    type: string
+                    example: "https://spinkart.neetocal.com/booking/ez6s32t"
+                  form_responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: "Name"
+                        value:
+                          type: string
+                          example: "Peter Smith"
+                        type:
+                          type: string
+                          example: "name"
+                        field_code:
+                          type: string
+                          example: "name"
+                        Name:
+                          type: string
+                          example: "Peter Smith"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -339,7 +644,15 @@ paths:
             type: string
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Booking cancel successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Booking cancel successful"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -399,7 +712,53 @@ paths:
                 - periods
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Availability updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Availability updated successfully"
+                  availability:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
+                      sid:
+                        type: string
+                        example: "4hua7ct"
+                      name:
+                        type: string
+                        example: "Working hours"
+                      default:
+                        type: boolean
+                        example: true
+                      after_buffer_time:
+                        type: integer
+                        example: 0
+                      before_buffer_time:
+                        type: integer
+                        example: 0
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "cbdd7518-ed29-4085-84e5-d5aa2f722e08"
+                            wday:
+                              type: string
+                              example: "monday"
+                            start_time:
+                              type: string
+                              example: "09:00 AM"
+                            end_time:
+                              type: string
+                              example: "05:00 PM"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -428,6 +787,49 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availability:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
+                      sid:
+                        type: string
+                        example: "4hua7ct"
+                      name:
+                        type: string
+                        example: "Working hours"
+                      default:
+                        type: boolean
+                        example: true
+                      after_buffer_time:
+                        type: integer
+                        example: 0
+                      before_buffer_time:
+                        type: integer
+                        example: 0
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "cbdd7518-ed29-4085-84e5-d5aa2f722e08"
+                            wday:
+                              type: string
+                              example: "monday"
+                            start_time:
+                              type: string
+                              example: "09:00 AM"
+                            end_time:
+                              type: string
+                              example: "05:00 PM"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -470,6 +872,66 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
+                        sid:
+                          type: string
+                          example: "4hua7ct"
+                        name:
+                          type: string
+                          example: "Working hours"
+                        default:
+                          type: boolean
+                          example: true
+                        after_buffer_time:
+                          type: integer
+                          example: 0
+                        before_buffer_time:
+                          type: integer
+                          example: 0
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: "cbdd7518-ed29-4085-84e5-d5aa2f722e08"
+                              wday:
+                                type: string
+                                example: "monday"
+                              start_time:
+                                type: string
+                                example: "09:00 AM"
+                              end_time:
+                                type: string
+                                example: "05:00 PM"
+                  pagination:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                        example: 1
+                      total_pages:
+                        type: integer
+                        example: 1
+                      current_page_number:
+                        type: integer
+                        example: 1
+                      page_size:
+                        type: integer
+                        example: 30
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -535,6 +997,57 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        availability_id:
+                          type: string
+                          example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
+                        member_id:
+                          type: string
+                          example: "b46eab97-7010-4d13-a309-22de7b88038e"
+                        id:
+                          type: string
+                          example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
+                        sid:
+                          type: string
+                          example: "4hua7ct"
+                        name:
+                          type: string
+                          example: "Working hours"
+                        default:
+                          type: boolean
+                          example: true
+                        after_buffer_time:
+                          type: integer
+                          example: 0
+                        before_buffer_time:
+                          type: integer
+                          example: 0
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: "c9e51d9d-5856-4137-a1be-cfe4133d0aa9"
+                              wday:
+                                type: string
+                                example: "monday"
+                              start_time:
+                                type: string
+                                example: "09:00 AM"
+                              end_time:
+                                type: string
+                                example: "05:00 PM"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -604,6 +1117,133 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Meeting created successfully"
+                  meeting:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "bc637b88-a96d-43cb-8f82-1c8898bffc62"
+                      sid:
+                        type: string
+                        example: "csezq69"
+                      name:
+                        type: string
+                        example: "Meeting with Oliver Smith"
+                      slug:
+                        type: string
+                        example: "meeting-with-oliver-smith"
+                      description:
+                        type: string
+                        example: "Discuss project updates"
+                      kind:
+                        type: string
+                        example: "one_on_one"
+                      duration:
+                        type: integer
+                        example: 30
+                      disabled:
+                        type: boolean
+                        example: false
+                      spot:
+                        type: string
+                        example: "jitsi"
+                      spot_in_person_location:
+                        type: string
+                        nullable: true
+                        example: null
+                      spot_custom_text:
+                        type: string
+                        nullable: true
+                        example: null
+                      is_template:
+                        type: boolean
+                        example: false
+                      schedulable_range_type:
+                        type: string
+                        example: "number_of_days_into_the_future"
+                      schedulable_range_value:
+                        type: string
+                        example: "60"
+                      lead_time:
+                        type: integer
+                        example: 240
+                      start_time_increment:
+                        type: integer
+                        example: 30
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-01-14T17:05:11.374Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-01-14T17:05:11.374Z"
+                      deleted_at:
+                        type: string
+                        nullable: true
+                        example: null
+                      is_multiple_spots_allowed:
+                        type: boolean
+                        example: false
+                      is_multiple_durations_allowed:
+                        type: boolean
+                        example: false
+                      conditional_pricing_enabled:
+                        type: boolean
+                        example: false
+                      is_email_reminders_enabled:
+                        type: boolean
+                        example: true
+                      is_sms_reminders_enabled:
+                        type: boolean
+                        example: false
+                      organization_id:
+                        type: string
+                        example: "fccb028c-1d06-48d7-8ddc-5323373bbd8a"
+                      rescheduling_lead_time:
+                        type: integer
+                        example: 0
+                      cancellation_lead_time:
+                        type: integer
+                        example: 0
+                      booking_modification_allowed:
+                        type: boolean
+                        example: true
+                      cancellation_too_late_notice:
+                        type: string
+                        nullable: true
+                        example: null
+                      cancellation_policy:
+                        type: string
+                        nullable: true
+                        example: null
+                      rescheduling_too_late_notice:
+                        type: string
+                        nullable: true
+                        example: null
+                      pre_booking_allowed:
+                        type: boolean
+                        example: false
+                      original_price_enabled:
+                        type: boolean
+                        example: false
+                      original_price:
+                        type: number
+                        nullable: true
+                        example: null
+                      durations_possible:
+                        type: array
+                        items:
+                          type: integer
+                        example: []
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -627,6 +1267,57 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "b46eab97-7010-4d13-a309-22de7b88038e"
+                        email:
+                          type: string
+                          example: "oliver.smith@example.com"
+                        first_name:
+                          type: string
+                          example: "Oliver"
+                        last_name:
+                          type: string
+                          example: "Smith"
+                        time_zone:
+                          type: string
+                          example: "Asia/Kolkata"
+                        profile_image_url:
+                          type: string
+                          nullable: true
+                          example: null
+                        active:
+                          type: boolean
+                          example: true
+                        organization_role:
+                          type: string
+                          example: "Admin"
+                  pagination:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                        example: 3
+                      total_pages:
+                        type: integer
+                        example: 1
+                      current_page:
+                        type: integer
+                        example: 1
+                      page_size:
+                        type: integer
+                        example: 30
+
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -666,7 +1357,15 @@ paths:
                 - emails
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Users added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Users added successfully"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -728,6 +1427,39 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_member:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "24a549ea-48ce-47ce-9cc5-83c3aa8cb6df"
+                      email:
+                        type: string
+                        example: "oliver@spinkart.com"
+                      first_name:
+                        type: string
+                        example: "Oliver"
+                      last_name:
+                        type: string
+                        example: "Smith"
+                      time_zone:
+                        type: string
+                        example: "Asia/Kolkata"
+                      profile_image_url:
+                        type: string
+                        nullable: true
+                        example: null
+                      active:
+                        type: boolean
+                        example: false
+                      organization_role:
+                        type: string
+                        example: "Admin"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -787,7 +1519,134 @@ paths:
                 - periods
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Meeting updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Meeting updated successfully"
+                  meeting:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "061a1edd-c5ad-4955-ba29-eca0edc40667"
+                      sid:
+                        type: string
+                        example: "wkjteqf"
+                      name:
+                        type: string
+                        example: "Meeting with Oliver Smith"
+                      slug:
+                        type: string
+                        example: "meeting-with-oliver-smith-new"
+                      description:
+                        type: string
+                        example: "Discuss project updates"
+                      kind:
+                        type: string
+                        example: "one_on_one"
+                      duration:
+                        type: integer
+                        example: 30
+                      disabled:
+                        type: boolean
+                        example: false
+                      spot:
+                        type: string
+                        example: "google_meet"
+                      spot_in_person_location:
+                        type: string
+                        nullable: true
+                        example: null
+                      spot_custom_text:
+                        type: string
+                        nullable: true
+                        example: null
+                      is_template:
+                        type: boolean
+                        example: false
+                      schedulable_range_type:
+                        type: string
+                        example: "number_of_days_into_the_future"
+                      schedulable_range_value:
+                        type: string
+                        example: "60"
+                      lead_time:
+                        type: integer
+                        example: 240
+                      start_time_increment:
+                        type: integer
+                        example: 30
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2024-08-01T08:53:52.701Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-01-14T17:15:38.582Z"
+                      deleted_at:
+                        type: string
+                        nullable: true
+                        example: null
+                      is_multiple_spots_allowed:
+                        type: boolean
+                        example: false
+                      is_multiple_durations_allowed:
+                        type: boolean
+                        example: false
+                      conditional_pricing_enabled:
+                        type: boolean
+                        example: false
+                      is_email_reminders_enabled:
+                        type: boolean
+                        example: true
+                      is_sms_reminders_enabled:
+                        type: boolean
+                        example: false
+                      organization_id:
+                        type: string
+                        example: "fccb028c-1d06-48d7-8ddc-5323373bbd8a"
+                      rescheduling_lead_time:
+                        type: integer
+                        example: 0
+                      cancellation_lead_time:
+                        type: integer
+                        example: 0
+                      booking_modification_allowed:
+                        type: boolean
+                        example: true
+                      cancellation_too_late_notice:
+                        type: string
+                        nullable: true
+                        example: null
+                      cancellation_policy:
+                        type: string
+                        nullable: true
+                        example: null
+                      rescheduling_too_late_notice:
+                        type: string
+                        nullable: true
+                        example: null
+                      pre_booking_allowed:
+                        type: boolean
+                        example: false
+                      original_price_enabled:
+                        type: boolean
+                        example: false
+                      original_price:
+                        type: number
+                        nullable: true
+                        example: null
+                      durations_possible:
+                        type: array
+                        items:
+                          type: integer
+                        example: []
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
