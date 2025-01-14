@@ -57,7 +57,7 @@ paths:
       tags:
         - Slots
       description: |
-        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting.
+        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -139,7 +139,7 @@ paths:
       summary: Make a booking
       tags:
         - Bookings
-      description: This API allows to book for a specific meeting link, in a particular slot.
+      description: This API allows to book for a specific meeting link, in a particular slot. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -339,7 +339,7 @@ paths:
       summary: List all bookings
       tags:
         - Bookings
-      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking.
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -413,7 +413,7 @@ paths:
       summary: Reschedule a booking
       tags:
         - Bookings
-      description: This API allows to reschedule the booking to a different slot.
+      description: This API allows to reschedule the booking to a different slot. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -620,7 +620,7 @@ paths:
       summary: Cancel a booking
       tags:
         - Bookings
-      description: This API allows to cancel a booking.
+      description: This API allows to cancel a booking. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -665,7 +665,7 @@ paths:
       summary: Update an availability
       tags:
         - Availabilities
-      description: This API allows to update an availability.
+      description: This API allows to update an availability. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -769,7 +769,7 @@ paths:
       summary: Get details about an availability
       tags:
         - Availabilities
-      description: This API allows to get details about an availability.
+      description: This API allows to get details about an availability. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -842,7 +842,7 @@ paths:
       summary: List all availabilities of a team member
       tags:
         - Availabilities
-      description: This API allows to list availabilities of a team member in the workspace.
+      description: This API allows to list availabilities of a team member in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -944,7 +944,7 @@ paths:
       summary: Create a meeting link
       tags:
         - Meeting links
-      description: This API allows to create a meeting link.
+      description: This API allows to create a meeting link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1060,7 +1060,7 @@ paths:
       summary: Update a meeting link
       tags:
         - Meeting links
-      description: This API allows to update a meeting link.
+      description: This API allows to update a meeting link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1256,7 +1256,7 @@ paths:
       summary: List all team members
       tags:
         - Team Members
-      description: This API allows to list all team members in the workspace.
+      description: This API allows to list all team members in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1328,7 +1328,7 @@ paths:
       summary: Add team members
       tags:
         - Team Members
-      description: This API allows to add team members in the workspace.
+      description: This API allows to add team members in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1378,7 +1378,7 @@ paths:
       summary: Update team member details
       tags:
         - Team Members
-      description: This API allows to update the details of a team member in the organization.
+      description: This API allows to update the details of a team member in the organization. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1472,7 +1472,7 @@ paths:
       summary: Update the availability for a meeting link.
       tags:
         - Availabilities
-      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated.
+      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
