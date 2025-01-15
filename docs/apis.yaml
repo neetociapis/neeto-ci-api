@@ -478,6 +478,49 @@ paths:
           description: Internal server error
 
   /meetings:
+    get:
+      summary: List all meeting links
+      tags:
+        - Meeting links
+      description: This API allows to get a list of meeting links in a workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: Number
+        - in: query
+          name: page_size
+          description: Number of bookings to receive. The default value is 30.
+          required: false
+          schema:
+            type: Number
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              example:
+                meetings: []
+
+                pagination:
+                  total_records: 535
+                  total_pages: 268
+                  current_page_number: 1
+                  page_size: 30
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
     post:
       summary: Create a meeting link
       tags:
