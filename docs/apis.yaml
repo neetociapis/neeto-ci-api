@@ -213,13 +213,13 @@ paths:
           description: Page number. The default value is 1.
           required: false
           schema:
-            type: Number
+            type: number
         - in: query
           name: page_size
           description: Number of bookings to receive. The default value is 30.
           required: false
           schema:
-            type: Number
+            type: number
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
@@ -506,13 +506,13 @@ paths:
           description: Page number. The default value is 1.
           required: false
           schema:
-            type: Number
+            type: number
         - in: query
           name: page_size
           description: Number of bookings to receive. The default value is 30.
           required: false
           schema:
-            type: Number
+            type: number
       responses:
         '200':
           description: OK - Request succeeded
