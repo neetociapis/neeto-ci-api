@@ -23,12 +23,12 @@ tags:
     description: APIs to manage team members in the workspace.
 components:
   schemas:
-    BookingPagination:
+    Pagination:
       type: object #TODO: add booking response schema
       properties:
         total_records:
           type: integer
-          description: Total number of bookings
+          description: Total number of records
         total_pages:
           type: integer
           description: Total number of pages available
@@ -37,7 +37,7 @@ components:
           description: Current page number
         page_size:
           type: integer
-          description: Number of bookings per page
+          description: Number of records per page
     Booking:
         type: object
 
@@ -49,7 +49,18 @@ components:
           items:
             $ref: '#/components/schemas/Booking'
         pagination:
-          $ref: '#/components/schemas/BookingPagination'
+          $ref: '#/components/schemas/Pagination'
+    Meeting:
+      type: object
+    MeetingListResponse:
+      type: object
+      properties:
+        meetings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meeting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
 paths:
   /slots/{meeting_slug}:
     get:
@@ -202,13 +213,13 @@ paths:
           description: Page number. The default value is 1.
           required: false
           schema:
-            type: Number
+            type: number
         - in: query
           name: page_size
           description: Number of bookings to receive. The default value is 30.
           required: false
           schema:
-            type: Number
+            type: number
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
@@ -479,6 +490,51 @@ paths:
           description: Internal server error
 
   /meetings:
+    get:
+      summary: List all meeting links
+      tags:
+        - Meeting links
+      description: This API allows to get a list of meeting links in a workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page_size
+          description: Number of bookings to receive. The default value is 30.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingListResponse'
+              example:
+                meetings: []
+
+                pagination:
+                  total_records: 535
+                  total_pages: 268
+                  current_page_number: 1
+                  page_size: 30
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
     post:
       summary: Create a meeting link
       tags:
