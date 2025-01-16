@@ -23,12 +23,12 @@ tags:
     description: APIs to manage team members in the workspace.
 components:
   schemas:
-    BookingPagination:
+    Pagination:
       type: object #TODO: add booking response schema
       properties:
         total_records:
           type: integer
-          description: Total number of bookings
+          description: Total number of records
         total_pages:
           type: integer
           description: Total number of pages available
@@ -37,7 +37,7 @@ components:
           description: Current page number
         page_size:
           type: integer
-          description: Number of bookings per page
+          description: Number of records per page
     Booking:
         type: object
 
@@ -49,7 +49,18 @@ components:
           items:
             $ref: '#/components/schemas/Booking'
         pagination:
-          $ref: '#/components/schemas/BookingPagination'
+          $ref: '#/components/schemas/Pagination'
+    Meeting:
+      type: object
+    MeetingListResponse:
+      type: object
+      properties:
+        meetings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meeting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
 paths:
   /slots/{meeting_slug}:
     get:
@@ -507,6 +518,8 @@ paths:
           description: OK - Request succeeded
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingListResponse'
               example:
                 meetings: []
 
