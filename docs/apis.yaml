@@ -784,22 +784,16 @@ paths:
                       properties:
                         id:
                           type: string
-                          example: "5af4c530-c753-48ef-ade7-72ef0bec3c7c"
                         sid:
                           type: string
-                          example: "4hua7ct"
                         name:
                           type: string
-                          example: "Working hours"
                         default:
                           type: boolean
-                          example: true
                         after_buffer_time:
                           type: integer
-                          example: 0
                         before_buffer_time:
                           type: integer
-                          example: 0
                         periods:
                           type: array
                           items:
@@ -807,16 +801,12 @@ paths:
                             properties:
                               id:
                                 type: string
-                                example: "cbdd7518-ed29-4085-84e5-d5aa2f722e08"
                               wday:
                                 type: string
-                                example: "monday"
                               start_time:
                                 type: string
-                                example: "09:00 AM"
                               end_time:
                                 type: string
-                                example: "05:00 PM"
                   pagination:
                     type: object
                     properties:
