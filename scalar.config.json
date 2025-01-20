@@ -25,6 +25,7 @@
       "darkMode": "https://d2v7kzglnr2dnh.cloudfront.net/logos/neetocal.svg",
       "lightMode": "https://d2v7kzglnr2dnh.cloudfront.net/typeface-logos/neetocal_dark.png"
     },
+    "cssFiles": ["theme.css"],
     "footer": ""
   }
 }
