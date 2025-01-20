@@ -80,3 +80,7 @@
   --scalar-header-background-toggle: var(--scalar-color-3);
   --scalar-header-call-to-action-color: var(--scalar-color-accent);
 }
+
+.download-button {
+  display: none !important
+}
