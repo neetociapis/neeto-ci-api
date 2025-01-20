@@ -68,11 +68,11 @@ paths:
       tags:
         - Slots
       description: |
-        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting.
+        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys). # TODO : Use permalink instead of slugged URL
           required: true
           schema:
             type: string
@@ -107,6 +107,31 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slots:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                        day:
+                          type: integer
+                        slots:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              start_time:
+                                type: string
+                              end_time:
+                                type: string
+                              count:
+                                type: integer
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -119,11 +144,11 @@ paths:
       summary: Make a booking
       tags:
         - Bookings
-      description: This API allows to book for a specific meeting link, in a particular slot.
+      description: This API allows to book for a specific meeting link, in a particular slot. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -172,6 +197,107 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
+                  sid:
+                    type: string
+                  parent_booking_id:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  host_name:
+                    type: string
+                  host_email:
+                    type: string
+                  is_multihost:
+                    type: boolean
+                  multihosts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        email:
+                          type: string
+                  starts_at:
+                    type: string
+                    format: date-time
+                  ends_at:
+                    type: string
+                    format: date-time
+                  time_zone:
+                    type: string
+                  status:
+                    type: string
+                  cancel_reason:
+                    type: string
+                    nullable: true
+                  cancelled_by:
+                    type: string
+                    nullable: true
+                  reschedule_requested:
+                    type: boolean
+                  room_type:
+                    type: string
+                    nullable: true
+                  room_url:
+                    type: string
+                    nullable: true
+                  room_id:
+                    type: string
+                    nullable: true
+                  spot_details:
+                    type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                  meeting_id:
+                    type: string
+                  no_show:
+                    type: boolean
+                  notes_url:
+                    type: string
+                    nullable: true
+                  internal_notes:
+                    type: string
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  admin_booking_url:
+                    type: string
+                  client_booking_url:
+                    type: string
+                  form_responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        value:
+                          type: string
+                        type:
+                          type: string
+                        field_code:
+                          type: string
+                        Name:
+                          type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -182,11 +308,11 @@ paths:
       summary: List all bookings
       tags:
         - Bookings
-      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking.
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -256,11 +382,11 @@ paths:
       summary: Reschedule a booking
       tags:
         - Bookings
-      description: This API allows to reschedule the booking to a different slot.
+      description: This API allows to reschedule the booking to a different slot. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -314,7 +440,108 @@ paths:
                 - time_zone
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Booking reschedule successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
+                  sid:
+                    type: string
+                  parent_booking_id:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  host_name:
+                    type: string
+                  host_email:
+                    type: string
+                  is_multihost:
+                    type: boolean
+                  multihosts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        email:
+                          type: string
+                  starts_at:
+                    type: string
+                    format: date-time
+                  ends_at:
+                    type: string
+                    format: date-time
+                  time_zone:
+                    type: string
+                  status:
+                    type: string
+                  cancel_reason:
+                    type: string
+                    nullable: true
+                  cancelled_by:
+                    type: string
+                    nullable: true
+                  reschedule_requested:
+                    type: boolean
+                  room_type:
+                    type: string
+                    nullable: true
+                  room_url:
+                    type: string
+                    nullable: true
+                  room_id:
+                    type: string
+                    nullable: true
+                  spot_details:
+                    type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                  meeting_id:
+                    type: string
+                  no_show:
+                    type: boolean
+                  notes_url:
+                    type: string
+                    nullable: true
+                  internal_notes:
+                    type: string
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  admin_booking_url:
+                    type: string
+                  client_booking_url:
+                    type: string
+                  form_responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        value:
+                          type: string
+                        type:
+                          type: string
+                        field_code:
+                          type: string
+                        Name:
+                          type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -327,11 +554,11 @@ paths:
       summary: Cancel a booking
       tags:
         - Bookings
-      description: This API allows to cancel a booking.
+      description: This API allows to cancel a booking. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -351,7 +578,14 @@ paths:
             type: string
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Booking cancel successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -364,11 +598,11 @@ paths:
       summary: Update an availability
       tags:
         - Availabilities
-      description: This API allows to update an availability.
+      description: This API allows to update an availability. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -411,7 +645,42 @@ paths:
                 - periods
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Availability updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  availability:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      sid:
+                        type: string
+                      name:
+                        type: string
+                      default:
+                        type: boolean
+                      after_buffer_time:
+                        type: integer
+                      before_buffer_time:
+                        type: integer
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            wday:
+                              type: string
+                            start_time:
+                              type: string
+                            end_time:
+                              type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -422,11 +691,11 @@ paths:
       summary: Get details about an availability
       tags:
         - Availabilities
-      description: This API allows to get details about an availability.
+      description: This API allows to get details about an availability. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -440,6 +709,39 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availability:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      sid:
+                        type: string
+                      name:
+                        type: string
+                      default:
+                        type: boolean
+                      after_buffer_time:
+                        type: integer
+                      before_buffer_time:
+                        type: integer
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            wday:
+                              type: string
+                            start_time:
+                              type: string
+                            end_time:
+                              type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -452,11 +754,11 @@ paths:
       summary: List all availabilities of a team member
       tags:
         - Availabilities
-      description: This API allows to list availabilities of a team member in the workspace.
+      description: This API allows to list availabilities of a team member in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -482,6 +784,52 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        sid:
+                          type: string
+                        name:
+                          type: string
+                        default:
+                          type: boolean
+                        after_buffer_time:
+                          type: integer
+                        before_buffer_time:
+                          type: integer
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              wday:
+                                type: string
+                              start_time:
+                                type: string
+                              end_time:
+                                type: string
+                  pagination:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      current_page_number:
+                        type: integer
+                      page_size:
+                        type: integer
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -539,11 +887,11 @@ paths:
       summary: Create a meeting link
       tags:
         - Meeting links
-      description: This API allows to create a meeting link.
+      description: This API allows to create a meeting link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -592,6 +940,45 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        availability_id:
+                          type: string
+                        member_id:
+                          type: string
+                        id:
+                          type: string
+                        sid:
+                          type: string
+                        name:
+                          type: string
+                        default:
+                          type: boolean
+                        after_buffer_time:
+                          type: integer
+                        before_buffer_time:
+                          type: integer
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              wday:
+                                type: string
+                              start_time:
+                                type: string
+                              end_time:
+                                type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -604,11 +991,11 @@ paths:
       summary: Update a meeting link
       tags:
         - Meeting links
-      description: This API allows to update a meeting link.
+      description: This API allows to update a meeting link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -661,6 +1048,97 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  meeting:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      sid:
+                        type: string
+                      name:
+                        type: string
+                      slug:
+                        type: string
+                      description:
+                        type: string
+                      kind:
+                        type: string
+                      duration:
+                        type: integer
+                      disabled:
+                        type: boolean
+                      spot:
+                        type: string
+                      spot_in_person_location:
+                        type: string
+                        nullable: true
+                      spot_custom_text:
+                        type: string
+                        nullable: true
+                      is_template:
+                        type: boolean
+                      schedulable_range_type:
+                        type: string
+                      schedulable_range_value:
+                        type: string
+                      lead_time:
+                        type: integer
+                      start_time_increment:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+                      deleted_at:
+                        type: string
+                        nullable: true
+                      is_multiple_spots_allowed:
+                        type: boolean
+                      is_multiple_durations_allowed:
+                        type: boolean
+                      conditional_pricing_enabled:
+                        type: boolean
+                      is_email_reminders_enabled:
+                        type: boolean
+                      is_sms_reminders_enabled:
+                        type: boolean
+                      organization_id:
+                        type: string
+                      rescheduling_lead_time:
+                        type: integer
+                      cancellation_lead_time:
+                        type: integer
+                      booking_modification_allowed:
+                        type: boolean
+                      cancellation_too_late_notice:
+                        type: string
+                        nullable: true
+                      cancellation_policy:
+                        type: string
+                        nullable: true
+                      rescheduling_too_late_notice:
+                        type: string
+                        nullable: true
+                      pre_booking_allowed:
+                        type: boolean
+                      original_price_enabled:
+                        type: boolean
+                      original_price:
+                        type: number
+                        nullable: true
+                      durations_possible:
+                        type: array
+                        items:
+                          type: integer
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -673,17 +1151,55 @@ paths:
       summary: List all team members
       tags:
         - Team Members
-      description: This API allows to list all team members in the workspace.
+      description: This API allows to list all team members in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        email:
+                          type: string
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        time_zone:
+                          type: string
+                        profile_image_url:
+                          type: string
+                          nullable: true
+                        active:
+                          type: boolean
+                        organization_role:
+                          type: string
+                  pagination:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      current_page:
+                        type: integer
+                      page_size:
+                        type: integer
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -694,11 +1210,11 @@ paths:
       summary: Add team members
       tags:
         - Team Members
-      description: This API allows to add team members in the workspace.
+      description: This API allows to add team members in the workspace. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -723,7 +1239,14 @@ paths:
                 - emails
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Users added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -736,11 +1259,11 @@ paths:
       summary: Update team member details
       tags:
         - Team Members
-      description: This API allows to update the details of a team member in the organization.
+      description: This API allows to update the details of a team member in the organization. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -785,6 +1308,31 @@ paths:
       responses:
         '200':
           description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_member:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      time_zone:
+                        type: string
+                      profile_image_url:
+                        type: string
+                        nullable: true
+                      active:
+                        type: boolean
+                      organization_role:
+                        type: string
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -797,11 +1345,11 @@ paths:
       summary: Update the availability for a meeting link.
       tags:
         - Availabilities
-      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated.
+      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
-          description: Bearer token for API access.
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
           required: true
           schema:
             type: string
@@ -844,7 +1392,98 @@ paths:
                 - periods
       responses:
         '200':
-          description: OK - Request succeeded
+          description: OK - Meeting updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  meeting:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      sid:
+                        type: string
+                      name:
+                        type: string
+                      slug:
+                        type: string
+                      description:
+                        type: string
+                      kind:
+                        type: string
+                      duration:
+                        type: integer
+                      disabled:
+                        type: boolean
+                      spot:
+                        type: string
+                      spot_in_person_location:
+                        type: string
+                        nullable: true
+                      spot_custom_text:
+                        type: string
+                        nullable: true
+                      is_template:
+                        type: boolean
+                      schedulable_range_type:
+                        type: string
+                      schedulable_range_value:
+                        type: string
+                      lead_time:
+                        type: integer
+                      start_time_increment:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+                      deleted_at:
+                        type: string
+                        nullable: true
+                      is_multiple_spots_allowed:
+                        type: boolean
+                      is_multiple_durations_allowed:
+                        type: boolean
+                      conditional_pricing_enabled:
+                        type: boolean
+                      is_email_reminders_enabled:
+                        type: boolean
+                      is_sms_reminders_enabled:
+                        type: boolean
+                      organization_id:
+                        type: string
+                      rescheduling_lead_time:
+                        type: integer
+                      cancellation_lead_time:
+                        type: integer
+                      booking_modification_allowed:
+                        type: boolean
+                      cancellation_too_late_notice:
+                        type: string
+                        nullable: true
+                      cancellation_policy:
+                        type: string
+                        nullable: true
+                      rescheduling_too_late_notice:
+                        type: string
+                        nullable: true
+                      pre_booking_allowed:
+                        type: boolean
+                      original_price_enabled:
+                        type: boolean
+                      original_price:
+                        type: number
+                        nullable: true
+                      durations_possible:
+                        type: array
+                        items:
+                          type: integer
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
