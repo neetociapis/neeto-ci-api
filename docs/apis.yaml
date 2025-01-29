@@ -14,11 +14,11 @@ tags:
   - name: Bookings
     description: APIs to create, list, reschedule, and cancel bookings.
   - name: Slots
-    description: APIs to manage slots availability of a meeting link.
+    description: APIs to manage slots availability of a scheduling link.
   - name: Availabilities
     description: APIs to manage availabilities of meeting hosts.
-  - name: Meeting links
-    description: APIs to create and manage meeting links.
+  - name: Scheduling links
+    description: APIs to create and manage scheduling links.
   - name: Team Members
     description: APIs to manage team members in the workspace.
 components:
@@ -68,7 +68,7 @@ paths:
       tags:
         - Slots
       description: |
-        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific meeting link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.
+        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific scheduling link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -78,7 +78,7 @@ paths:
             type: string
         - in: path
           name: meeting_slug
-          description: Slug of the meeting link.
+          description: Slug of the scheduling link.
           required: true
           schema:
             type: string
@@ -144,7 +144,7 @@ paths:
       summary: Make a booking
       tags:
         - Bookings
-      description: This API allows to book for a specific meeting link, in a particular slot. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to book for a specific scheduling link, in a particular slot. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -161,7 +161,7 @@ paths:
               properties:
                 meeting_slug:
                   type: string
-                  description: Slug of meeting link you want to book.
+                  description: Slug of scheduling link you want to book.
                   example: "meeting-with-oliver-smith"
                 name:
                   type: string
@@ -839,10 +839,10 @@ paths:
 
   /meetings:
     get:
-      summary: List all meeting links
+      summary: List all scheduling links
       tags:
-        - Meeting links
-      description: This API allows to get a list of meeting links in a workspace.
+        - Scheduling links
+      description: This API allows to get a list of scheduling links in a workspace.
       parameters:
         - in: header
           name: X-Api-Key
@@ -884,10 +884,10 @@ paths:
         '500':
           description: Internal server error
     post:
-      summary: Create a meeting link
+      summary: Create a scheduling link
       tags:
-        - Meeting links
-      description: This API allows to create a meeting link. Replace `spinkart` with your workspace's subdomain.
+        - Scheduling links
+      description: This API allows to create a scheduling link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -904,33 +904,33 @@ paths:
               properties:
                 slug:
                   type: string
-                  description: Slug of the new meeting link. This value should be unique.
+                  description: Slug of the new scheduling link. This value should be unique.
                   example: "meeting-with-oliver-smith"
                 name:
                   type: string
-                  description: New name of the meeting link.
+                  description: New name of the scheduling link.
                   example: "Meeting with Oliver Smith"
                 description:
                   type: string
-                  description: New description of the meeting link.
+                  description: New description of the scheduling link.
                   example: "Discuss project updates"
                 hosts:
                   type: array
                   items:
                     type: string
-                  description: Emails of the hosts of meeting link in array format.
+                  description: Emails of the hosts of scheduling link in array format.
                   example: ["oliver@example.com", "jane@example.com"]
                 kind:
                   type: string
-                  description: Kind of meeting link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  description: Kind of scheduling link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
                   example: "one_on_one"
                 duration:
                   type: integer
-                  description: Duration of the meeting link in minutes.
+                  description: Duration of the scheduling link in minutes.
                   example: 30
                 start_time_increment:
                   type: integer
-                  description: Start time increment for the meeting link in minutes. Defaults to 30.
+                  description: Start time increment for the scheduling link in minutes. Defaults to 30.
                   example: 30
               required:
                 - slug
@@ -988,10 +988,10 @@ paths:
 
   /meetings/{meeting_sid}:
     patch:
-      summary: Update a meeting link
+      summary: Update a scheduling link
       tags:
-        - Meeting links
-      description: This API allows to update a meeting link. Replace `spinkart` with your workspace's subdomain.
+        - Scheduling links
+      description: This API allows to update a scheduling link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1001,7 +1001,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: Id of the meeting link you want to update.
+          description: Id of the scheduling link you want to update.
           required: true
           schema:
             type: string
@@ -1015,33 +1015,33 @@ paths:
               properties:
                 slug:
                   type: string
-                  description: New slug of the meeting link. This value should be unique.
+                  description: New slug of the scheduling link. This value should be unique.
                   example: "meeting-with-oliver-smith-new"
                 name:
                   type: string
-                  description: New name of the meeting link.
+                  description: New name of the scheduling link.
                   example: "Meeting with Oliver Smith"
                 description:
                   type: string
-                  description: New description of the meeting link.
+                  description: New description of the scheduling link.
                   example: "Discuss project updates"
                 hosts:
                   type: array
                   items:
                     type: string
-                  description: Emails of the hosts of meeting link in array format.
+                  description: Emails of the hosts of scheduling link in array format.
                   example: ["oliver@example.com", "jane@example.com"]
                 kind:
                   type: string
-                  description: Kind of meeting link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  description: Kind of scheduling link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
                   example: "one_on_one"
                 duration:
                   type: integer
-                  description: Duration of the meeting link in minutes.
+                  description: Duration of the scheduling link in minutes.
                   example: 30
                 start_time_increment:
                   type: integer
-                  description: Start time increment for the meeting link in minutes. Defaults to 30.
+                  description: Start time increment for the scheduling link in minutes. Defaults to 30.
                   example: 30
               required:
                 - hosts
@@ -1342,10 +1342,10 @@ paths:
 
   /meetings/{meeting_sid}/availability:
     post:
-      summary: Update the availability for a meeting link.
+      summary: Update the availability for a scheduling link.
       tags:
         - Availabilities
-      description: This API allows to update the availability used in a meeting link. Note that if the availability is used elsewhere, that would also be updated. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to update the availability used in a scheduling link. Note that if the availability is used elsewhere, that would also be updated. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1355,7 +1355,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: Id of the meeting link can be retrieved by going to the particular meeting link page, and copying it from the URL.
+          description: Id of the scheduling link can be retrieved by going to the particular scheduling link page, and copying it from the URL.
           required: true
           schema:
             type: string
