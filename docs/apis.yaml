@@ -1146,6 +1146,45 @@ paths:
         '500':
           description: Internal server error
 
+  /meetings/{meeting_sid}/create_one_off_link:
+    patch:
+      summary: Create a one-off scheduling link
+      tags:
+        - Scheduling links
+      description: This API allows to create a one-off scheduling link. Replace `spinkart` with your workspace's subdomain.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: The ID of the scheduling link based on which you want to create a one-off scheduling link. The newly generated one-off scheduling link will have the same properties as the given scheduling link.
+          required: true
+          schema:
+            type: string
+          example: vj5pgkh
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  url:
+                    type: string
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
   /team_members:
     get:
       summary: List all team members
