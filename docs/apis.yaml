@@ -1147,7 +1147,7 @@ paths:
           description: Internal server error
 
   /meetings/{meeting_sid}/create_one_off_link:
-    patch:
+    post:
       summary: Create a one-off scheduling link
       tags:
         - Scheduling links
