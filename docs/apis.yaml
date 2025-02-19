@@ -1166,6 +1166,8 @@ paths:
           schema:
             type: string
           example: vj5pgkh
+      requestBody:
+        content: application/json
       responses:
         '200':
           description: OK - Request succeeded
