@@ -104,6 +104,13 @@ paths:
           schema:
             type: string
             example: "11"
+        - in: query
+          name: day
+          description: "The day of the month to check for available slots. If omitted, slots for all days in the month will be returned. If provided, only slots for the specified day will be included."
+          required: false 
+          schema:
+            type: string
+            example: "21"
       responses:
         '200':
           description: OK - Request succeeded
