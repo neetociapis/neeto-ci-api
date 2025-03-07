@@ -605,7 +605,7 @@ paths:
       summary: Update an availability
       tags:
         - Availabilities
-      description: This API allows to update an availability. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to update an availability. Replace `spinkart` with your workspace's subdomain. You can also set an availability override for specific days.
       parameters:
         - in: header
           name: X-Api-Key
@@ -648,6 +648,36 @@ paths:
                     - wday: "tuesday"
                       start_time: "11:00 AM"
                       end_time: "04:00 PM"
+                overrides:
+                  type: array
+                  description: To set an override for specific days. You can remove existing overrides by omitting the periods property.
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        description: The date (e.g, "2025-03-07")
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            wday:
+                              type: string
+                              description: The weekday (e.g., "monday", "tuesday", etc.).
+                            start_time:
+                              type: string
+                              description: Start time in "HH:MM AM/PM" format.
+                            end_time:
+                              type: string
+                              description: End time in "HH:MM AM/PM" format.
+                  example:
+                    - date: "2025-03-07"
+                      periods:
+                        - wday: "tuesday"
+                          start_time: "11:00 AM"
+                          end_time: "04:00 PM"
+              
               required:
                 - periods
       responses:
