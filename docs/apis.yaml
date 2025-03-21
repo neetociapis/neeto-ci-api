@@ -650,7 +650,7 @@ paths:
                       end_time: "04:00 PM"
                 overrides:
                   type: array
-                  description: To set an override for specific days. You can remove existing overrides by omitting the periods property.
+                  description: To set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
                   items:
                     type: object
                     properties:
@@ -659,6 +659,7 @@ paths:
                         description: The date (e.g, "2025-03-07")
                       periods:
                         type: array
+                        description: Set as blank ( [] ) to set a date as unavailable.
                         items:
                           type: object
                           properties:
