@@ -191,9 +191,15 @@ paths:
                   description: Time zone of person making the booking.
                   example: "Asia/Kolkata"
                 form_responses:
-                  type: string
-                  description: Responses for the questions of booking form (optional)
-                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn"}'
+                  type: object
+                  description: Responses for the questions of booking form (optional). The key of the field should be the field code. The field code can be found in meeting's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.
+                  properties:
+                    guest_email_s:
+                      type: array
+                      description: Array of guest emails for the booking. The default Field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
+                      items:
+                        type: string
+                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn", "guest_email_s": ["sam@example.com", "charlie@example.com"]}'
               required:
                 - meeting_slug
                 - name
