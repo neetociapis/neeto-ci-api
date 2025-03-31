@@ -107,7 +107,7 @@ paths:
         - in: query
           name: day
           description: "The day of the month to check for available slots. If omitted, slots for all days in the month will be returned. If provided, only slots for the specified day will be included."
-          required: false 
+          required: false
           schema:
             type: string
             example: "21"
@@ -330,18 +330,6 @@ paths:
           schema:
             type: string
         - in: query
-          name: host_email
-          description: To get the bookings of a particular host only.
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: client_email
-          description: To get the bookings of a particular client only.
-          required: false
-          schema:
-            type: string
-        - in: query
           name: type
           description: To get the bookings of a particular type only. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
           required: false
@@ -359,6 +347,57 @@ paths:
           required: false
           schema:
             type: number
+        - in: query
+          name: filters
+          description: Apply filters on your bookings.
+          required: false
+          schema:
+            type: object
+            properties:
+              host_email:
+                type: string
+                description: To get the bookings of a particular host only.
+                example: oliver@example.com
+              client_email:
+                type: string
+                description: To get the bookings of a particular client only.
+                example: eve@example.com
+              starts_at:
+                type: object
+                description: To get bookings filtered by the starts_at value of a booking
+                properties:
+                  rule:
+                    type: string
+                    enum:
+                      - at
+                      - after
+                      - before
+                      - between
+                    description: The rule to be used for comparing with the starts_at value
+                  value:
+                    type: string
+                    description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
+                    example:
+                      - 2024-12-19T06:00:00.000Z
+                      - 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+              ends_at:
+                type: object
+                description: To get bookings filtered by the ends_at value of a booking
+                properties:
+                  rule:
+                    type: string
+                    enum:
+                      - at
+                      - after
+                      - before
+                      - between
+                    description: The rule to be used for comparing with the ends_at value
+                  value:
+                    type: string
+                    description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
+                    example:
+                      - 2024-12-19T06:00:00.000Z
+                      - 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
@@ -684,7 +723,7 @@ paths:
                         - wday: "tuesday"
                           start_time: "11:00 AM"
                           end_time: "04:00 PM"
-              
+
               required:
                 - periods
       responses:
