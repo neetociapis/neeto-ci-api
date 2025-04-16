@@ -321,7 +321,7 @@ paths:
       summary: List all bookings
       tags:
         - Bookings
-      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email or type of the booking. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email, type of meeting, meeting start time or meeting end time. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -364,10 +364,10 @@ paths:
                 example: eve@example.com
               starts_at:
                 type: object
-                description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value".
                 example:
                   rule: between
                   value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value".
                 properties:
                   rule:
                     type: string
@@ -380,15 +380,10 @@ paths:
                   value:
                     type: string
                     description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example:
-                      - 2024-12-19T06:00:00.000Z
-                      - 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                    example: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
               ends_at:
                 type: object
                 description: To get bookings filtered by the meeting end time. This is an object with the keys "rule" and "value".
-                example:
-                  rule: between
-                  value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
                 properties:
                   rule:
                     type: string
@@ -401,9 +396,10 @@ paths:
                   value:
                     type: string
                     description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example:
-                      - 2024-12-19T06:00:00.000Z
-                      - 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                    example: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                example:
+                  rule: between
+                  value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
