@@ -364,7 +364,10 @@ paths:
                 example: eve@example.com
               starts_at:
                 type: object
-                description: To get bookings filtered by the starts_at value of a booking
+                description: To get bookings filtered by the starts_at value of a booking. This is an object with the keys "rule" and "value".
+                example:
+                  rule: at
+                  value: 2024-12-19T06:00:00.000Z
                 properties:
                   rule:
                     type: string
@@ -382,7 +385,10 @@ paths:
                       - 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
               ends_at:
                 type: object
-                description: To get bookings filtered by the ends_at value of a booking
+                description: To get bookings filtered by the ends_at value of a booking. This is an object with the keys "rule" and "value".
+                example:
+                  rule: at
+                  value: 2024-12-19T06:00:00.000Z
                 properties:
                   rule:
                     type: string
