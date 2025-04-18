@@ -367,7 +367,7 @@ paths:
                 example:
                   rule: between
                   value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
-                description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value".
+                description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the starts_at object.
                 properties:
                   rule:
                     type: string
@@ -383,7 +383,7 @@ paths:
                     example: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
               ends_at:
                 type: object
-                description: To get bookings filtered by the meeting end time. This is an object with the keys "rule" and "value".
+                description: To get bookings filtered by the meeting end time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the ends_at object.
                 properties:
                   rule:
                     type: string
