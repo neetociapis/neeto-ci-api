@@ -348,20 +348,24 @@ paths:
           schema:
             type: number
         - in: query
+          name: host_email
+          description: To get the bookings of a particular host only.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: client_email
+          description: To get the bookings of a particular client only.
+          required: false
+          schema:
+            type: string
+        - in: query
           name: filters
           description: Apply filters on your bookings.
           required: false
           schema:
             type: object
             properties:
-              host_email:
-                type: string
-                description: To get the bookings of a particular host only.
-                example: oliver@example.com
-              client_email:
-                type: string
-                description: To get the bookings of a particular client only.
-                example: eve@example.com
               starts_at:
                 type: object
                 example:
