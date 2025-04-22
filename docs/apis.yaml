@@ -852,12 +852,14 @@ paths:
           schema:
             type: string
         - in: query
-          name: email
-          description: Email of the team member whose availabilities should be listed.
-          required: true
+          name: emails
+          description: Emails of the team members whose availabilities should be listed.
           schema:
-            type: string
-            example: "oliver@spinkart.com"
+            type: array
+            items:
+              type: string
+              format: email
+            example: ["oliver@spinkart.com", "emily@spinkart.com"]
         - in: query
           name: page
           description: Page number.
