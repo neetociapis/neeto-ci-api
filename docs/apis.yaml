@@ -840,7 +840,7 @@ paths:
 
   /availabilities/team_member:
     get:
-      summary: List all availabilities of a team member
+      summary: List all availabilities of the team members
       tags:
         - Availabilities
       description: This API allows to list availabilities of a team member in the workspace. Replace `spinkart` with your workspace's subdomain.
