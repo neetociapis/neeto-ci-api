@@ -931,7 +931,11 @@ paths:
       summary: List all availabilities of the team members
       tags:
         - Availabilities
-      description: This API allows to list all the availabilities of the specified team members. Replace `spinkart` with your workspace's subdomain. Pass the emails of the team members as query param.
+      description: >
+        This API allows to list all the availabilities of specified team members by passing their emails as query parameters.
+        Replace `spinkart` with your workspace's subdomain.
+        To request availabilities for multiple members, use repeated `emails[]` query parameters
+        (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).
       parameters:
         - in: header
           name: X-Api-Key
@@ -941,11 +945,14 @@ paths:
             type: string
         - in: query
           name: emails[]
-          description: Email of the team member whose availabilities should be listed.
+          description: >
+            Email address of a team member whose availabilities should be listed.
+            Repeat this key to include multiple emails.
           required: true
           schema:
             type: string
-            example: "oliver@spinkart.com"
+            format: email
+            example: oliver@spinkart.com
         - in: query
           name: page
           description: Page number.
