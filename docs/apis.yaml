@@ -926,6 +926,101 @@ paths:
         '500':
           description: Internal server error
 
+  /availabilities:
+    get:
+      summary: List all availabilities of the team members
+      tags:
+        - Availabilities
+      description: >
+        This API allows to list all the availabilities of specified team members by passing their emails as query parameters.
+        Replace `spinkart` with your workspace's subdomain.
+        To request availabilities for multiple members, use repeated `emails[]` query parameters
+        (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: emails[]
+          description: >
+            Email address of a team member whose availabilities should be listed.
+            Repeat this key to include multiple emails.
+          required: true
+          schema:
+            type: string
+            format: email
+            example: oliver@spinkart.com
+        - in: query
+          name: page
+          description: Page number.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of availabilities to receive. The default value is 30.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        sid:
+                          type: string
+                        name:
+                          type: string
+                        default:
+                          type: boolean
+                        after_buffer_time:
+                          type: integer
+                        before_buffer_time:
+                          type: integer
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              wday:
+                                type: string
+                              start_time:
+                                type: string
+                              end_time:
+                                type: string
+                  pagination:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      current_page_number:
+                        type: integer
+                      page_size:
+                        type: integer
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
   /meetings:
     get:
       summary: List all scheduling links
