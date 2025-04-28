@@ -151,7 +151,7 @@ paths:
       summary: Make a booking
       tags:
         - Bookings
-      description: This API allows to book for a specific scheduling link, in a particular slot. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -180,7 +180,7 @@ paths:
                   example: "eve@example.com"
                 slot_date:
                   type: string
-                  description: Date on which you want to book. This should be in "YYYY-MM-DD" format.
+                  description: Date on which you want to book. This should be in "YYYY-MM-DD" format. If `slot_date` and `slot_start_time` are not provided then the first available slot will be booked.
                   example: "2024-07-15"
                 slot_start_time:
                   type: string
@@ -204,8 +204,6 @@ paths:
                 - meeting_slug
                 - name
                 - email
-                - slot_date
-                - slot_start_time
                 - time_zone
       responses:
         '200':
