@@ -96,7 +96,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "2024"
+            example: "2025"
         - in: query
           name: month
           description: Month for which to check available slots.
@@ -181,7 +181,7 @@ paths:
                 slot_date:
                   type: string
                   description: Date on which you want to book. This should be in "YYYY-MM-DD" format. If `slot_date` and `slot_start_time` are not provided then the first available slot will be booked.
-                  example: "2024-07-15"
+                  example: "2025-07-15"
                 slot_start_time:
                   type: string
                   description: Start time for the booking. This should be in "HH:MM AM/PM" format.
@@ -192,14 +192,14 @@ paths:
                   example: "Asia/Kolkata"
                 form_responses:
                   type: object
-                  description: Responses for the questions of booking form (optional). The key of the field should be the field code. The field code can be found in meeting's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.
+                  description: Responses for the questions of booking form (optional). The key of the field should be the field code of the question. The field code can be found in scheduling link's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.
                   properties:
                     guest_email_s:
                       type: array
-                      description: Array of guest emails for the booking. The default Field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
+                      description: Array of guest emails for the booking. The default field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
                       items:
                         type: string
-                  example: '{"introduction": "Hi I am Eve","languages": ["Python", "Java"],"platform": "LinkedIn", "guest_email_s": ["sam@example.com", "charlie@example.com"]}'
+                  example: {"guest_email_s": ["sam@example.com", "charlie@example.com"]}
               required:
                 - meeting_slug
                 - name
@@ -368,7 +368,7 @@ paths:
                 type: object
                 example:
                   rule: between
-                  value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                  value: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
                 description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the starts_at object.
                 properties:
                   rule:
@@ -382,7 +382,7 @@ paths:
                   value:
                     type: string
                     description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                    example: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
               ends_at:
                 type: object
                 description: To get bookings filtered by the meeting end time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the ends_at object.
@@ -398,10 +398,10 @@ paths:
                   value:
                     type: string
                     description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                    example: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
                 example:
                   rule: between
-                  value: 2024-12-19T06:00:00.000Z,2024-12-19T10:00:00.000Z
+                  value: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
@@ -471,7 +471,7 @@ paths:
                 slot_date:
                   type: string
                   description: Date on which the booking is to be rescheduled. This should be in "YYYY-MM-DD" format.
-                  example: "2024-07-25"
+                  example: "2025-07-25"
                 slot_start_time:
                   type: string
                   description: Start time for the booking. This should be in "HH:MM AM/PM" format.
