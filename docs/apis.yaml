@@ -199,7 +199,7 @@ paths:
                       description: Array of guest emails for the booking. The default field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
                       items:
                         type: string
-                  example: {"guest_email_s": ["sam@example.com", "charlie@example.com"]}
+                  example: {"guest_email_s": ["sam@example.com", "charlie@example.com"], "language": "English"}
               required:
                 - meeting_slug
                 - name
