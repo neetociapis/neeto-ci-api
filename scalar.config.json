@@ -9,6 +9,7 @@
   "customDomain": "apidocs.neetocal.com",
   "hideDarkModeToggle": true,
   "theme": "default",
+  "favicon": "assets/favicon.svg",
   "guides": [],
   "references": [{
     "name": "APIs",
