@@ -52,6 +52,99 @@ components:
           $ref: '#/components/schemas/Pagination'
     Meeting:
       type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        kind:
+          type: string
+          enum: [one_on_one, round_robin, multihost, grouped]
+        duration:
+          type: integer
+        disabled:
+          type: boolean
+        spot:
+          type: string
+          enum: [custom, jitsi, google_meet, daily, zoom, whereby, teams, phone_call, in_person]
+        spot_in_person_location:
+          type: string
+          nullable: true
+        spot_custom_text:
+          type: string
+          nullable: true
+        spot_phone_call_number:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+        schedulable_range_type:
+          type: string
+          enum: [number_of_days_into_the_future, number_of_business_days_into_the_future, date_range]
+        schedulable_range_value:
+          type: string
+        lead_time:
+          type: integer
+        start_time_increment:
+          type: integer
+        created_at:
+          type: string
+          example: "2024-12-23T05:05:27.037Z"
+        updated_at:
+          type: string
+          example: "2025-03-31T13:22:19.832Z"
+        deleted_at:
+          type: string
+          nullable: true
+          example: null
+        is_multiple_spots_allowed:
+          type: boolean
+        is_multiple_durations_allowed:
+          type: boolean
+        conditional_pricing_enabled:
+          type: boolean
+        is_email_reminders_enabled:
+          type: boolean
+        is_sms_reminders_enabled:
+          type: boolean
+        organization_id:
+          type: string
+        rescheduling_lead_time:
+          type: integer
+        cancellation_lead_time:
+          type: integer
+        booking_modification_allowed:
+          type: boolean
+        cancellation_too_late_notice:
+          type: string
+          nullable: true
+        cancellation_policy:
+          type: string
+          nullable: true
+        rescheduling_too_late_notice:
+          type: string
+          nullable: true
+        pre_booking_allowed:
+          type: boolean
+        original_price_enabled:
+          type: boolean
+        original_price:
+          type: number
+          nullable: true
+        fees:
+          type: array
+          items:
+            type: object
+        durations_possible:
+          type: array
+          items:
+            type: integer
     MeetingListResponse:
       type: object
       properties:
@@ -1118,6 +1211,12 @@ paths:
                   total_pages: 1
                   current_page_number: 1
                   page_size: 30
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
 
   /meetings/{meeting_sid}:
     patch:
