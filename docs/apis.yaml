@@ -52,6 +52,99 @@ components:
           $ref: '#/components/schemas/Pagination'
     Meeting:
       type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        kind:
+          type: string
+          enum: [one_on_one, round_robin, multihost, grouped]
+        duration:
+          type: integer
+        disabled:
+          type: boolean
+        spot:
+          type: string
+          enum: [custom, jitsi, google_meet, daily, zoom, whereby, teams, phone_call, in_person]
+        spot_in_person_location:
+          type: string
+          nullable: true
+        spot_custom_text:
+          type: string
+          nullable: true
+        spot_phone_call_number:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+        schedulable_range_type:
+          type: string
+          enum: [number_of_days_into_the_future, number_of_business_days_into_the_future, date_range]
+        schedulable_range_value:
+          type: string
+        lead_time:
+          type: integer
+        start_time_increment:
+          type: integer
+        created_at:
+          type: string
+          example: "2024-12-23T05:05:27.037Z"
+        updated_at:
+          type: string
+          example: "2025-03-31T13:22:19.832Z"
+        deleted_at:
+          type: string
+          nullable: true
+          example: null
+        is_multiple_spots_allowed:
+          type: boolean
+        is_multiple_durations_allowed:
+          type: boolean
+        conditional_pricing_enabled:
+          type: boolean
+        is_email_reminders_enabled:
+          type: boolean
+        is_sms_reminders_enabled:
+          type: boolean
+        organization_id:
+          type: string
+        rescheduling_lead_time:
+          type: integer
+        cancellation_lead_time:
+          type: integer
+        booking_modification_allowed:
+          type: boolean
+        cancellation_too_late_notice:
+          type: string
+          nullable: true
+        cancellation_policy:
+          type: string
+          nullable: true
+        rescheduling_too_late_notice:
+          type: string
+          nullable: true
+        pre_booking_allowed:
+          type: boolean
+        original_price_enabled:
+          type: boolean
+        original_price:
+          type: number
+          nullable: true
+        fees:
+          type: array
+          items:
+            type: object
+        durations_possible:
+          type: array
+          items:
+            type: integer
     MeetingListResponse:
       type: object
       properties:
@@ -1075,11 +1168,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/MeetingListResponse'
               example:
-                meetings: []
-
+                meetings:
+                  - id: "0b947f19-94a3-409b-ae3b-36d79a1b4969"
+                    sid: "q2fnyb8"
+                    name: "Meeting with Oliver Smith"
+                    slug: "meet"
+                    description: "Schedule a one-on-one meeting with Oliver Smith."
+                    kind: "one_on_one"
+                    duration: 15
+                    disabled: false
+                    spot: "google_meet"
+                    spot_in_person_location: "91 Springboard, Sector 1, Noida"
+                    spot_custom_text: "Join the meeting via Google Meet or visit our Noida office"
+                    spot_phone_call_number: null
+                    is_template: false
+                    schedulable_range_type: "number_of_days_into_the_future"
+                    schedulable_range_value: "60"
+                    lead_time: 240
+                    start_time_increment: 30
+                    created_at: "2024-12-23T05:05:27.037Z"
+                    updated_at: "2025-03-31T13:22:19.832Z"
+                    deleted_at: null
+                    is_multiple_spots_allowed: false
+                    is_multiple_durations_allowed: true
+                    conditional_pricing_enabled: false
+                    is_email_reminders_enabled: true
+                    is_sms_reminders_enabled: false
+                    organization_id: "939a070d-191a-4fe6-9e41-023418a3dce8"
+                    rescheduling_lead_time: 0
+                    cancellation_lead_time: 0
+                    booking_modification_allowed: true
+                    cancellation_too_late_notice: null
+                    cancellation_policy: null
+                    rescheduling_too_late_notice: null
+                    pre_booking_allowed: false
+                    original_price_enabled: false
+                    original_price: null
+                    fees: []
+                    durations_possible: [15, 30, 60]
                 pagination:
-                  total_records: 535
-                  total_pages: 268
+                  total_records: 1
+                  total_pages: 1
                   current_page_number: 1
                   page_size: 30
         '400':
@@ -1088,6 +1217,7 @@ paths:
           description: Unauthorized - Invalid API key
         '500':
           description: Internal server error
+
     post:
       summary: Create a scheduling link
       tags:
@@ -1353,10 +1483,10 @@ paths:
 
   /meetings/{meeting_sid}/create_one_off_link:
     post:
-      summary: Create a one-off scheduling link
+      summary: Create a One-time scheduling link
       tags:
         - Scheduling links
-      description: This API allows to create a one-off scheduling link. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to create a One-time scheduling link. Replace `spinkart` with your workspace's subdomain.
       parameters:
         - in: header
           name: X-Api-Key
@@ -1366,7 +1496,11 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: The ID of the scheduling link based on which you want to create a one-off scheduling link. The newly generated one-off scheduling link will have the same properties as the given scheduling link.
+          description: >
+            The unique ID (SID) of the scheduling link you want to duplicate as a One-time scheduling link.
+            The new One-time link will inherit all properties from the original link.
+            You can retrieve this SID from the URL of the scheduling link's page or from the `sid` field
+            in the meeting object when listing all scheduling links.
           required: true
           schema:
             type: string
@@ -1385,6 +1519,9 @@ paths:
                     type: string
                   url:
                     type: string
+              example:
+                slug: "one-off-c5530bc7c9ab"
+                url: "https://spinkart.neetocal.com/one-off-c5530bc7c9ab"
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
