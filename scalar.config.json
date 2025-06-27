@@ -16,11 +16,6 @@
     "path": "docs/apis.yaml",
     "title": "APIs"
   }],
-  "header": [{
-    "title": "Help docs",
-    "link": "https://help.neetocal.com/",
-    "isButton": true
-  }],
   "siteConfig": {
     "logo": {
       "darkMode": "https://d2v7kzglnr2dnh.cloudfront.net/logos/neetocal.svg",
