@@ -1218,6 +1218,109 @@ paths:
         '500':
           description: Internal server error
 
+    post:
+      summary: Create a scheduling link
+      tags:
+        - Scheduling links
+      description: This API allows to create a scheduling link. Replace `spinkart` with your workspace's subdomain.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  description: Slug of the new scheduling link. This value should be unique.
+                  example: "meeting-with-oliver-smith"
+                name:
+                  type: string
+                  description: New name of the scheduling link.
+                  example: "Meeting with Oliver Smith"
+                description:
+                  type: string
+                  description: New description of the scheduling link.
+                  example: "Discuss project updates"
+                hosts:
+                  type: array
+                  items:
+                    type: string
+                  description: Emails of the hosts of scheduling link in array format.
+                  example: ["oliver@example.com", "jane@example.com"]
+                kind:
+                  type: string
+                  description: Kind of scheduling link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.
+                  example: "one_on_one"
+                duration:
+                  type: integer
+                  description: Duration of the scheduling link in minutes.
+                  example: 30
+                start_time_increment:
+                  type: integer
+                  description: Start time increment for the scheduling link in minutes. Defaults to 30.
+                  example: 30
+              required:
+                - slug
+                - name
+                - hosts
+                - duration
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        availability_id:
+                          type: string
+                        member_id:
+                          type: string
+                        id:
+                          type: string
+                        sid:
+                          type: string
+                        name:
+                          type: string
+                        default:
+                          type: boolean
+                        after_buffer_time:
+                          type: integer
+                        before_buffer_time:
+                          type: integer
+                        periods:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              wday:
+                                type: string
+                              start_time:
+                                type: string
+                              end_time:
+                                type: string
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
   /meetings/{meeting_sid}:
     patch:
       summary: Update a scheduling link
