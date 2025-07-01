@@ -1529,10 +1529,11 @@ paths:
         - in: path
           name: meeting_sid
           description: >
-            The unique ID (SID) of the scheduling link you want to duplicate as a One-time scheduling link.
-            The new One-time link will inherit all properties from the original link.
-            You can retrieve this SID from the URL of the scheduling link's page or from the `sid` field
-            in the meeting object when listing all scheduling links.
+            You need to pass the `sid` of the scheduling link to get one-time scheduling link.
+            You can get `sid` in different ways. Visit the scheduling link page and then click
+            on "Settings" > "Show SID". That will give you `sid`.
+            The other way you can get `sid` is by listing scheduling links using our List all scheduling links API.
+            Here you will see `sid` for each scheduling link.
           required: true
           schema:
             type: string
