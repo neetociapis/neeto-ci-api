@@ -476,10 +476,11 @@ paths:
             properties:
               starts_at:
                 type: object
-                example:
-                  rule: between
-                  value: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
-                description: To get bookings filtered by the meeting start time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the starts_at object.
+                description: |
+                  To filter bookings by meeting start time, use deep object style in the query string, e.g.:
+                  `?filters[starts_at][rule]=after&filters[starts_at][value]=2027-12-19T06:00:00.000Z`
+                  - Supported rules: at, after, before, between
+                  - Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.
                 properties:
                   rule:
                     type: string
@@ -491,11 +492,13 @@ paths:
                     description: The rule to be used for comparing with the starts_at value
                   value:
                     type: string
-                    description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
               ends_at:
                 type: object
-                description: To get bookings filtered by the meeting end time. This is an object with the keys "rule" and "value". Click on the "Show Child Attributes" button to understand the structure of the ends_at object.
+                description: |
+                  To filter bookings by meeting end time, use deep object style in the query string, e.g.:
+                  `?filters[ends_at][rule]=before&filters[ends_at][value]=2027-12-19T10:00:00.000Z`
+                  - Supported rules: at, after, before, between
+                  - Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.
                 properties:
                   rule:
                     type: string
@@ -507,11 +510,6 @@ paths:
                     description: The rule to be used for comparing with the ends_at value
                   value:
                     type: string
-                    description: Accepts a single UTC datetime string when rule is "at", "after", or "before". Accepts two comma separated UTC datetime strings when the rule is "between".
-                    example: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
-                example:
-                  rule: between
-                  value: 2025-12-19T06:00:00.000Z,2025-12-19T10:00:00.000Z
         - in: query
           name: sorting_order
           description: Sort bookings by booking creation date. The default value is `desc`.
@@ -1322,6 +1320,40 @@ paths:
           description: Internal server error
 
   /meetings/{meeting_sid}:
+    get:
+      summary: Get details of a scheduling link
+      tags:
+        - Scheduling links
+      description: This API allows you to fetch details of a specific scheduling link by its SID. Replace `spinkart` with your workspace's subdomain.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: The unique SID of the scheduling link you want to fetch.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting not found
+        '500':
+          description: Internal server error
     patch:
       summary: Update a scheduling link
       tags:
