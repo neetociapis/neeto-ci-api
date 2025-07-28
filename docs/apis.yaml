@@ -21,6 +21,10 @@ tags:
     description: APIs to create and manage scheduling links.
   - name: Team Members
     description: APIs to manage team members in the workspace.
+  - name: Packages
+    description: APIs to manage packages of the workspace.
+  - name: Discount codes
+    description: APIs to manage discount codes for bookings.
 components:
   schemas:
     Pagination:
@@ -2029,3 +2033,216 @@ paths:
           description: Unauthorized - Invalid API key
         '500':
           description: Internal server error
+
+  /packages:
+    get:
+      summary: List all packages
+      tags:
+        - Packages
+      description: This API allows to list all packages.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  packages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type: array
+                        id:
+                          type: string
+                          example: "aff17ff8-1bf8-4e77-a3c5-2f86104f9a20"
+                        name:
+                          type: string
+                          example: "test 1"
+                        slug:
+                          type: string
+                          example: "test-1"
+                        status:
+                          type: string
+                          example: "enabled"
+                        duration:
+                          type: integer
+                          example: 300
+                        fee:
+                          oneOf:
+                            - type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: "a5fe0440-d6e5-4df2-996e-b88ed030f4ac"
+                                amount:
+                                  type: string
+                                  example: "102.0"
+                                currency:
+                                  type: string
+                                  example: "inr"
+                                payment_provider:
+                                  type: string
+                                  example: "stripe"
+                                kind:
+                                  type: string
+                                  example: "fixed"
+                                min_amount:
+                                  type: string
+                                  example: "102.0"
+                                taxes:
+                                  type: array
+                                  items: {}
+                                  example: []
+                                is_default:
+                                  type: boolean
+                                  example: true
+                                display_amount:
+                                  type: string
+                                  nullable: true
+                                  example: null
+                                is_tax_enabled:
+                                  type: boolean
+                                  example: false
+                                is_tip_enabled:
+                                  type: boolean
+                                  example: false
+                                is_tax_applicable_on_tip:
+                                  type: boolean
+                                  example: false
+                                vpas:
+                                  type: array
+                                  items: {}
+                                  example: []
+                                amount_in_smallest_currency_unit:
+                                  type: integer
+                                  example: 10200
+                            - type: array
+                              items: {}
+                              example: []
+                          description: Fee details for the package. Can be an object or an empty array.
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /packages/{package_id}:
+    get:
+      summary: Get a package
+      tags:
+        - Packages
+      description: This API allows to get a package.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  package:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                        description: Name of the package
+                        example: "test 1"
+                      slug:
+                        type: string
+                        description: Slug of the package
+                        example: "test-1"
+                      status:
+                        type: string
+                        description: Status of the package
+                        example: "enabled"
+                      duration:
+                        type: integer
+                        description: Duration of the package in seconds
+                        example: 300
+                      fee:
+                        type: object
+                        description: Fee details for the package
+                        properties:
+                          id:
+                            type: string
+                            example: "a5fe0440-d6e5-4df2-996e-b88ed030f4ac"
+                          amount:
+                            type: string
+                            example: "102.0"
+                          currency:
+                            type: string
+                            example: "inr"
+                          payment_provider:
+                            type: string
+                            example: "stripe"
+                          kind:
+                            type: string
+                            example: "fixed"
+                          min_amount:
+                            type: string
+                            example: "102.0"
+                          taxes:
+                            type: array
+                            items: {}
+                            example: []
+                          is_default:
+                            type: boolean
+                            example: true
+                          display_amount:
+                            type: string
+                            nullable: true
+                            example: null
+                          is_tax_enabled:
+                            type: boolean
+                            example: false
+                          is_tip_enabled:
+                            type: boolean
+                            example: false
+                          is_tax_applicable_on_tip:
+                            type: boolean
+                            example: false
+                          vpas:
+                            type: array
+                            items: {}
+                            example: []
+                          amount_in_smallest_currency_unit:
+                            type: integer
+                            example: 10200
+                      meetings:
+                        type: array
+                        description: List of meetings included in the package
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "06391a88-183f-40df-8dd3-ab8b29e5b066"
+                            name:
+                              type: string
+                              example: "Meeting with Oliver Smith"
+                            sid:
+                              type: string
+                              example: "u9fxy4t"
+                      purchases:
+                        type: array
+                        description: List of purchases for the package
+                        items: {}
+                        example: []
+                      total_purchases_count:
+                        type: integer
+                        description: Total number of purchases for the package
+                        example: 0
