@@ -1,1 +1,122 @@
-# neeto-cal-api
+# NeetoCal API Docs
+
+This repository contains the documentation for the [NeetoCal APIs](https://apidocs.neetocal.com/getting-started/introduction), built using [Mintlify](https://mintlify.com/).
+
+## Project Overview
+
+The documentation includes:
+
+- **Getting Started Guide**: Introduction, authentication, subdomain identification, pagination,
+  HTTP response codes and quickstart tutorials
+- **Bookings API**: Endpoints for creating, listing, rescheduling, and canceling bookings
+- **Slots API**: Endpoints for managing slot availability
+- **Availabilities API**: Endpoints for managing meeting host availabilities
+- **Scheduling Links API**: Endpoints for creating and managing scheduling links
+- **Team Members API**: Endpoints for managing team members in the workspace
+- **Packages API**: Endpoints for managing workspace packages
+- **Discount Codes API**: Endpoints for managing discount codes for bookings
+- **Forms API**: Endpoints for retrieving forms
+- **Submissions API**: Endpoints for accessing form submission data
+
+## Project Structure
+
+```
+neeto-cal-api/
+├── api-reference/         # API endpoint documentation
+│   ├── bookings/          # Bookings API documentation
+│   ├── slots/             # Slots API documentation
+│   ├── availabilities/    # Availabilities API documentation
+│   ├── scheduling-links/  # Scheduling Links API documentation
+│   ├── team-members/      # Team Members API documentation
+│   ├── packages/          # Packages API documentation
+│   ├── discount-codes/    # Discount Codes API documentation
+│   ├── forms/             # Forms API documentation
+│   └── submissions/       # Submissions API documentation
+├── assets/                # Static assets (favicon, images)
+├── bundled/               # Generated OpenAPI bundles (auto-generated)
+├── schemas/               # Contains reusable schema
+│   ├── common.yaml        # Shared schemas used across multiple endpoints
+│   ├── booking.yaml       # Schemas related to bookings
+│   ├── meeting.yaml       # Schemas related to meetings/scheduling links
+│   ├── availability.yaml  # Schemas related to availabilities
+│   ├── team-member.yaml   # Schemas related to team members
+│   ├── package.yaml       # Schemas related to packages
+│   ├── discount-code.yaml # Schemas related to discount codes
+│   ├── form.yaml          # Schemas related to forms
+│   └── submission.yaml    # Schemas related to submissions
+├── docs/                  # OpenAPI specification files
+│   ├── apis.yaml          # Main NeetoCal API specification
+│   ├── forms.yaml         # Forms API specification
+│   └── submissions.yaml   # Submissions API specification
+├── getting-started/       # Getting started guides
+├── snippets/              # Reusable content snippets
+├── scripts/               # Build and automation scripts
+│   └── bundle.sh          # Script to bundle OpenAPI specs
+├── docs.json              # Mintlify configuration
+├── theme.css              # Custom theme styling
+└── package.json           # Project dependencies and scripts
+```
+
+## Installation
+
+1. **Install Mintlify CLI globally:**
+
+   ```bash
+   npm i -g mint
+   ```
+
+2. **Install project dependencies:**
+   ```bash
+   yarn install
+   ```
+
+## Development Setup
+
+To preview the documentation locally:
+
+```bash
+yarn docs:preview
+```
+
+A local preview will be available at `http://localhost:3000`. You can customize the port using the `--port` flag:
+
+```bash
+yarn docs:preview --port 3333
+```
+
+### Auto-rebuilding OpenAPI Specifications
+
+The project uses nodemon to automatically rebuild OpenAPI specifications when changes are made to the source files. Start the development build process:
+
+```bash
+yarn build:dev
+```
+
+This will:
+
+- Watch for changes in `.yaml` files
+- Automatically bundle OpenAPI specifications using `swagger-cli`
+- Generate bundled files in the `bundled/` directory
+- Ignore changes in the `bundled/` directory to prevent infinite loops
+
+## Development Workflow
+
+1. **Start the auto-rebuild process:**
+
+   ```bash
+   yarn build:dev
+   ```
+
+2. **Start the documentation preview:**
+
+   ```bash
+   yarn docs:preview
+   ```
+
+3. **Make changes to your documentation files** - both the preview and bundled files will update automatically
+
+### Other references
+
+- https://github.com/mintlify/docs
+- https://mintlify.com/docs
+- https://mintlify.com/docs/reusable-snippets

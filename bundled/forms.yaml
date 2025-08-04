@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "NeetoCal APIs",
+      "url": "https://{workspace}.neetocal.com/api/external/v1",
+      "variables": {
+        "workspace": {
+          "default": "spinkart",
+          "description": "Your workspace's subdomain"
+        }
+      }
+    }
+  ],
+  "info": {
+    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
+    "title": "NeetoCal Forms APIs"
+  },
+  "tags": [
+    {
+      "name": "Forms",
+      "description": "APIs to manage forms in the workspace."
+    }
+  ],
+  "paths": {
+    "/forms": {
+      "get": {
+        "summary": "List all forms",
+        "tags": [
+          "Forms"
+        ],
+        "description": "This API allows to list all the forms in a workspace.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_number",
+            "description": "Page number. The default value is 1.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "description": "Number of forms to receive. The default value is 30.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "forms": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "is_published": {
+                                "type": "boolean"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updated_at": {
+                                "$ref": "#/paths/~1forms/get/responses/200/content/application~1json/schema/allOf/0/properties/forms/items/properties/created_at"
+                              },
+                              "submissions_count": {
+                                "type": "integer"
+                              },
+                              "attempt_url": {
+                                "type": "string"
+                              },
+                              "is_archived": {
+                                "type": "boolean"
+                              },
+                              "is_disabled": {
+                                "type": "boolean"
+                              },
+                              "is_suspended": {
+                                "type": "boolean"
+                              },
+                              "created_by": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "total_records": {
+                              "type": "integer",
+                              "description": "Total number of records"
+                            },
+                            "total_pages": {
+                              "type": "integer",
+                              "description": "Total number of pages available"
+                            },
+                            "current_page_number": {
+                              "type": "integer",
+                              "description": "Current page number"
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "description": "Number of records per page"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

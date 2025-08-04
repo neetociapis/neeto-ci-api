@@ -1,0 +1,98 @@
+openapi: 3.0.0
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart
+        description: Your workspace's subdomain
+
+info:
+  description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
+  title: NeetoCal Discount Codes APIs
+
+tags:
+  - name: Discount codes
+    description: APIs to manage discount codes for bookings.
+
+paths:
+  /discount_codes:
+    post:
+      summary: Create a discount code
+      tags:
+        - Discount codes
+      description: This API allows to create a discount code.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Code of the new code. This value should be unique.
+                  example: "OFF50"
+                value:
+                  type: integer
+                  description: Value of the discount code. This value should be between 1-100 if kind is percentage.
+                  example: 50
+                kind:
+                  type: string
+                  description: Type of the discount code. Either fixed or percentage.
+                  example: "percentage"
+                redeems_limit:
+                  type: integer
+                  description: Number of times the discount code can be redeemed. If left empty, the discount can be redeemed unlimited times.
+                  example: 10
+                redeems_limit_by_email:
+                  type: integer
+                  description: Number of times the discount code can be redeemed by using a particular email. If left empty, the discount can be redeemed unlimited times.
+                  example: 5
+                expires_at:
+                  type: string
+                  description: Date upto which the discount code can be used. If left empty, discount code can be used forever. It should be of the format "DD-MM-YYYY"
+                  example: "12-05-2025"
+                days_valid_after_first_use_per_client:
+                  type: string
+                  description: Number of days upto which the discount code can be used by a particular client after their first use. If left empty, the discount code can be used forever.
+                  example: 7
+                allowed_emails:
+                  type: array
+                  description: Array of allowed email addresses that can redeem the discount code. If left empty, the discount code can be redeemed using any email IDs.
+                  example: ["eve@bigbinary.com", "charlie@bigbinary.com"]
+                meeting_ids:
+                  type: array
+                  description: Array of meeting IDs in which the discount code can be used in.
+                  example: ["ktr8qu3", "xzfpwqg", "csesbjq", "c64h5yx"]
+              required:
+                - code
+                - value
+                - kind
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: "Discount code creation successful"
+                  discount_code:
+                    $ref: '../schemas/discount-code.yaml#/discount_code'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error

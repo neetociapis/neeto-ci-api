@@ -1,0 +1,49 @@
+# Form ID path parameter
+form_id_param:
+  in: path
+  name: form_id
+  description: Id of the form can be retrieved by going to the particular form, and copying it from the URL.
+  required: true
+  schema:
+    type: string
+
+# Form object structure
+form:
+  type: object
+  properties:
+    id:
+      type: string
+    title:
+      type: string
+    is_published:
+      type: boolean
+    state:
+      type: string
+    created_at:
+      $ref: '../schemas/common.yaml#/date_time_field'
+    updated_at:
+      $ref: '../schemas/common.yaml#/date_time_field'
+    submissions_count:
+      type: integer
+    attempt_url:
+      type: string
+    is_archived:
+      type: boolean
+    is_disabled:
+      type: boolean
+    is_suspended:
+      type: boolean
+    created_by:
+      type: string
+
+# Forms response structure
+forms_response:
+  allOf:
+    - type: object
+      properties:
+        forms:
+          type: array
+          items:
+            $ref: '#/form'
+        pagination:
+          $ref: '../schemas/common.yaml#/pagination'

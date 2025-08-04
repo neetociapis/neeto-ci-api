@@ -1,0 +1,207 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "NeetoCal APIs",
+      "url": "https://{workspace}.neetocal.com/api/external/v1",
+      "variables": {
+        "workspace": {
+          "default": "spinkart",
+          "description": "Your workspace's subdomain"
+        }
+      }
+    }
+  ],
+  "info": {
+    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
+    "title": "NeetoCal Submissions APIs"
+  },
+  "tags": [
+    {
+      "name": "Submissions",
+      "description": "APIs to manage form submissions in the workspace."
+    }
+  ],
+  "paths": {
+    "/forms/{form_id}/submissions": {
+      "get": {
+        "summary": "List all submissions",
+        "tags": [
+          "Submissions"
+        ],
+        "description": "This API allows to list all the submissions of a specified form in a workspace.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "form_id",
+            "description": "Id of the form can be retrieved by going to the particular form, and copying it from the URL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_number",
+            "description": "Page number. The default value is 1.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "description": "Number of submissions to receive. The default value is 30.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "submissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "field_values": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object"
+                                }
+                              },
+                              "user_agent": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "string"
+                                  },
+                                  "ip_address": {
+                                    "type": "string"
+                                  },
+                                  "device_name": {
+                                    "type": "string"
+                                  },
+                                  "device_type": {
+                                    "type": "string"
+                                  },
+                                  "operating_system": {
+                                    "type": "string"
+                                  },
+                                  "operating_system_version": {
+                                    "type": "string"
+                                  },
+                                  "submission_id": {
+                                    "type": "string"
+                                  },
+                                  "created_at": {
+                                    "$ref": "#/paths/~1forms~1%7Bform_id%7D~1submissions/get/responses/200/content/application~1json/schema/allOf/0/properties/submissions/items/properties/created_at"
+                                  },
+                                  "updated_at": {
+                                    "$ref": "#/paths/~1forms~1%7Bform_id%7D~1submissions/get/responses/200/content/application~1json/schema/allOf/0/properties/submissions/items/properties/created_at"
+                                  }
+                                }
+                              },
+                              "responses": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "label": {
+                                      "type": "string"
+                                    },
+                                    "position": {
+                                      "type": "integer"
+                                    },
+                                    "kind": {
+                                      "type": "string"
+                                    },
+                                    "slug": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "total_records": {
+                              "type": "integer",
+                              "description": "Total number of records"
+                            },
+                            "total_pages": {
+                              "type": "integer",
+                              "description": "Total number of pages available"
+                            },
+                            "current_page_number": {
+                              "type": "integer",
+                              "description": "Current page number"
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "description": "Number of records per page"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

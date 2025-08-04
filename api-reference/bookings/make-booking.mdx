@@ -1,0 +1,10 @@
+---
+title: "Make a booking"
+openapi: "/bundled/bookings.yaml POST /bookings"
+---
+
+import SubdomainInfo from "/snippets/subdomain-info.mdx";
+
+This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body.
+
+<SubdomainInfo />

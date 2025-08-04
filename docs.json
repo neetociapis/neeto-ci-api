@@ -1,0 +1,121 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "NeetoCal API",
+  "description": "NeetoCal API docs guide to manage scheduling links from external channels",
+  "theme": "mint",
+  "colors": {
+    "primary": "#10B981",
+    "light": "#34D399",
+    "dark": "#059669"
+  },
+  "logo": "/assets/logo.svg",
+  "favicon": "/assets/favicon.svg",
+  "navbar": {
+    "links": [
+      {
+        "label": "Blog",
+        "href": "https://www.neeto.com/neetocal/blog"
+      },
+      {
+        "label": "Help Center",
+        "href": "https://help.neetocal.com/"
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/neetohq",
+      "linkedin": "https://www.linkedin.com/company/neeto",
+      "youtube": "https://www.youtube.com/channel/UCoQ3Kv2JdZ51WZJ3QFFcI9g",
+      "slack": "https://www.launchpass.com/neetohq"
+    }
+  },
+  "navigation": {
+    "pages": [
+      {
+        "group": "Getting Started",
+        "icon": "rocket",
+        "pages": [
+          "getting-started/introduction",
+          "getting-started/identifying-subdomain",
+          "getting-started/authentication",
+          "getting-started/quickstart",
+          "getting-started/pagination",
+          "getting-started/response-codes"
+        ]
+      },
+      {
+        "group": "Bookings API",
+        "icon": "calendar",
+        "pages": [
+          "api-reference/bookings/make-booking",
+          "api-reference/bookings/list-bookings",
+          "api-reference/bookings/reschedule-booking",
+          "api-reference/bookings/cancel-booking"
+        ]
+      },
+      {
+        "group": "Slots API",
+        "icon": "clock",
+        "pages": ["api-reference/slots/list-slots"]
+      },
+      {
+        "group": "Availabilities API",
+        "icon": "calendar-days",
+        "pages": [
+          "api-reference/availabilities/update-availability",
+          "api-reference/availabilities/get-availability",
+          "api-reference/availabilities/list-team-member-availabilities",
+          "api-reference/availabilities/list-availabilities",
+          "api-reference/availabilities/update-meeting-availability"
+        ]
+      },
+      {
+        "group": "Scheduling Links API",
+        "icon": "link",
+        "pages": [
+          "api-reference/scheduling-links/list-meetings",
+          "api-reference/scheduling-links/create-meeting",
+          "api-reference/scheduling-links/get-meeting",
+          "api-reference/scheduling-links/update-meeting",
+          "api-reference/scheduling-links/create-one-off-link"
+        ]
+      },
+      {
+        "group": "Team Members API",
+        "icon": "users",
+        "pages": [
+          "api-reference/team-members/list-team-members",
+          "api-reference/team-members/add-team-members",
+          "api-reference/team-members/update-team-member"
+        ]
+      },
+      {
+        "group": "Packages API",
+        "icon": "box",
+        "pages": [
+          "api-reference/packages/list-packages",
+          "api-reference/packages/get-package"
+        ]
+      },
+      {
+        "group": "Discount Codes API",
+        "icon": "tag",
+        "pages": ["api-reference/discount-codes/create-discount-code"]
+      }
+    ]
+  },
+  "api": {
+    "params": {
+      "expanded": "all"
+    }
+  },
+  "styling": {
+    "eyebrows": "section",
+    "codeblocks": "system"
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  }
+}

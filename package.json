@@ -1,0 +1,23 @@
+{
+  "name": "neeto-form-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/neetozone/neeto-cal-api.git",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "scripts": {
+    "build:dev": "nodemon --exec 'scripts/bundle.sh'",
+    "docs:preview": "mint dev"
+  },
+  "nodemonConfig": {
+    "ext": "yaml",
+    "watch": [
+      "**"
+    ],
+    "ignore": [
+      "bundled/**"
+    ]
+  }
+}

@@ -1,0 +1,656 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "NeetoCal APIs",
+      "url": "https://{workspace}.neetocal.com/api/external/v1",
+      "variables": {
+        "workspace": {
+          "default": "spinkart",
+          "description": "Your workspace's subdomain"
+        }
+      }
+    }
+  ],
+  "info": {
+    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
+    "title": "NeetoCal Meetings APIs"
+  },
+  "tags": [
+    {
+      "name": "Scheduling links",
+      "description": "APIs to create and manage scheduling links."
+    }
+  ],
+  "paths": {
+    "/meetings": {
+      "get": {
+        "summary": "List all scheduling links",
+        "tags": [
+          "Scheduling links"
+        ],
+        "description": "This API allows to get a list of scheduling links in a workspace.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "Bearer token for API access.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_number",
+            "description": "Page number. The default value is 1.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "description": "Number of bookings to receive. The default value is 30.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "meetings": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/paths/~1meetings~1%7Bmeeting_sid%7D/get/responses/200/content/application~1json/schema"
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "total_records": {
+                              "type": "integer",
+                              "description": "Total number of records"
+                            },
+                            "total_pages": {
+                              "type": "integer",
+                              "description": "Total number of pages available"
+                            },
+                            "current_page_number": {
+                              "type": "integer",
+                              "description": "Current page number"
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "description": "Number of records per page"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a scheduling link",
+        "tags": [
+          "Scheduling links"
+        ],
+        "description": "This API allows to create a scheduling link. Replace `spinkart` with your workspace's subdomain.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "description": "Slug of the new scheduling link. This value should be unique.",
+                    "example": "meeting-with-oliver-smith"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "New name of the scheduling link.",
+                    "example": "Meeting with Oliver Smith"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New description of the scheduling link.",
+                    "example": "Discuss project updates"
+                  },
+                  "hosts": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Emails of the hosts of scheduling link in array format.",
+                    "example": [
+                      "oliver@example.com",
+                      "jane@example.com"
+                    ]
+                  },
+                  "kind": {
+                    "type": "string",
+                    "description": "Kind of scheduling link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.",
+                    "example": "one_on_one"
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Duration of the scheduling link in minutes.",
+                    "example": 30
+                  },
+                  "start_time_increment": {
+                    "type": "integer",
+                    "description": "Start time increment for the scheduling link in minutes. Defaults to 30.",
+                    "example": 30
+                  }
+                },
+                "required": [
+                  "slug",
+                  "name",
+                  "hosts",
+                  "duration"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "availabilities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "availability_id": {
+                            "type": "string"
+                          },
+                          "member_id": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "sid": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "default": {
+                            "type": "boolean"
+                          },
+                          "after_buffer_time": {
+                            "type": "integer"
+                          },
+                          "before_buffer_time": {
+                            "type": "integer"
+                          },
+                          "periods": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "wday": {
+                                  "type": "string"
+                                },
+                                "start_time": {
+                                  "type": "string"
+                                },
+                                "end_time": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/meetings/{meeting_sid}": {
+      "get": {
+        "summary": "Get details of a scheduling link",
+        "tags": [
+          "Scheduling links"
+        ],
+        "description": "This API allows you to fetch details of a specific scheduling link by its SID. Replace `spinkart` with your workspace's subdomain.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "meeting_sid",
+            "description": "The unique SID of the scheduling link you want to fetch.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "vj5pgkh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "sid": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "one_on_one",
+                        "round_robin",
+                        "multihost",
+                        "grouped"
+                      ]
+                    },
+                    "duration": {
+                      "type": "integer"
+                    },
+                    "disabled": {
+                      "type": "boolean"
+                    },
+                    "spot": {
+                      "type": "string",
+                      "enum": [
+                        "custom",
+                        "jitsi",
+                        "google_meet",
+                        "daily",
+                        "zoom",
+                        "whereby",
+                        "teams",
+                        "phone_call",
+                        "in_person"
+                      ]
+                    },
+                    "spot_in_person_location": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "spot_custom_text": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "spot_phone_call_number": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "is_template": {
+                      "type": "boolean"
+                    },
+                    "schedulable_range_type": {
+                      "type": "string",
+                      "enum": [
+                        "number_of_days_into_the_future",
+                        "number_of_business_days_into_the_future",
+                        "date_range"
+                      ]
+                    },
+                    "schedulable_range_value": {
+                      "type": "string"
+                    },
+                    "lead_time": {
+                      "type": "integer"
+                    },
+                    "start_time_increment": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2024-12-23T05:05:27.037Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2025-03-31T13:22:19.832Z"
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "is_multiple_spots_allowed": {
+                      "type": "boolean"
+                    },
+                    "is_multiple_durations_allowed": {
+                      "type": "boolean"
+                    },
+                    "conditional_pricing_enabled": {
+                      "type": "boolean"
+                    },
+                    "is_email_reminders_enabled": {
+                      "type": "boolean"
+                    },
+                    "is_sms_reminders_enabled": {
+                      "type": "boolean"
+                    },
+                    "organization_id": {
+                      "type": "string"
+                    },
+                    "rescheduling_lead_time": {
+                      "type": "integer"
+                    },
+                    "cancellation_lead_time": {
+                      "type": "integer"
+                    },
+                    "booking_modification_allowed": {
+                      "type": "boolean"
+                    },
+                    "cancellation_too_late_notice": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "cancellation_policy": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "rescheduling_too_late_notice": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "pre_booking_allowed": {
+                      "type": "boolean"
+                    },
+                    "original_price_enabled": {
+                      "type": "boolean"
+                    },
+                    "original_price": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "fees": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "durations_possible": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not Found - Meeting not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a scheduling link",
+        "tags": [
+          "Scheduling links"
+        ],
+        "description": "This API allows to update a scheduling link. Replace `spinkart` with your workspace's subdomain.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "meeting_sid",
+            "description": "Id of the scheduling link you want to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "vj5pgkh"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "description": "New slug of the scheduling link. This value should be unique.",
+                    "example": "meeting-with-oliver-smith-new"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "New name of the scheduling link.",
+                    "example": "Meeting with Oliver Smith"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New description of the scheduling link.",
+                    "example": "Discuss project updates"
+                  },
+                  "hosts": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Emails of the hosts of scheduling link in array format.",
+                    "example": [
+                      "oliver@example.com",
+                      "jane@example.com"
+                    ]
+                  },
+                  "kind": {
+                    "type": "string",
+                    "description": "Kind of scheduling link. Available kinds are one_on_one, round_robin, and multihost. Defaults to one_on_one.",
+                    "example": "one_on_one"
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Duration of the scheduling link in minutes.",
+                    "example": 30
+                  },
+                  "start_time_increment": {
+                    "type": "integer",
+                    "description": "Start time increment for the scheduling link in minutes. Defaults to 30.",
+                    "example": 30
+                  }
+                },
+                "required": [
+                  "hosts"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "meeting": {
+                      "$ref": "#/paths/~1meetings~1%7Bmeeting_sid%7D/get/responses/200/content/application~1json/schema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/meetings/{meeting_sid}/create_one_off_link": {
+      "post": {
+        "summary": "Create a One-time scheduling link",
+        "tags": [
+          "Scheduling links"
+        ],
+        "description": "This API allows to create a One-time scheduling link. Replace `spinkart` with your workspace's subdomain.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "meeting_sid",
+            "description": "You need to pass the `sid` of the scheduling link to get one-time scheduling link. You can get `sid` in different ways. Visit the scheduling link page and then click on \"Settings\" > \"Show SID\". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our List all scheduling links API. Here you will see `sid` for each scheduling link.\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "vj5pgkh"
+          }
+        ],
+        "requestBody": {
+          "content": "application/json"
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "slug": "one-off-c5530bc7c9ab",
+                  "url": "https://spinkart.neetocal.com/one-off-c5530bc7c9ab"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

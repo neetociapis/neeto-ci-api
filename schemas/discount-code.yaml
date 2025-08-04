@@ -1,0 +1,44 @@
+# Discount code object structure
+discount_code:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Unique identifier for the created discount code.
+      example: "362a026a-06b4-4ec2-90d6-1932aad8c86c"
+    code:
+      type: string
+      description: The unique discount code created.
+      example: "OFF50"
+    value:
+      type: integer
+      description: Value of the discount.
+      example: 50
+    kind:
+      type: string
+      description: Type of the discount (fixed or percentage).
+      example: "percentage"
+    redeems_limit:
+      type: integer
+      description: Number of times the discount code can be redeemed.
+      example: 10
+    redeems_limit_by_email:
+      type: integer
+      description: Number of times the discount code can be redeemed per email.
+      example: 5
+    expires_at:
+      type: string
+      description: Expiration date of the discount code.
+      example: "12-05-2025"
+    days_valid_after_first_use_per_client:
+      type: string
+      description: Number of days the discount code is valid for a client after the first use.
+      example: 7
+    allowed_emails:
+      type: array
+      description: Array of allowed emails that can redeem the discount code.
+      example: ["eve@bigbinary.com", "charlie@bigbinary.com"]
+    meeting_ids:
+      type: array
+      description: Array of meeting IDs where the discount code can be used.
+      example: ["ktr8qu3", "xzfpwqg", "csesbjq", "c64h5yx"]

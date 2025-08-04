@@ -1,3 +1,4 @@
+openapi: 3.0.0
 servers:
   - description: NeetoCal APIs
     url: https://{workspace}.neetocal.com/api/external/v1
@@ -25,6 +26,10 @@ tags:
     description: APIs to manage packages of the workspace.
   - name: Discount codes
     description: APIs to manage discount codes for bookings.
+  - name: Forms
+    description: APIs to manage forms in the workspace.
+  - name: Submissions
+    description: APIs to manage form submissions in the workspace.
 components:
   schemas:
     Pagination:
@@ -2246,3 +2251,87 @@ paths:
                         type: integer
                         description: Total number of purchases for the package
                         example: 0
+
+  /forms:
+    get:
+      summary: List all forms
+      tags:
+        - Forms
+      description: This API allows to list all the forms in a workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page_size
+          description: Number of forms to receive. The default value is 30.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/form.yaml#/forms_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+
+  /forms/{form_id}/submissions:
+    get:
+      summary: List all submissions
+      tags:
+        - Submissions
+      description: This API allows to list all the submissions of a specified form in a workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: form_id
+          description: Id of the form can be retrieved by going to the particular form, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page_size
+          description: Number of submissions to receive. The default value is 30.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/submission.yaml#/submissions_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error

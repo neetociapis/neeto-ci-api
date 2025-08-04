@@ -1,0 +1,151 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "NeetoCal APIs",
+      "url": "https://{workspace}.neetocal.com/api/external/v1",
+      "variables": {
+        "workspace": {
+          "default": "spinkart",
+          "description": "Your workspace's subdomain"
+        }
+      }
+    }
+  ],
+  "info": {
+    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
+    "title": "NeetoCal Slots APIs"
+  },
+  "tags": [
+    {
+      "name": "Slots",
+      "description": "APIs to manage slots availability of a scheduling link."
+    }
+  ],
+  "paths": {
+    "/slots/{meeting_slug}": {
+      "get": {
+        "summary": "List all available slots",
+        "tags": [
+          "Slots"
+        ],
+        "description": "This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific scheduling link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.\n",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Api-Key",
+            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "meeting_slug",
+            "description": "Slug of the scheduling link.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "meeting-with-oliver-smith"
+            }
+          },
+          {
+            "in": "query",
+            "name": "time_zone",
+            "description": "Time zone in which to check available slots.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Asia/Kolkata"
+            }
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "description": "Year for which to check available slots.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2025"
+            }
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "description": "Month for which to check available slots.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "11"
+            }
+          },
+          {
+            "in": "query",
+            "name": "day",
+            "description": "The day of the month to check for available slots. If omitted, slots for all days in the month will be returned. If provided, only slots for the specified day will be included.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "21"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slots": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "type": "string"
+                          },
+                          "day": {
+                            "type": "integer"
+                          },
+                          "slots": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "object",
+                              "properties": {
+                                "start_time": {
+                                  "type": "string"
+                                },
+                                "end_time": {
+                                  "type": "string"
+                                },
+                                "count": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing/Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "501": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

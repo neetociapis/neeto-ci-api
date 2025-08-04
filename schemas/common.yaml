@@ -1,0 +1,123 @@
+# Server configuration used across all endpoints
+servers:
+  - description: NeetoCal APIs
+    url: https://{your-workspace}.neetocal.com/api/external/v1
+    variables:
+      your-workspace:
+        default: spinkart
+        description: Replace **spinkart** with your [workspace's subdomain](/getting-started/identifying-subdomain).
+
+# Common API Key header parameter
+api_key_header:
+  in: header
+  name: X-Api-Key
+  description: X-Api-Key is used to authenticate requests using an API key. Provide your API key in this header to access protected endpoints. Refer to [Authentication](/getting-started/authentication) for more information.
+  required: true
+  schema:
+    type: string
+    default: "your-api-key"
+
+# Common pagination parameters
+page_number_param:
+  in: query
+  name: page_number
+  description: Retrieve paginated results by specifying the desired page number. If this parameter is absent, all results will be returned.
+  required: false
+  schema:
+    type: integer
+
+page_size_param:
+  in: query
+  name: page_size
+  description: Set the number of results returned in the response. Defaulting to 30 when omitted.
+  required: false
+  schema:
+    type: integer
+
+# Common pagination parameters
+pagination_parameters:
+  - in: query
+    name: page_number
+    description: Retrieve paginated results by specifying the desired page number. If this parameter is absent, all results will be returned.
+    required: false
+    schema:
+      type: integer
+  - in: query
+    name: page_size
+    description: Set the number of results returned in the response. Defaulting to 30 when omitted.
+    required: false
+    schema:
+      type: integer
+
+# Common date-time field schema
+date_time_field:
+  type: string
+  format: date-time
+
+# Common response wrapper structure
+paginated_response:
+  type: object
+  properties:
+    total_count:
+      type: integer
+
+# Pagination object structure (for NeetoCal APIs)
+pagination:
+  type: object
+  properties:
+    total_records:
+      type: integer
+      description: Total number of records
+    total_pages:
+      type: integer
+      description: Total number of pages available
+    current_page_number:
+      type: integer
+      description: Current page number
+    page_size:
+      type: integer
+      description: Number of records per page
+
+# Common user agent object structure
+user_agent:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    version:
+      type: string
+    ip_address:
+      type: string
+    device_name:
+      type: string
+    device_type:
+      type: string
+    operating_system:
+      type: string
+    operating_system_version:
+      type: string
+    submission_id:
+      type: string
+    created_at:
+      $ref: '#/date_time_field'
+    updated_at:
+      $ref: '#/date_time_field'
+
+# Common response field structure
+response_field:
+  type: object
+  properties:
+    id:
+      type: string
+    label:
+      type: string
+    position:
+      type: integer
+    kind:
+      type: string
+    slug:
+      type: string
+    value:
+      type: string

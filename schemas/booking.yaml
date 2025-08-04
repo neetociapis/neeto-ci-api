@@ -1,0 +1,110 @@
+# Booking object structure
+booking:
+  type: object
+  properties:
+    id:
+      type: string
+    sid:
+      type: string
+    parent_booking_id:
+      type: string
+      nullable: true
+    email:
+      type: string
+    name:
+      type: string
+    host_name:
+      type: string
+    host_email:
+      type: string
+    is_multihost:
+      type: boolean
+    multihosts:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          email:
+            type: string
+    starts_at:
+      type: string
+      format: date-time
+    ends_at:
+      type: string
+      format: date-time
+    time_zone:
+      type: string
+    status:
+      type: string
+    cancel_reason:
+      type: string
+      nullable: true
+    cancelled_by:
+      type: string
+      nullable: true
+    reschedule_requested:
+      type: boolean
+    room_type:
+      type: string
+      nullable: true
+    room_url:
+      type: string
+      nullable: true
+    room_id:
+      type: string
+      nullable: true
+    spot_details:
+      type: string
+      nullable: true
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+    meeting_id:
+      type: string
+    no_show:
+      type: boolean
+    notes_url:
+      type: string
+      nullable: true
+    internal_notes:
+      type: string
+      nullable: true
+    metadata:
+      type: object
+      nullable: true
+    admin_booking_url:
+      type: string
+    client_booking_url:
+      type: string
+    form_responses:
+      type: array
+      items:
+        type: object
+        properties:
+          field:
+            type: string
+          value:
+            type: string
+          type:
+            type: string
+          field_code:
+            type: string
+          Name:
+            type: string
+
+# Booking list response structure
+booking_list_response:
+  allOf:
+    - type: object
+      properties:
+        bookings:
+          type: array
+          items:
+            $ref: '#/booking'
+        pagination:
+          $ref: '../schemas/common.yaml#/pagination'
