@@ -35,7 +35,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/package.yaml#/package_list_response'
+                $ref: '../schemas/package.yaml#/components/schemas/package_list_response'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -71,7 +71,7 @@ paths:
                 type: object
                 properties:
                   package:
-                    $ref: '../schemas/package.yaml#/package'
+                    $ref: '../schemas/package.yaml#/components/schemas/package'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':

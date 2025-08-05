@@ -49,75 +49,45 @@ pagination_parameters:
     schema:
       type: integer
 
-# Common date-time field schema
-date_time_field:
-  type: string
-  format: date-time
+components:
+  schemas:
+    # Common response wrapper structure
+    paginated_response:
+      type: object
+      properties:
+        total_count:
+          type: integer
 
-# Common response wrapper structure
-paginated_response:
-  type: object
-  properties:
-    total_count:
-      type: integer
+    # Pagination object structure (for NeetoCal APIs)
+    pagination:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          description: Total number of records
+        total_pages:
+          type: integer
+          description: Total number of pages available
+        current_page_number:
+          type: integer
+          description: Current page number
+        page_size:
+          type: integer
+          description: Number of records per page
 
-# Pagination object structure (for NeetoCal APIs)
-pagination:
-  type: object
-  properties:
-    total_records:
-      type: integer
-      description: Total number of records
-    total_pages:
-      type: integer
-      description: Total number of pages available
-    current_page_number:
-      type: integer
-      description: Current page number
-    page_size:
-      type: integer
-      description: Number of records per page
-
-# Common user agent object structure
-user_agent:
-  type: object
-  properties:
-    id:
-      type: string
-    name:
-      type: string
-    version:
-      type: string
-    ip_address:
-      type: string
-    device_name:
-      type: string
-    device_type:
-      type: string
-    operating_system:
-      type: string
-    operating_system_version:
-      type: string
-    submission_id:
-      type: string
-    created_at:
-      $ref: '#/date_time_field'
-    updated_at:
-      $ref: '#/date_time_field'
-
-# Common response field structure
-response_field:
-  type: object
-  properties:
-    id:
-      type: string
-    label:
-      type: string
-    position:
-      type: integer
-    kind:
-      type: string
-    slug:
-      type: string
-    value:
-      type: string
+    # Common response field structure
+    response_field:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        position:
+          type: integer
+        kind:
+          type: string
+        slug:
+          type: string
+        value:
+          type: string

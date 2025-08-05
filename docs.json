@@ -17,7 +17,7 @@
         "href": "https://www.neeto.com/neetocal/blog"
       },
       {
-        "label": "Help Center",
+        "label": "Help center",
         "href": "https://help.neetocal.com/"
       }
     ]
@@ -45,34 +45,8 @@
         ]
       },
       {
-        "group": "Bookings API",
+        "group": "Scheduling links API",
         "icon": "calendar",
-        "pages": [
-          "api-reference/bookings/make-booking",
-          "api-reference/bookings/list-bookings",
-          "api-reference/bookings/reschedule-booking",
-          "api-reference/bookings/cancel-booking"
-        ]
-      },
-      {
-        "group": "Slots API",
-        "icon": "clock",
-        "pages": ["api-reference/slots/list-slots"]
-      },
-      {
-        "group": "Availabilities API",
-        "icon": "calendar-days",
-        "pages": [
-          "api-reference/availabilities/update-availability",
-          "api-reference/availabilities/get-availability",
-          "api-reference/availabilities/list-team-member-availabilities",
-          "api-reference/availabilities/list-availabilities",
-          "api-reference/availabilities/update-meeting-availability"
-        ]
-      },
-      {
-        "group": "Scheduling Links API",
-        "icon": "link",
         "pages": [
           "api-reference/scheduling-links/list-meetings",
           "api-reference/scheduling-links/create-meeting",
@@ -82,8 +56,42 @@
         ]
       },
       {
+        "group": "Bookings API",
+        "icon": "list-ol",
+        "pages": [
+          "api-reference/bookings/make-booking",
+          "api-reference/bookings/list-bookings",
+          "api-reference/bookings/reschedule-booking",
+          "api-reference/bookings/cancel-booking"
+        ]
+      },
+      {
+        "group": "Availabilities API",
+        "icon": "clock",
+        "pages": [
+          "api-reference/availabilities/update-availability",
+          "api-reference/availabilities/get-availability",
+          "api-reference/availabilities/list-team-member-availabilities",
+          "api-reference/availabilities/list-availabilities",
+          "api-reference/availabilities/update-meeting-availability"
+        ]
+      },
+      {
+        "group": "Slots API",
+        "icon": "user-clock",
+        "pages": ["api-reference/slots/list-slots"]
+      },
+      {
+        "group": "Packages API",
+        "icon": "gift",
+        "pages": [
+          "api-reference/packages/list-packages",
+          "api-reference/packages/get-package"
+        ]
+      },
+      {
         "group": "Team Members API",
-        "icon": "users",
+        "icon": "user-group",
         "pages": [
           "api-reference/team-members/list-team-members",
           "api-reference/team-members/add-team-members",
@@ -91,16 +99,8 @@
         ]
       },
       {
-        "group": "Packages API",
-        "icon": "box",
-        "pages": [
-          "api-reference/packages/list-packages",
-          "api-reference/packages/get-package"
-        ]
-      },
-      {
         "group": "Discount Codes API",
-        "icon": "tag",
+        "icon": "credit-card",
         "pages": ["api-reference/discount-codes/create-discount-code"]
       }
     ]

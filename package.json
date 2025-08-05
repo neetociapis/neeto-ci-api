@@ -1,10 +1,11 @@
 {
-  "name": "neeto-form-api",
+  "name": "neeto-cal-api",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/neetozone/neeto-cal-api.git",
   "license": "MIT",
   "devDependencies": {
+    "@redocly/cli": "^2.0.2",
     "nodemon": "^3.1.10"
   },
   "scripts": {

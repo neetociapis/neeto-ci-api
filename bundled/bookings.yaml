@@ -1,654 +1,464 @@
-{
-  "openapi": "3.0.0",
-  "servers": [
-    {
-      "description": "NeetoCal APIs",
-      "url": "https://{workspace}.neetocal.com/api/external/v1",
-      "variables": {
-        "workspace": {
-          "default": "spinkart",
-          "description": "Your workspace's subdomain"
-        }
-      }
-    }
-  ],
-  "info": {
-    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
-    "title": "NeetoCal Bookings APIs"
-  },
-  "tags": [
-    {
-      "name": "Bookings",
-      "description": "APIs to create, list, reschedule, and cancel bookings."
-    }
-  ],
-  "paths": {
-    "/bookings": {
-      "post": {
-        "summary": "Make a booking",
-        "tags": [
-          "Bookings"
-        ],
-        "description": "This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "meeting_slug": {
-                    "type": "string",
-                    "description": "Slug of scheduling link you want to book.",
-                    "example": "meeting-with-oliver-smith"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "Name of person making the booking.",
-                    "example": "Eve Smith"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "Email of person making the booking.",
-                    "example": "eve@example.com"
-                  },
-                  "slot_date": {
-                    "type": "string",
-                    "description": "Date on which you want to book. This should be in \"YYYY-MM-DD\" format. If `slot_date` and `slot_start_time` are not provided then the first available slot will be booked.",
-                    "example": "2025-07-15"
-                  },
-                  "slot_start_time": {
-                    "type": "string",
-                    "description": "Start time for the booking. This should be in \"HH:MM AM/PM\" format.",
-                    "example": "01:30 PM"
-                  },
-                  "time_zone": {
-                    "type": "string",
-                    "description": "Time zone of person making the booking.",
-                    "example": "Asia/Kolkata"
-                  },
-                  "preferred_meeting_spot": {
-                    "type": "string",
-                    "description": "Your preferred meeting spot. This field is optional. The default is \"jitsi\". Before passing this value, ensure that the corresponding meeting spot is configured in the \"Where\" section of the scheduling link.\n",
-                    "example": "jitsi",
-                    "enum": [
-                      "custom",
-                      "jitsi",
-                      "in_person",
-                      "daily",
-                      "zoom",
-                      "whereby",
-                      "google_meet",
-                      "teams"
-                    ],
-                    "default": "jitsi"
-                  },
-                  "form_responses": {
-                    "type": "object",
-                    "description": "Responses for the questions of booking form (optional). The key of the field should be the field code of the question. The field code can be found in scheduling link's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.",
-                    "properties": {
-                      "guest_email_s": {
-                        "type": "array",
-                        "description": "Array of guest emails for the booking. The default field code is \"guest_email_s\". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "example": {
-                      "guest_email_s": [
-                        "sam@example.com",
-                        "charlie@example.com"
-                      ],
-                      "language": "English"
-                    }
-                  }
-                },
-                "required": [
-                  "meeting_slug",
-                  "name",
-                  "email",
-                  "time_zone"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "sid": {
-                      "type": "string"
-                    },
-                    "parent_booking_id": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "host_name": {
-                      "type": "string"
-                    },
-                    "host_email": {
-                      "type": "string"
-                    },
-                    "is_multihost": {
-                      "type": "boolean"
-                    },
-                    "multihosts": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "starts_at": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "ends_at": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "time_zone": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "cancel_reason": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "cancelled_by": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "reschedule_requested": {
-                      "type": "boolean"
-                    },
-                    "room_type": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "room_url": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "room_id": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "spot_details": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "created_at": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "meeting_id": {
-                      "type": "string"
-                    },
-                    "no_show": {
-                      "type": "boolean"
-                    },
-                    "notes_url": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "internal_notes": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "metadata": {
-                      "type": "object",
-                      "nullable": true
-                    },
-                    "admin_booking_url": {
-                      "type": "string"
-                    },
-                    "client_booking_url": {
-                      "type": "string"
-                    },
-                    "form_responses": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "field": {
-                            "type": "string"
-                          },
-                          "value": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          },
-                          "field_code": {
-                            "type": "string"
-                          },
-                          "Name": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      },
-      "get": {
-        "summary": "List all bookings",
-        "tags": [
-          "Bookings"
-        ],
-        "description": "This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email, type of meeting, meeting start time or meeting end time. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "description": "To get the bookings of a particular type only. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page_number",
-            "description": "Page number. The default value is 1.",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page_size",
-            "description": "Number of bookings to receive. The default value is 30.",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "host_email",
-            "description": "To get the bookings of a particular host only.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "client_email",
-            "description": "To get the bookings of a particular client only.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "filters",
-            "description": "Apply filters on your bookings.",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "starts_at": {
-                  "type": "object",
-                  "description": "To filter bookings by meeting start time, use deep object style in the query string, e.g.:\n`?filters[starts_at][rule]=after&filters[starts_at][value]=2027-12-19T06:00:00.000Z`\n- Supported rules: at, after, before, between\n- Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.\n",
-                  "properties": {
-                    "rule": {
-                      "type": "string",
-                      "enum": [
-                        "at",
-                        "after",
-                        "before",
-                        "between"
-                      ],
-                      "description": "The rule to be used for comparing with the starts_at value"
-                    },
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "ends_at": {
-                  "type": "object",
-                  "description": "To filter bookings by meeting end time, use deep object style in the query string, e.g.:\n`?filters[ends_at][rule]=before&filters[ends_at][value]=2027-12-19T10:00:00.000Z`\n- Supported rules: at, after, before, between\n- Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.\n",
-                  "properties": {
-                    "rule": {
-                      "type": "string",
-                      "enum": [
-                        "at",
-                        "after",
-                        "before",
-                        "between"
-                      ],
-                      "description": "The rule to be used for comparing with the ends_at value"
-                    },
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "in": "query",
-            "name": "sorting_order",
-            "description": "Sort bookings by booking creation date. The default value is `desc`.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "bookings": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/paths/~1bookings/post/responses/200/content/application~1json/schema"
-                          }
-                        },
-                        "pagination": {
-                          "type": "object",
-                          "properties": {
-                            "total_records": {
-                              "type": "integer",
-                              "description": "Total number of records"
-                            },
-                            "total_pages": {
-                              "type": "integer",
-                              "description": "Total number of pages available"
-                            },
-                            "current_page_number": {
-                              "type": "integer",
-                              "description": "Current page number"
-                            },
-                            "page_size": {
-                              "type": "integer",
-                              "description": "Number of records per page"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/bookings/{booking_sid}": {
-      "patch": {
-        "summary": "Reschedule a booking",
-        "tags": [
-          "Bookings"
-        ],
-        "description": "This API allows to reschedule the booking to a different slot. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "booking_sid",
-            "description": "Id of booking that you want to reschedule.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "hda6gxy"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Name of person making the booking.",
-                    "example": "Eve Smith"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "Email of person making the booking.",
-                    "example": "eve@example.com"
-                  },
-                  "slot_date": {
-                    "type": "string",
-                    "description": "Date on which the booking is to be rescheduled. This should be in \"YYYY-MM-DD\" format.",
-                    "example": "2025-07-25"
-                  },
-                  "slot_start_time": {
-                    "type": "string",
-                    "description": "Start time for the booking. This should be in \"HH:MM AM/PM\" format.",
-                    "example": "10:30 AM"
-                  },
-                  "time_zone": {
-                    "type": "string",
-                    "description": "Time zone of person rescheduling the booking.",
-                    "example": "Asia/Kolkata"
-                  },
-                  "form_responses": {
-                    "type": "object",
-                    "description": "Responses for the questions of booking form (optional). The key of the field should be the field code of the question. The field code can be found in scheduling link's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.",
-                    "properties": {
-                      "guest_email_s": {
-                        "type": "array",
-                        "description": "Array of guest emails for the booking. The default field code is \"guest_email_s\". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "example": {
-                      "guest_email_s": [
-                        "sam@example.com",
-                        "charlie@example.com"
-                      ],
-                      "language": "English"
-                    }
-                  },
-                  "reschedule_reason": {
-                    "type": "string",
-                    "description": "Reason for rescheduling the booking (optional).",
-                    "example": "I want to change the booking time"
-                  }
-                },
-                "required": [
-                  "name",
-                  "email",
-                  "slot_date",
-                  "slot_start_time",
-                  "time_zone"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK - Booking reschedule successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/paths/~1bookings/post/responses/200/content/application~1json/schema"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/bookings/{booking_sid}/cancel": {
-      "post": {
-        "summary": "Cancel a booking",
-        "tags": [
-          "Bookings"
-        ],
-        "description": "This API allows to cancel a booking. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "booking_sid",
-            "description": "Id of the booking that you want to cancel.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "hda6gxy"
-            }
-          },
-          {
-            "in": "query",
-            "name": "cancel_reason",
-            "description": "Reason for cancelling the booking.",
-            "example": "I am not available",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Booking cancel successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
+  title: NeetoCal Bookings APIs
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart
+        description: Your workspace's subdomain
+tags:
+  - name: Bookings
+    description: APIs to create, list, reschedule, and cancel bookings.
+paths:
+  /bookings:
+    post:
+      summary: Make a booking
+      tags:
+        - Bookings
+      description: This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meeting_slug:
+                  type: string
+                  description: Slug of scheduling link you want to book.
+                  example: meeting-with-oliver-smith
+                name:
+                  type: string
+                  description: Name of person making the booking.
+                  example: Eve Smith
+                email:
+                  type: string
+                  description: Email of person making the booking.
+                  example: eve@example.com
+                slot_date:
+                  type: string
+                  description: Date on which you want to book. This should be in "YYYY-MM-DD" format. If `slot_date` and `slot_start_time` are not provided then the first available slot will be booked.
+                  example: '2025-07-15'
+                slot_start_time:
+                  type: string
+                  description: Start time for the booking. This should be in "HH:MM AM/PM" format.
+                  example: 01:30 PM
+                time_zone:
+                  type: string
+                  description: Time zone of person making the booking.
+                  example: Asia/Kolkata
+                preferred_meeting_spot:
+                  type: string
+                  description: |
+                    Your preferred meeting spot. This field is optional. The default is "jitsi". Before passing this value, ensure that the corresponding meeting spot is configured in the "Where" section of the scheduling link.
+                  example: jitsi
+                  enum:
+                    - custom
+                    - jitsi
+                    - in_person
+                    - daily
+                    - zoom
+                    - whereby
+                    - google_meet
+                    - teams
+                  default: jitsi
+                form_responses:
+                  type: object
+                  description: Responses for the questions of booking form (optional). The key of the field should be the field code of the question. The field code can be found in scheduling link's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.
+                  properties:
+                    guest_email_s:
+                      type: array
+                      description: Array of guest emails for the booking. The default field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
+                      items:
+                        type: string
+                  example:
+                    guest_email_s:
+                      - sam@example.com
+                      - charlie@example.com
+                    language: English
+              required:
+                - meeting_slug
+                - name
+                - email
+                - time_zone
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/booking'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+    get:
+      summary: List all bookings
+      tags:
+        - Bookings
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email, type of meeting, meeting start time or meeting end time.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: type
+          description: To get the bookings of a particular type only. The available types are upcoming, past, cancelled, and incomplete. If no value is passed it will default to all bookings.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page_size
+          description: Number of bookings to receive. The default value is 30.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: host_email
+          description: To get the bookings of a particular host only.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: client_email
+          description: To get the bookings of a particular client only.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: filters
+          description: Apply filters on your bookings.
+          required: false
+          schema:
+            type: object
+            properties:
+              starts_at:
+                type: object
+                description: |
+                  To filter bookings by meeting start time, use deep object style in the query string, e.g.:
+                  `?filters[starts_at][rule]=after&filters[starts_at][value]=2027-12-19T06:00:00.000Z`
+                  - Supported rules: at, after, before, between
+                  - Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.
+                properties:
+                  rule:
+                    type: string
+                    enum:
+                      - at
+                      - after
+                      - before
+                      - between
+                    description: The rule to be used for comparing with the starts_at value
+                  value:
+                    type: string
+              ends_at:
+                type: object
+                description: |
+                  To filter bookings by meeting end time, use deep object style in the query string, e.g.:
+                  `?filters[ends_at][rule]=before&filters[ends_at][value]=2027-12-19T10:00:00.000Z`
+                  - Supported rules: at, after, before, between
+                  - Value: a single UTC datetime string for at/after/before, or two comma-separated UTC datetime strings for between.
+                properties:
+                  rule:
+                    type: string
+                    enum:
+                      - at
+                      - after
+                      - before
+                      - between
+                    description: The rule to be used for comparing with the ends_at value
+                  value:
+                    type: string
+        - in: query
+          name: sorting_order
+          description: Sort bookings by booking creation date. The default value is `desc`.
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/booking_list_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /bookings/{booking_sid}:
+    patch:
+      summary: Reschedule a booking
+      tags:
+        - Bookings
+      description: This API allows to reschedule the booking to a different slot.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: booking_sid
+          description: Id of booking that you want to reschedule.
+          required: true
+          schema:
+            type: string
+            example: hda6gxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of person making the booking.
+                  example: Eve Smith
+                email:
+                  type: string
+                  description: Email of person making the booking.
+                  example: eve@example.com
+                slot_date:
+                  type: string
+                  description: Date on which the booking is to be rescheduled. This should be in "YYYY-MM-DD" format.
+                  example: '2025-07-25'
+                slot_start_time:
+                  type: string
+                  description: Start time for the booking. This should be in "HH:MM AM/PM" format.
+                  example: 10:30 AM
+                time_zone:
+                  type: string
+                  description: Time zone of person rescheduling the booking.
+                  example: Asia/Kolkata
+                form_responses:
+                  type: object
+                  description: Responses for the questions of booking form (optional). The key of the field should be the field code of the question. The field code can be found in scheduling link's Settings -> Questions -> 3 dot menu of the question -> Edit -> Advanced properties. You can specify guest emails using the `guest_email_s` field code.
+                  properties:
+                    guest_email_s:
+                      type: array
+                      description: Array of guest emails for the booking. The default field code is "guest_email_s". You can change this by editing the Guest email(s) question, and changing the field code in advanced properties.
+                      items:
+                        type: string
+                  example:
+                    guest_email_s:
+                      - sam@example.com
+                      - charlie@example.com
+                    language: English
+                reschedule_reason:
+                  type: string
+                  description: Reason for rescheduling the booking (optional).
+                  example: I want to change the booking time
+              required:
+                - name
+                - email
+                - slot_date
+                - slot_start_time
+                - time_zone
+      responses:
+        '200':
+          description: OK - Booking reschedule successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/booking'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /bookings/{booking_sid}/cancel:
+    post:
+      summary: Cancel a booking
+      tags:
+        - Bookings
+      description: This API allows to cancel a booking.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: booking_sid
+          description: Id of the booking that you want to cancel.
+          required: true
+          schema:
+            type: string
+            example: hda6gxy
+        - in: query
+          name: cancel_reason
+          description: Reason for cancelling the booking.
+          example: I am not available
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Booking cancel successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    booking:
+      type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        parent_booking_id:
+          type: string
+          nullable: true
+        email:
+          type: string
+        name:
+          type: string
+        host_name:
+          type: string
+        host_email:
+          type: string
+        is_multihost:
+          type: boolean
+        multihosts:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+        starts_at:
+          type: string
+          format: date-time
+        ends_at:
+          type: string
+          format: date-time
+        time_zone:
+          type: string
+        status:
+          type: string
+        cancel_reason:
+          type: string
+          nullable: true
+        cancelled_by:
+          type: string
+          nullable: true
+        reschedule_requested:
+          type: boolean
+        room_type:
+          type: string
+          nullable: true
+        room_url:
+          type: string
+          nullable: true
+        room_id:
+          type: string
+          nullable: true
+        spot_details:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        meeting_id:
+          type: string
+        no_show:
+          type: boolean
+        notes_url:
+          type: string
+          nullable: true
+        internal_notes:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+          nullable: true
+        admin_booking_url:
+          type: string
+        client_booking_url:
+          type: string
+        form_responses:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              value:
+                type: string
+              type:
+                type: string
+              field_code:
+                type: string
+              Name:
+                type: string
+    pagination:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          description: Total number of records
+        total_pages:
+          type: integer
+          description: Total number of pages available
+        current_page_number:
+          type: integer
+          description: Current page number
+        page_size:
+          type: integer
+          description: Number of records per page
+    booking_list_response:
+      allOf:
+        - type: object
+          properties:
+            bookings:
+              type: array
+              items:
+                $ref: '#/components/schemas/booking'
+            pagination:
+              $ref: '#/components/schemas/pagination'

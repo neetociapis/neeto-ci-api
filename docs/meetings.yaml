@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/meeting.yaml#/meeting_list_response'
+                $ref: '../schemas/meeting.yaml#/components/schemas/meeting_list_response'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -59,7 +59,7 @@ paths:
       summary: Create a scheduling link
       tags:
         - Scheduling links
-      description: This API allows to create a scheduling link. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to create a scheduling link.
       parameters:
         - in: header
           name: X-Api-Key
@@ -163,7 +163,7 @@ paths:
       summary: Get details of a scheduling link
       tags:
         - Scheduling links
-      description: This API allows you to fetch details of a specific scheduling link by its SID. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows you to fetch details of a specific scheduling link by its SID.
       parameters:
         - in: header
           name: X-Api-Key
@@ -184,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/meeting.yaml#/meeting'
+                $ref: '../schemas/meeting.yaml#/components/schemas/meeting'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -197,7 +197,7 @@ paths:
       summary: Update a scheduling link
       tags:
         - Scheduling links
-      description: This API allows to update a scheduling link. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to update a scheduling link.
       parameters:
         - in: header
           name: X-Api-Key
@@ -262,7 +262,7 @@ paths:
                   message:
                     type: string
                   meeting:
-                    $ref: '../schemas/meeting.yaml#/meeting'
+                    $ref: '../schemas/meeting.yaml#/components/schemas/meeting'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -275,7 +275,7 @@ paths:
       summary: Create a One-time scheduling link
       tags:
         - Scheduling links
-      description: This API allows to create a One-time scheduling link. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to create a One-time scheduling link.
       parameters:
         - in: header
           name: X-Api-Key
@@ -296,7 +296,10 @@ paths:
             type: string
           example: vj5pgkh
       requestBody:
-        content: application/json
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         '200':
           description: OK - Request succeeded

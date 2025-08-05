@@ -1,9 +1,9 @@
 ---
-title: "Identifying Your Subdomain"
+title: "Identifying your subdomain"
 description: "Learn how to identify your workspace subdomain for API requests."
 ---
 
-## What is a Subdomain?
+## What is a subdomain?
 
 A subdomain is the part of your workspace URL that comes before the main domain. For example, in the URL:
 
@@ -15,30 +15,29 @@ The subdomain is: **spinkart**
 
 This subdomain is crucial for making API requests, as it identifies your specific workspace within NeetoCal.
 
-## Step-by-Step Instructions
+## Step-by-step instructions
+<Steps>
+  <Step title="Locate your workspace URL">
+    You can usually find this in your browser's address bar when logged into your workspace.
 
-### 1. Locate your workspace URL
+    Example:
+    ```
+    https://your-workspace-subdomain.neetoform.com
+    ```
+  </Step>
 
-You can usually find this in your browser's address bar when logged into your workspace.
+  <Step title="Identify the main domain">
+    Our main domain is: `neetocal.com`
+  </Step>
 
-Example:
+  <Step title="Extract the part before the main domain">
+    Everything before `neetocal.com` is your subdomain.
 
-```
-https://your-workspace-subdomain.neetocal.com
-```
-
-### 2. Identify the main domain
-
-Our main domain is: `neetocal.com`
-
-### 3. Extract the part before the main domain
-
-Everything before `neetocal.com` is your subdomain.
-
-**Example:**
-
-- URL: `https://marketing.neetocal.com`
-- Subdomain: `marketing`
+    **Example:**
+    - URL: `https://marketing.neetocal.com`
+    - Subdomain: `marketing`
+  </Step>
+</Steps>
 
 ## Using Your Subdomain in API Requests
 

@@ -1,284 +1,202 @@
-{
-  "openapi": "3.0.0",
-  "servers": [
-    {
-      "description": "NeetoCal APIs",
-      "url": "https://{workspace}.neetocal.com/api/external/v1",
-      "variables": {
-        "workspace": {
-          "default": "spinkart",
-          "description": "Your workspace's subdomain"
-        }
-      }
-    }
-  ],
-  "info": {
-    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
-    "title": "NeetoCal Packages APIs"
-  },
-  "tags": [
-    {
-      "name": "Packages",
-      "description": "APIs to manage packages of the workspace."
-    }
-  ],
-  "paths": {
-    "/packages": {
-      "get": {
-        "summary": "List all packages",
-        "tags": [
-          "Packages"
-        ],
-        "description": "This API allows to list all packages.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "Bearer token for API access.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "packages": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/paths/~1packages~1%7Bpackage_id%7D/get/responses/200/content/application~1json/schema/properties/package"
-                          }
-                        },
-                        "pagination": {
-                          "type": "object",
-                          "properties": {
-                            "total_records": {
-                              "type": "integer",
-                              "description": "Total number of records"
-                            },
-                            "total_pages": {
-                              "type": "integer",
-                              "description": "Total number of pages available"
-                            },
-                            "current_page_number": {
-                              "type": "integer",
-                              "description": "Current page number"
-                            },
-                            "page_size": {
-                              "type": "integer",
-                              "description": "Number of records per page"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/packages/{package_id}": {
-      "get": {
-        "summary": "Get a package",
-        "tags": [
-          "Packages"
-        ],
-        "description": "This API allows to get a package.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "Bearer token for API access.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "package_id",
-            "description": "Id of the package to retrieve.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "package": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "aff17ff8-1bf8-4e77-a3c5-2f86104f9a20"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "test 1"
-                        },
-                        "slug": {
-                          "type": "string",
-                          "example": "test-1"
-                        },
-                        "status": {
-                          "type": "string",
-                          "example": "enabled"
-                        },
-                        "duration": {
-                          "type": "integer",
-                          "example": 300
-                        },
-                        "fee": {
-                          "oneOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string",
-                                  "example": "a5fe0440-d6e5-4df2-996e-b88ed030f4ac"
-                                },
-                                "amount": {
-                                  "type": "string",
-                                  "example": "102.0"
-                                },
-                                "currency": {
-                                  "type": "string",
-                                  "example": "inr"
-                                },
-                                "payment_provider": {
-                                  "type": "string",
-                                  "example": "stripe"
-                                },
-                                "kind": {
-                                  "type": "string",
-                                  "example": "fixed"
-                                },
-                                "min_amount": {
-                                  "type": "string",
-                                  "example": "102.0"
-                                },
-                                "taxes": {
-                                  "type": "array",
-                                  "items": {},
-                                  "example": []
-                                },
-                                "is_default": {
-                                  "type": "boolean",
-                                  "example": true
-                                },
-                                "display_amount": {
-                                  "type": "string",
-                                  "nullable": true,
-                                  "example": null
-                                },
-                                "is_tax_enabled": {
-                                  "type": "boolean",
-                                  "example": false
-                                },
-                                "is_tip_enabled": {
-                                  "type": "boolean",
-                                  "example": false
-                                },
-                                "is_tax_applicable_on_tip": {
-                                  "type": "boolean",
-                                  "example": false
-                                },
-                                "vpas": {
-                                  "type": "array",
-                                  "items": {},
-                                  "example": []
-                                },
-                                "amount_in_smallest_currency_unit": {
-                                  "type": "integer",
-                                  "example": 10200
-                                }
-                              }
-                            },
-                            {
-                              "type": "array",
-                              "items": {},
-                              "example": []
-                            }
-                          ],
-                          "description": "Fee details for the package. Can be an object or an empty array."
-                        },
-                        "meetings": {
-                          "type": "array",
-                          "description": "List of meetings included in the package",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string",
-                                "example": "06391a88-183f-40df-8dd3-ab8b29e5b066"
-                              },
-                              "name": {
-                                "type": "string",
-                                "example": "Meeting with Oliver Smith"
-                              },
-                              "sid": {
-                                "type": "string",
-                                "example": "u9fxy4t"
-                              }
-                            }
-                          }
-                        },
-                        "purchases": {
-                          "type": "array",
-                          "description": "List of purchases for the package",
-                          "items": {},
-                          "example": []
-                        },
-                        "total_purchases_count": {
-                          "type": "integer",
-                          "description": "Total number of purchases for the package",
-                          "example": 0
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
+  title: NeetoCal Packages APIs
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart
+        description: Your workspace's subdomain
+tags:
+  - name: Packages
+    description: APIs to manage packages of the workspace.
+paths:
+  /packages:
+    get:
+      summary: List all packages
+      tags:
+        - Packages
+      description: This API allows to list all packages.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/package_list_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /packages/{package_id}:
+    get:
+      summary: Get a package
+      tags:
+        - Packages
+      description: This API allows to get a package.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: package_id
+          description: Id of the package to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  package:
+                    $ref: '#/components/schemas/package'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    package_fee:
+      type: object
+      properties:
+        id:
+          type: string
+          example: a5fe0440-d6e5-4df2-996e-b88ed030f4ac
+        amount:
+          type: string
+          example: '102.0'
+        currency:
+          type: string
+          example: inr
+        payment_provider:
+          type: string
+          example: stripe
+        kind:
+          type: string
+          example: fixed
+        min_amount:
+          type: string
+          example: '102.0'
+        taxes:
+          type: array
+          items: {}
+          example: []
+        is_default:
+          type: boolean
+          example: true
+        display_amount:
+          type: string
+          nullable: true
+          example: null
+        is_tax_enabled:
+          type: boolean
+          example: false
+        is_tip_enabled:
+          type: boolean
+          example: false
+        is_tax_applicable_on_tip:
+          type: boolean
+          example: false
+        vpas:
+          type: array
+          items: {}
+          example: []
+        amount_in_smallest_currency_unit:
+          type: integer
+          example: 10200
+    package_meeting:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 06391a88-183f-40df-8dd3-ab8b29e5b066
+        name:
+          type: string
+          example: Meeting with Oliver Smith
+        sid:
+          type: string
+          example: u9fxy4t
+    package:
+      type: object
+      properties:
+        id:
+          type: string
+          example: aff17ff8-1bf8-4e77-a3c5-2f86104f9a20
+        name:
+          type: string
+          example: test 1
+        slug:
+          type: string
+          example: test-1
+        status:
+          type: string
+          example: enabled
+        duration:
+          type: integer
+          example: 300
+        fee:
+          oneOf:
+            - $ref: '#/components/schemas/package_fee'
+            - type: array
+              items: {}
+              example: []
+          description: Fee details for the package. Can be an object or an empty array.
+        meetings:
+          type: array
+          description: List of meetings included in the package
+          items:
+            $ref: '#/components/schemas/package_meeting'
+        purchases:
+          type: array
+          description: List of purchases for the package
+          items: {}
+          example: []
+        total_purchases_count:
+          type: integer
+          description: Total number of purchases for the package
+          example: 0
+    pagination:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          description: Total number of records
+        total_pages:
+          type: integer
+          description: Total number of pages available
+        current_page_number:
+          type: integer
+          description: Current page number
+        page_size:
+          type: integer
+          description: Number of records per page
+    package_list_response:
+      allOf:
+        - type: object
+          properties:
+            packages:
+              type: array
+              items:
+                $ref: '#/components/schemas/package'
+            pagination:
+              $ref: '#/components/schemas/pagination'

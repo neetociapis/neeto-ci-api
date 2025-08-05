@@ -21,7 +21,7 @@ paths:
       summary: Make a booking
       tags:
         - Bookings
-      description: This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to make a booking for a specific scheduling link, either in a particular slot or in the first available slot. To book the first available slot, remove `slot_date` and `slot_start_time` from the request body.
       parameters:
         - in: header
           name: X-Api-Key
@@ -98,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/booking.yaml#/booking'
+                $ref: '../schemas/booking.yaml#/components/schemas/booking'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -109,7 +109,7 @@ paths:
       summary: List all bookings
       tags:
         - Bookings
-      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email, type of meeting, meeting start time or meeting end time. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to get a list of bookings in a workspace. The bookings can be filtered based on client email, host email, type of meeting, meeting start time or meeting end time.
       parameters:
         - in: header
           name: X-Api-Key
@@ -205,7 +205,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/booking.yaml#/booking_list_response'
+                $ref: '../schemas/booking.yaml#/components/schemas/booking_list_response'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -218,7 +218,7 @@ paths:
       summary: Reschedule a booking
       tags:
         - Bookings
-      description: This API allows to reschedule the booking to a different slot. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to reschedule the booking to a different slot.
       parameters:
         - in: header
           name: X-Api-Key
@@ -286,7 +286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../schemas/booking.yaml#/booking'
+                $ref: '../schemas/booking.yaml#/components/schemas/booking'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':
@@ -299,7 +299,7 @@ paths:
       summary: Cancel a booking
       tags:
         - Bookings
-      description: This API allows to cancel a booking. Replace `spinkart` with your workspace's subdomain.
+      description: This API allows to cancel a booking.
       parameters:
         - in: header
           name: X-Api-Key

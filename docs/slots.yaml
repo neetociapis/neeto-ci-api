@@ -22,7 +22,7 @@ paths:
       tags:
         - Slots
       description: |
-        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific scheduling link for a given month. These slots can later be used to book a meeting. Replace `spinkart` with your workspace's subdomain.
+        This API allows to get a list of available slots of the host (or hosts in the case of multi-host or round-robin meetings) for a specific scheduling link for a given month. These slots can later be used to book a meeting.
       parameters:
         - in: header
           name: X-Api-Key

@@ -1,116 +1,118 @@
-# Package fee object structure
-package_fee:
-  type: object
-  properties:
-    id:
-      type: string
-      example: "a5fe0440-d6e5-4df2-996e-b88ed030f4ac"
-    amount:
-      type: string
-      example: "102.0"
-    currency:
-      type: string
-      example: "inr"
-    payment_provider:
-      type: string
-      example: "stripe"
-    kind:
-      type: string
-      example: "fixed"
-    min_amount:
-      type: string
-      example: "102.0"
-    taxes:
-      type: array
-      items: {}
-      example: []
-    is_default:
-      type: boolean
-      example: true
-    display_amount:
-      type: string
-      nullable: true
-      example: null
-    is_tax_enabled:
-      type: boolean
-      example: false
-    is_tip_enabled:
-      type: boolean
-      example: false
-    is_tax_applicable_on_tip:
-      type: boolean
-      example: false
-    vpas:
-      type: array
-      items: {}
-      example: []
-    amount_in_smallest_currency_unit:
-      type: integer
-      example: 10200
-
-# Package meeting object structure
-package_meeting:
-  type: object
-  properties:
-    id:
-      type: string
-      example: "06391a88-183f-40df-8dd3-ab8b29e5b066"
-    name:
-      type: string
-      example: "Meeting with Oliver Smith"
-    sid:
-      type: string
-      example: "u9fxy4t"
-
-# Package object structure
-package:
-  type: object
-  properties:
-    id:
-      type: string
-      example: "aff17ff8-1bf8-4e77-a3c5-2f86104f9a20"
-    name:
-      type: string
-      example: "test 1"
-    slug:
-      type: string
-      example: "test-1"
-    status:
-      type: string
-      example: "enabled"
-    duration:
-      type: integer
-      example: 300
-    fee:
-      oneOf:
-        - $ref: '#/package_fee'
-        - type: array
+components:
+  schemas:
+    # Package fee object structure
+    package_fee:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "a5fe0440-d6e5-4df2-996e-b88ed030f4ac"
+        amount:
+          type: string
+          example: "102.0"
+        currency:
+          type: string
+          example: "inr"
+        payment_provider:
+          type: string
+          example: "stripe"
+        kind:
+          type: string
+          example: "fixed"
+        min_amount:
+          type: string
+          example: "102.0"
+        taxes:
+          type: array
           items: {}
           example: []
-      description: Fee details for the package. Can be an object or an empty array.
-    meetings:
-      type: array
-      description: List of meetings included in the package
-      items:
-        $ref: '#/package_meeting'
-    purchases:
-      type: array
-      description: List of purchases for the package
-      items: {}
-      example: []
-    total_purchases_count:
-      type: integer
-      description: Total number of purchases for the package
-      example: 0
-
-# Package list response structure
-package_list_response:
-  allOf:
-    - type: object
-      properties:
-        packages:
+        is_default:
+          type: boolean
+          example: true
+        display_amount:
+          type: string
+          nullable: true
+          example: null
+        is_tax_enabled:
+          type: boolean
+          example: false
+        is_tip_enabled:
+          type: boolean
+          example: false
+        is_tax_applicable_on_tip:
+          type: boolean
+          example: false
+        vpas:
           type: array
+          items: {}
+          example: []
+        amount_in_smallest_currency_unit:
+          type: integer
+          example: 10200
+
+    # Package meeting object structure
+    package_meeting:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "06391a88-183f-40df-8dd3-ab8b29e5b066"
+        name:
+          type: string
+          example: "Meeting with Oliver Smith"
+        sid:
+          type: string
+          example: "u9fxy4t"
+
+    # Package object structure
+    package:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "aff17ff8-1bf8-4e77-a3c5-2f86104f9a20"
+        name:
+          type: string
+          example: "test 1"
+        slug:
+          type: string
+          example: "test-1"
+        status:
+          type: string
+          example: "enabled"
+        duration:
+          type: integer
+          example: 300
+        fee:
+          oneOf:
+            - $ref: '#/components/schemas/package_fee'
+            - type: array
+              items: {}
+              example: []
+          description: Fee details for the package. Can be an object or an empty array.
+        meetings:
+          type: array
+          description: List of meetings included in the package
           items:
-            $ref: '#/package'
-        pagination:
-          $ref: '../schemas/common.yaml#/pagination'
+            $ref: '#/components/schemas/package_meeting'
+        purchases:
+          type: array
+          description: List of purchases for the package
+          items: {}
+          example: []
+        total_purchases_count:
+          type: integer
+          description: Total number of purchases for the package
+          example: 0
+
+    # Package list response structure
+    package_list_response:
+      allOf:
+        - type: object
+          properties:
+            packages:
+              type: array
+              items:
+                $ref: '#/components/schemas/package'
+            pagination:
+              $ref: '../schemas/common.yaml#/components/schemas/pagination'

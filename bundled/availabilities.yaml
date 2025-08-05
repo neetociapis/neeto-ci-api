@@ -1,445 +1,477 @@
-{
-  "openapi": "3.0.0",
-  "servers": [
-    {
-      "description": "NeetoCal APIs",
-      "url": "https://{workspace}.neetocal.com/api/external/v1",
-      "variables": {
-        "workspace": {
-          "default": "spinkart",
-          "description": "Your workspace's subdomain"
-        }
-      }
-    }
-  ],
-  "info": {
-    "description": "NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)",
-    "title": "NeetoCal Availabilities APIs"
-  },
-  "tags": [
-    {
-      "name": "Availabilities",
-      "description": "APIs to manage availabilities of meeting hosts."
-    }
-  ],
-  "paths": {
-    "/availabilities/{availability_id}": {
-      "patch": {
-        "summary": "Update an availability",
-        "tags": [
-          "Availabilities"
-        ],
-        "description": "This API allows to update an availability. Replace `spinkart` with your workspace's subdomain. You can also set an availability override for specific days.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "availability_id",
-            "description": "Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "5ybe3cq"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "periods": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "wday": {
-                          "type": "string",
-                          "description": "The weekday (e.g., \"monday\", \"tuesday\", etc.)."
-                        },
-                        "start_time": {
-                          "type": "string",
-                          "description": "Start time in \"HH:MM AM/PM\" format."
-                        },
-                        "end_time": {
-                          "type": "string",
-                          "description": "End time in \"HH:MM AM/PM\" format."
-                        }
-                      }
-                    },
-                    "example": [
-                      {
-                        "wday": "monday",
-                        "start_time": "09:00 AM",
-                        "end_time": "05:00 PM"
-                      },
-                      {
-                        "wday": "tuesday",
-                        "start_time": "11:00 AM",
-                        "end_time": "04:00 PM"
-                      }
-                    ]
-                  },
-                  "overrides": {
-                    "type": "array",
-                    "description": "To set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "date": {
-                          "type": "string",
-                          "description": "The date (e.g, \"2025-03-07\")"
-                        },
-                        "periods": {
-                          "type": "array",
-                          "description": "Set as blank ( [] ) to set a date as unavailable.",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "wday": {
-                                "type": "string",
-                                "description": "The weekday (e.g., \"monday\", \"tuesday\", etc.)."
-                              },
-                              "start_time": {
-                                "type": "string",
-                                "description": "Start time in \"HH:MM AM/PM\" format."
-                              },
-                              "end_time": {
-                                "type": "string",
-                                "description": "End time in \"HH:MM AM/PM\" format."
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "example": [
-                      {
-                        "date": "2025-03-07",
-                        "periods": [
-                          {
-                            "wday": "tuesday",
-                            "start_time": "11:00 AM",
-                            "end_time": "04:00 PM"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "required": [
-                  "periods"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK - Availability updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "availability": {
-                      "$ref": "#/paths/~1availabilities~1%7Bavailability_id%7D/get/responses/200/content/application~1json/schema/properties/availability"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      },
-      "get": {
-        "summary": "Get details about an availability",
-        "tags": [
-          "Availabilities"
-        ],
-        "description": "This API allows to get details about an availability. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "availability_id",
-            "description": "Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "5ybe3cq"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "availability": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "sid": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "default": {
-                          "type": "boolean"
-                        },
-                        "after_buffer_time": {
-                          "type": "integer"
-                        },
-                        "before_buffer_time": {
-                          "type": "integer"
-                        },
-                        "periods": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string"
-                              },
-                              "wday": {
-                                "type": "string"
-                              },
-                              "start_time": {
-                                "type": "string"
-                              },
-                              "end_time": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/availabilities/team_member": {
-      "get": {
-        "summary": "List all availabilities of a team member",
-        "tags": [
-          "Availabilities"
-        ],
-        "description": "This API allows to list availabilities of a team member in the workspace. Replace `spinkart` with your workspace's subdomain.",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "email",
-            "description": "Email of the team member whose availabilities should be listed.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "oliver@spinkart.com"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page_size",
-            "description": "Number of availabilities to receive. The default value is 30.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/paths/~1availabilities/get/responses/200/content/application~1json/schema"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/availabilities": {
-      "get": {
-        "summary": "List all availabilities of the team members",
-        "tags": [
-          "Availabilities"
-        ],
-        "description": "This API allows to list all the availabilities of specified team members by passing their emails as query parameters. Replace `spinkart` with your workspace's subdomain. To request availabilities for multiple members, use repeated `emails[]` query parameters (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).\n",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Api-Key",
-            "description": "You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "emails[]",
-            "description": "Email address of a team member whose availabilities should be listed. Repeat this key to include multiple emails.\n",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "email",
-              "example": "oliver@spinkart.com"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page_size",
-            "description": "Number of availabilities to receive. The default value is 30.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Request succeeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "availabilities": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/paths/~1availabilities~1%7Bavailability_id%7D/get/responses/200/content/application~1json/schema/properties/availability"
-                          }
-                        },
-                        "pagination": {
-                          "type": "object",
-                          "properties": {
-                            "total_records": {
-                              "type": "integer",
-                              "description": "Total number of records"
-                            },
-                            "total_pages": {
-                              "type": "integer",
-                              "description": "Total number of pages available"
-                            },
-                            "current_page_number": {
-                              "type": "integer",
-                              "description": "Current page number"
-                            },
-                            "page_size": {
-                              "type": "integer",
-                              "description": "Number of records per page"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Missing/Invalid parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  description: NeetoCal offers APIs to manage bookings from external channels. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
+  title: NeetoCal Availabilities APIs
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart
+        description: Your workspace's subdomain
+tags:
+  - name: Availabilities
+    description: APIs to manage availabilities of meeting hosts.
+paths:
+  /availabilities/{availability_id}:
+    patch:
+      summary: Update an availability
+      tags:
+        - Availabilities
+      description: This API allows to update an availability. You can also set an availability override for specific days.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: availability_id
+          description: Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: 5ybe3cq
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periods:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      wday:
+                        type: string
+                        description: The weekday (e.g., "monday", "tuesday", etc.).
+                      start_time:
+                        type: string
+                        description: Start time in "HH:MM AM/PM" format.
+                      end_time:
+                        type: string
+                        description: End time in "HH:MM AM/PM" format.
+                  example:
+                    - wday: monday
+                      start_time: 09:00 AM
+                      end_time: 05:00 PM
+                    - wday: tuesday
+                      start_time: 11:00 AM
+                      end_time: 04:00 PM
+                overrides:
+                  type: array
+                  description: To set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        description: The date (e.g, "2025-03-07")
+                      periods:
+                        type: array
+                        description: Set as blank ( [] ) to set a date as unavailable.
+                        items:
+                          type: object
+                          properties:
+                            wday:
+                              type: string
+                              description: The weekday (e.g., "monday", "tuesday", etc.).
+                            start_time:
+                              type: string
+                              description: Start time in "HH:MM AM/PM" format.
+                            end_time:
+                              type: string
+                              description: End time in "HH:MM AM/PM" format.
+                  example:
+                    - date: '2025-03-07'
+                      periods:
+                        - wday: tuesday
+                          start_time: 11:00 AM
+                          end_time: 04:00 PM
+              required:
+                - periods
+      responses:
+        '200':
+          description: OK - Availability updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  availability:
+                    $ref: '#/components/schemas/availability'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+    get:
+      summary: Get details about an availability
+      tags:
+        - Availabilities
+      description: This API allows to get details about an availability.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: availability_id
+          description: Id of the availability can be retrieved by going to the particular availability page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: 5ybe3cq
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availability:
+                    $ref: '#/components/schemas/availability'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /availabilities/team_member:
+    get:
+      summary: List all availabilities of a team member
+      tags:
+        - Availabilities
+      description: This API allows to list availabilities of a team member in the workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: email
+          description: Email of the team member whose availabilities should be listed.
+          required: true
+          schema:
+            type: string
+            example: oliver@spinkart.com
+        - in: query
+          name: page
+          description: Page number.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of availabilities to receive. The default value is 30.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability_list_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /availabilities:
+    get:
+      summary: List all availabilities of the team members
+      tags:
+        - Availabilities
+      description: |
+        This API allows to list all the availabilities of specified team members by passing their emails as query parameters.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: emails[]
+          description: |
+            Email address of a team member whose availabilities should be listed. To request availabilities for multiple members, use repeated `emails[]` query parameters (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).
+          required: true
+          schema:
+            type: string
+            format: email
+            example: oliver@spinkart.com
+        - in: query
+          name: page
+          description: Page number.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of availabilities to receive. The default value is 30.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability_list_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+  /meetings/{meeting_sid}/availability:
+    post:
+      summary: Update the availability for a scheduling link
+      tags:
+        - Availabilities
+      description: This API allows to update the availability used in a scheduling link.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: Id of the scheduling link can be retrieved by going to the particular scheduling link page, and copying it from the URL.
+          required: true
+          schema:
+            type: string
+          example: a8yjkzb
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periods:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      wday:
+                        type: string
+                        description: The weekday (e.g., "monday", "tuesday", etc.).
+                      start_time:
+                        type: string
+                        description: Start time in "HH:MM AM/PM" format.
+                      end_time:
+                        type: string
+                        description: End time in "HH:MM AM/PM" format.
+                  example:
+                    - wday: monday
+                      start_time: 09:00 AM
+                      end_time: 05:00 PM
+                    - wday: tuesday
+                      start_time: 11:00 AM
+                      end_time: 04:00 PM
+              required:
+                - periods
+      responses:
+        '200':
+          description: OK - Meeting updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  meeting:
+                    $ref: '#/components/schemas/meeting'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    availability_period:
+      type: object
+      properties:
+        id:
+          type: string
+        wday:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+    availability:
+      type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        default:
+          type: boolean
+        after_buffer_time:
+          type: integer
+        before_buffer_time:
+          type: integer
+        periods:
+          type: array
+          items:
+            $ref: '#/components/schemas/availability_period'
+    pagination:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          description: Total number of records
+        total_pages:
+          type: integer
+          description: Total number of pages available
+        current_page_number:
+          type: integer
+          description: Current page number
+        page_size:
+          type: integer
+          description: Number of records per page
+    availability_list_response:
+      allOf:
+        - type: object
+          properties:
+            availabilities:
+              type: array
+              items:
+                $ref: '#/components/schemas/availability'
+            pagination:
+              $ref: '#/components/schemas/pagination'
+    meeting:
+      type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        kind:
+          type: string
+          enum:
+            - one_on_one
+            - round_robin
+            - multihost
+            - grouped
+        duration:
+          type: integer
+        disabled:
+          type: boolean
+        spot:
+          type: string
+          enum:
+            - custom
+            - jitsi
+            - google_meet
+            - daily
+            - zoom
+            - whereby
+            - teams
+            - phone_call
+            - in_person
+        spot_in_person_location:
+          type: string
+          nullable: true
+        spot_custom_text:
+          type: string
+          nullable: true
+        spot_phone_call_number:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+        schedulable_range_type:
+          type: string
+          enum:
+            - number_of_days_into_the_future
+            - number_of_business_days_into_the_future
+            - date_range
+        schedulable_range_value:
+          type: string
+        lead_time:
+          type: integer
+        start_time_increment:
+          type: integer
+        created_at:
+          type: string
+          example: '2024-12-23T05:05:27.037Z'
+        updated_at:
+          type: string
+          example: '2025-03-31T13:22:19.832Z'
+        deleted_at:
+          type: string
+          nullable: true
+          example: null
+        is_multiple_spots_allowed:
+          type: boolean
+        is_multiple_durations_allowed:
+          type: boolean
+        conditional_pricing_enabled:
+          type: boolean
+        is_email_reminders_enabled:
+          type: boolean
+        is_sms_reminders_enabled:
+          type: boolean
+        organization_id:
+          type: string
+        rescheduling_lead_time:
+          type: integer
+        cancellation_lead_time:
+          type: integer
+        booking_modification_allowed:
+          type: boolean
+        cancellation_too_late_notice:
+          type: string
+          nullable: true
+        cancellation_policy:
+          type: string
+          nullable: true
+        rescheduling_too_late_notice:
+          type: string
+          nullable: true
+        pre_booking_allowed:
+          type: boolean
+        original_price_enabled:
+          type: boolean
+        original_price:
+          type: number
+          nullable: true
+        fees:
+          type: array
+          items:
+            type: object
+        durations_possible:
+          type: array
+          items:
+            type: integer

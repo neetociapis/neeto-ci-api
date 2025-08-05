@@ -1,68 +1,70 @@
-# Availability period object structure
-availability_period:
-  type: object
-  properties:
-    id:
-      type: string
-    wday:
-      type: string
-    start_time:
-      type: string
-    end_time:
-      type: string
-
-# Availability override object structure
-availability_override:
-  type: object
-  properties:
-    date:
-      type: string
-      description: The date (e.g, "2025-03-07")
-    periods:
-      type: array
-      description: Set as blank ( [] ) to set a date as unavailable.
-      items:
-        type: object
-        properties:
-          wday:
-            type: string
-            description: The weekday (e.g., "monday", "tuesday", etc.).
-          start_time:
-            type: string
-            description: Start time in "HH:MM AM/PM" format.
-          end_time:
-            type: string
-            description: End time in "HH:MM AM/PM" format.
-
-# Availability object structure
-availability:
-  type: object
-  properties:
-    id:
-      type: string
-    sid:
-      type: string
-    name:
-      type: string
-    default:
-      type: boolean
-    after_buffer_time:
-      type: integer
-    before_buffer_time:
-      type: integer
-    periods:
-      type: array
-      items:
-        $ref: '#/availability_period'
-
-# Availability list response structure
-availability_list_response:
-  allOf:
-    - type: object
+components:
+  schemas:
+    # Availability period object structure
+    availability_period:
+      type: object
       properties:
-        availabilities:
+        id:
+          type: string
+        wday:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+
+    # Availability override object structure
+    availability_override:
+      type: object
+      properties:
+        date:
+          type: string
+          description: The date (e.g, "2025-03-07")
+        periods:
+          type: array
+          description: Set as blank ( [] ) to set a date as unavailable.
+          items:
+            type: object
+            properties:
+              wday:
+                type: string
+                description: The weekday (e.g., "monday", "tuesday", etc.).
+              start_time:
+                type: string
+                description: Start time in "HH:MM AM/PM" format.
+              end_time:
+                type: string
+                description: End time in "HH:MM AM/PM" format.
+
+    # Availability object structure
+    availability:
+      type: object
+      properties:
+        id:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        default:
+          type: boolean
+        after_buffer_time:
+          type: integer
+        before_buffer_time:
+          type: integer
+        periods:
           type: array
           items:
-            $ref: '#/availability'
-        pagination:
-          $ref: '../schemas/common.yaml#/pagination'
+            $ref: '#/components/schemas/availability_period'
+
+    # Availability list response structure
+    availability_list_response:
+      allOf:
+        - type: object
+          properties:
+            availabilities:
+              type: array
+              items:
+                $ref: '#/components/schemas/availability'
+            pagination:
+              $ref: '../schemas/common.yaml#/components/schemas/pagination'

@@ -89,7 +89,7 @@ paths:
                     description: Success message
                     example: "Discount code creation successful"
                   discount_code:
-                    $ref: '../schemas/discount-code.yaml#/discount_code'
+                    $ref: '../schemas/discount-code.yaml#/components/schemas/discount_code'
         '400':
           description: Bad Request - Missing/Invalid parameters
         '401':

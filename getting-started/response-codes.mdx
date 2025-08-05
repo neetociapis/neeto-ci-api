@@ -1,5 +1,5 @@
 ---
-title: "HTTP Response Codes"
+title: "HTTP response codes"
 description: "Understand the HTTP status codes returned by the NeetoCal API."
 ---
 
@@ -9,7 +9,7 @@ description: "Understand the HTTP status codes returned by the NeetoCal API."
   The request was successful and the server returned the requested data.
 </ResponseField>
 
-## Client Error Codes
+## Client error codes
 
 <ResponseField name='400 Bad Request'>
   There was an issue with the request. This usually indicates malformed JSON,
@@ -24,12 +24,12 @@ description: "Understand the HTTP status codes returned by the NeetoCal API."
 <ResponseField name='403 Forbidden'>
   An operation was not allowed. This could mean: - Insufficient permissions for
   the requested action - Attempting to access a resource you don't own - API key
-  doesn't have the required scope
+  doesn't have the required scope.
 </ResponseField>
 
 <ResponseField name='404 Not Found'>
   The requested URL or resource was not found. This could indicate: - Incorrect
-  endpoint URL - Resource ID doesn't exist - Workspace subdomain is incorrect
+  endpoint URL - Resource ID doesn't exist - Workspace subdomain is incorrect.
 </ResponseField>
 
 <ResponseField name='422 Unprocessable entity'>

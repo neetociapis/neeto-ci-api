@@ -8,12 +8,12 @@ description: "Learn how to authenticate your requests to the NeetoCal API using 
 To use the NeetoCal APIs, you must first generate an API key.
 [Learn how to generate your API key here.](https://help.neetocal.com/articles/api-keys)
 
-### Making Authenticated API Requests
+### Making authenticated API requests
 
 To authenticate your API requests, include a valid API key in the X-Api-Key header.
 
 ```bash
-curl https://spinkart.neetocal.com/api/external/v1/me \
+curl https://{your-workspace}.neetocal.com/api/external/v1/bookings \
   --header 'X-Api-Key: your-api-key'
   --H "Content-Type: application/json"
 ```
@@ -31,17 +31,17 @@ X-Api-Key: your_api_key_here
   one workspace will not work in another.
 </Tip>
 
-## Security Best Practices
+## Security best practices
 
 <CardGroup cols={3}>
-  <Card title='Keep Keys Secret' icon='eye-slash'>
-    Never expose API keys in client-side code, public repositories, or logs
+  <Card title='Keep keys secret' icon='eye-slash'>
+    Never expose API keys in client-side code, public repositories, or logs.
   </Card>
-  <Card title='Use Environment Variables' icon='server'>
-    Store API keys in environment variables or secure configuration files
+  <Card title='Use environment variables' icon='server'>
+    Store API keys in environment variables or secure configuration files.
   </Card>
-  <Card title='Rotate Keys Regularly' icon='rotate'>
-    Periodically generate new API keys and revoke old ones
+  <Card title='Rotate keys regularly' icon='rotate'>
+    Periodically generate new API keys and revoke old ones.
   </Card>
 </CardGroup>
 
@@ -90,16 +90,16 @@ If your API key is missing, invalid, or expired, you'll receive a 401 error:
 ### Common Authentication Issues
 
 <AccordionGroup>
-  <Accordion title='Invalid API Key'>
-    **Problem**: API key is missing or invalid <br />
-    **Solution**: Verify your API key is correct and hasn't been revoked/expired
+  <Accordion title='Invalid API key'>
+    **Problem**: API key is missing or invalid. <br />
+    **Solution**: Verify your API key is correct and hasn't been revoked/expired.
   </Accordion>
   <Accordion title='Incorrect workspace subdomain'>
     **Problem**: Subdomain is left as the default value (**spinkart**) or
-    incorrect
+    incorrect.
     <br />
     **Solution**: Verify your subdomain name is properly added in the request
-    URL
+    URL.
   </Accordion>
 </AccordionGroup>
 
@@ -109,11 +109,7 @@ API requests are subject to [rate limiting](https://en.wikipedia.org/wiki/Rate_l
 
 ## Next Steps
 
-<Card
-  title='Make Your First Request'
-  href='/getting-started/quickstart'
-  icon='rocket'
->
+<Card title='Make your first request 🚀' href='/getting-started/quickstart'>
   Now that you understand authentication, try making your first API request in
   our quickstart guide.
 </Card>
