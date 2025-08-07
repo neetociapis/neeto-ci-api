@@ -63,7 +63,7 @@ paths:
                       end_time: 04:00 PM
                 overrides:
                   type: array
-                  description: To set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
+                  description: Set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
                   items:
                     type: object
                     properties:
@@ -165,7 +165,7 @@ paths:
           required: true
           schema:
             type: string
-            example: oliver@spinkart.com
+            example: oliver@example.com
         - in: query
           name: page
           description: Page number.
@@ -208,12 +208,19 @@ paths:
         - in: query
           name: emails[]
           description: |
-            Email address of a team member whose availabilities should be listed. To request availabilities for multiple members, use repeated `emails[]` query parameters (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).
+            Email addresses of team members whose availabilities should be listed. You can add multiple email addresses to get availabilities for multiple team members. The API playground allows you to easily add multiple emails by clicking the "+" button.
           required: true
           schema:
-            type: string
-            format: email
-            example: oliver@spinkart.com
+            type: array
+            items:
+              type: string
+              format: email
+            example:
+              - oliver@example.com
+              - cypress@example.com
+              - john@example.com
+          style: form
+          explode: true
         - in: query
           name: page
           description: Page number.
@@ -254,7 +261,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: Id of the scheduling link can be retrieved by going to the particular scheduling link page, and copying it from the URL.
+          description: The unique SID of the scheduling link you want to fetch. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API. Here you will see `sid` for each scheduling link.
           required: true
           schema:
             type: string
@@ -314,69 +321,162 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier for this specific availability period.
+          example: 21c812a7-3859-4f01-b214-850e6f11caad
         wday:
           type: string
+          description: Day of the week for this availability period. Valid values are "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday".
+          example: monday
+          enum:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
         start_time:
           type: string
+          description: Start time of the availability period in 12-hour format with AM/PM designation.
+          example: 09:00 AM
         end_time:
           type: string
+          description: End time of the availability period in 12-hour format with AM/PM designation.
+          example: 05:00 PM
+    availability_override:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: The specific date for this availability override in YYYY-MM-DD format.
+          example: '2025-03-07'
+        periods:
+          type: array
+          description: Time periods for this specific date. Set as empty array ([]) to mark the date as unavailable. If periods are provided, they override the regular weekly schedule for this date.
+          items:
+            type: object
+            properties:
+              wday:
+                type: string
+                description: Day of the week corresponding to the override date. Valid values are "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday".
+                example: friday
+                enum:
+                  - monday
+                  - tuesday
+                  - wednesday
+                  - thursday
+                  - friday
+                  - saturday
+                  - sunday
+              start_time:
+                type: string
+                description: Start time for the override period in 12-hour format with AM/PM designation.
+                example: 10:00 AM
+              end_time:
+                type: string
+                description: End time for the override period in 12-hour format with AM/PM designation.
+                example: 03:00 PM
+    availability_user:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user/team member.
+          example: b6d02dfa-8ef6-453d-b9f7-67a6f20bcaa6
+        name:
+          type: string
+          description: Full name of the team member.
+          example: Oliver Smith
+        email:
+          type: string
+          format: email
+          description: Email address of the team member.
+          example: oliver@example.com
     availability:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the availability configuration.
+          example: 01ea5ddf-ed00-4bed-bfa3-ba8ea80a856a
         sid:
           type: string
+          description: Short identifier (SID) for the availability, used in URLs and API calls for easy reference.
+          example: 2nq7q5c
         name:
           type: string
+          description: Human-readable name for the availability configuration (e.g., "Working hours", "Custom schedule").
+          example: Availability for custom user
         default:
           type: boolean
+          description: Indicates whether this is the default availability configuration for the team member. Only one availability can be set as default per user.
+          example: false
         after_buffer_time:
           type: integer
+          description: Buffer time in minutes after each meeting to allow for wrap-up, notes, or preparation for the next meeting.
+          example: 0
         before_buffer_time:
           type: integer
+          description: Buffer time in minutes before each meeting to allow for setup, preparation, or travel time.
+          example: 0
         periods:
           type: array
           items:
             $ref: '#/components/schemas/availability_period'
+          description: List of time periods defining when the team member is available for meetings throughout the week.
+        overrides:
+          type: array
+          items:
+            $ref: '#/components/schemas/availability_override'
+          description: List of date-specific availability overrides (e.g., holidays, vacation days, or special working hours for specific dates).
+        user:
+          $ref: '#/components/schemas/availability_user'
+          description: Information about the team member this availability configuration belongs to.
     pagination:
       type: object
       properties:
         total_records:
           type: integer
-          description: Total number of records
+          description: Total number of records.
         total_pages:
           type: integer
-          description: Total number of pages available
+          description: Total number of pages available.
         current_page_number:
           type: integer
-          description: Current page number
+          description: Current page number.
         page_size:
           type: integer
-          description: Number of records per page
+          description: Number of records per page.
     availability_list_response:
-      allOf:
-        - type: object
-          properties:
-            availabilities:
-              type: array
-              items:
-                $ref: '#/components/schemas/availability'
-            pagination:
-              $ref: '#/components/schemas/pagination'
+      type: object
+      properties:
+        availabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/availability'
+          description: Array of availability configurations for the requested team members. Each availability contains the schedule, buffer times, and associated user information.
+        pagination:
+          $ref: '#/components/schemas/pagination'
+          description: Pagination information including total records, pages, and current page details.
     meeting:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the scheduling link.
         sid:
           type: string
+          description: Short identifier (SID) for the meeting, used in URLs and API calls.
         name:
           type: string
+          description: Display name of the scheduling link.
         slug:
           type: string
+          description: URL-friendly identifier for the meeting, used in public scheduling links.
         description:
           type: string
+          description: Detailed description of the meeting purpose or agenda.
         kind:
           type: string
           enum:
@@ -384,10 +484,13 @@ components:
             - round_robin
             - multihost
             - grouped
+          description: Type of meeting. one_on_one for individual meetings, round_robin for rotating hosts, multihost for multiple simultaneous hosts, grouped for group sessions.
         duration:
           type: integer
+          description: Duration of the meeting in minutes.
         disabled:
           type: boolean
+          description: Whether the scheduling link is currently disabled and not accepting bookings.
         spot:
           type: string
           enum:
@@ -400,78 +503,107 @@ components:
             - teams
             - phone_call
             - in_person
+          description: Meeting platform or location type for the scheduled meeting.
         spot_in_person_location:
           type: string
           nullable: true
+          description: Physical location details when spot is set to in_person.
         spot_custom_text:
           type: string
           nullable: true
+          description: Custom meeting instructions or details when spot is set to custom.
         spot_phone_call_number:
           type: string
           nullable: true
+          description: Phone number for the meeting when spot is set to phone_call.
         is_template:
           type: boolean
+          description: Whether this meeting is a template that can be used to create other meetings.
         schedulable_range_type:
           type: string
           enum:
             - number_of_days_into_the_future
             - number_of_business_days_into_the_future
             - date_range
+          description: How the scheduling range is calculated - by days into future, business days, or specific date range.
         schedulable_range_value:
           type: string
+          description: Value for the scheduling range (e.g., number of days or date range).
         lead_time:
           type: integer
+          description: Minimum advance notice required for booking in minutes.
         start_time_increment:
           type: integer
+          description: Time increment in minutes for available booking slots (e.g., 30 for 30-minute slots).
         created_at:
           type: string
           example: '2024-12-23T05:05:27.037Z'
+          description: Timestamp when the meeting was created.
         updated_at:
           type: string
           example: '2025-03-31T13:22:19.832Z'
+          description: Timestamp when the meeting was last updated.
         deleted_at:
           type: string
           nullable: true
           example: null
+          description: Timestamp when the meeting was deleted (soft delete).
         is_multiple_spots_allowed:
           type: boolean
+          description: Whether users can select from multiple meeting platforms/locations.
         is_multiple_durations_allowed:
           type: boolean
+          description: Whether users can select from multiple meeting duration options.
         conditional_pricing_enabled:
           type: boolean
+          description: Whether conditional pricing rules are applied to this meeting.
         is_email_reminders_enabled:
           type: boolean
+          description: Whether email reminders are sent for this meeting.
         is_sms_reminders_enabled:
           type: boolean
+          description: Whether SMS reminders are sent for this meeting.
         organization_id:
           type: string
+          description: Unique identifier of the organization that owns this meeting.
         rescheduling_lead_time:
           type: integer
+          description: Minimum advance notice required for rescheduling in minutes.
         cancellation_lead_time:
           type: integer
+          description: Minimum advance notice required for cancellation in minutes.
         booking_modification_allowed:
           type: boolean
+          description: Whether users are allowed to modify their bookings after creation.
         cancellation_too_late_notice:
           type: string
           nullable: true
+          description: Custom message shown when cancellation is attempted too late.
         cancellation_policy:
           type: string
           nullable: true
+          description: Policy text explaining cancellation terms and conditions.
         rescheduling_too_late_notice:
           type: string
           nullable: true
+          description: Custom message shown when rescheduling is attempted too late.
         pre_booking_allowed:
           type: boolean
+          description: Whether users can book meetings in advance beyond the normal scheduling range.
         original_price_enabled:
           type: boolean
+          description: Whether to show the original price alongside any discounted price.
         original_price:
           type: number
           nullable: true
+          description: Original price of the meeting before any discounts.
         fees:
           type: array
           items:
             type: object
+          description: Additional fees or charges associated with the meeting.
         durations_possible:
           type: array
           items:
             type: integer
+          description: List of available duration options in minutes when multiple durations are allowed.

@@ -118,7 +118,7 @@ paths:
                 email:
                   type: string
                   description: Email of the team member.
-                  example: oliver@spinkart.com
+                  example: oliver@example.com
                 first_name:
                   type: string
                   description: First name of the team member.
@@ -182,16 +182,16 @@ components:
       properties:
         total_records:
           type: integer
-          description: Total number of records
+          description: Total number of records.
         total_pages:
           type: integer
-          description: Total number of pages available
+          description: Total number of pages available.
         current_page_number:
           type: integer
-          description: Current page number
+          description: Current page number.
         page_size:
           type: integer
-          description: Number of records per page
+          description: Number of records per page.
     team_member_list_response:
       allOf:
         - type: object

@@ -66,7 +66,7 @@ paths:
                       end_time: "04:00 PM"
                 overrides:
                   type: array
-                  description: To set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
+                  description: Set an override for specific days. To set a date as unavailable, pass a blank array to the periods property. You can remove existing overrides by omitting the periods property.
                   items:
                     type: object
                     properties:
@@ -170,7 +170,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "oliver@spinkart.com"
+            example: "oliver@example.com"
         - in: query
           name: page
           description: Page number.
@@ -215,14 +215,18 @@ paths:
         - in: query
           name: emails[]
           description: >
-            Email address of a team member whose availabilities should be listed.
-            To request availabilities for multiple members, use repeated `emails[]` query parameters
-            (e.g., `/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com`).
+            Email addresses of team members whose availabilities should be listed.
+            You can add multiple email addresses to get availabilities for multiple team members.
+            The API playground allows you to easily add multiple emails by clicking the "+" button.
           required: true
           schema:
-            type: string
-            format: email
-            example: oliver@spinkart.com
+            type: array
+            items:
+              type: string
+              format: email
+            example: ["oliver@example.com", "cypress@example.com", "john@example.com"]
+          style: form
+          explode: true
         - in: query
           name: page
           description: Page number.
@@ -264,7 +268,11 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: Id of the scheduling link can be retrieved by going to the particular scheduling link page, and copying it from the URL.
+          description: The unique SID of the scheduling link you want to fetch.
+            You can get `sid` in different ways. Visit the scheduling link page and then click
+            on "Settings" > "Show SID". That will give you `sid`.
+            The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+            Here you will see `sid` for each scheduling link.
           required: true
           schema:
             type: string

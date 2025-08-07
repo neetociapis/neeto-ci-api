@@ -64,30 +64,13 @@ components:
       properties:
         total_records:
           type: integer
-          description: Total number of records
+          description: Total number of records.
         total_pages:
           type: integer
-          description: Total number of pages available
+          description: Total number of pages available.
         current_page_number:
           type: integer
-          description: Current page number
+          description: Current page number.
         page_size:
           type: integer
-          description: Number of records per page
-
-    # Common response field structure
-    response_field:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: string
-        position:
-          type: integer
-        kind:
-          type: string
-        slug:
-          type: string
-        value:
-          type: string
+          description: Number of records per page.

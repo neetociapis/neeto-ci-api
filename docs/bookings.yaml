@@ -63,7 +63,7 @@ paths:
                 preferred_meeting_spot:
                   type: string
                   description: >
-                    Your preferred meeting spot. This field is optional. The default is "jitsi".
+                    Your preferred meeting spot. This field is optional.
                     Before passing this value, ensure that the corresponding meeting spot is configured
                     in the "Where" section of the scheduling link.
                   example: "jitsi"

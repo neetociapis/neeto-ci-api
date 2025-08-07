@@ -8,11 +8,11 @@ description: "Learn how to handle paginated responses in the NeetoCal API."
 You can control [pagination](https://en.wikipedia.org/wiki/Pagination) using the following [query parameters](https://en.wikipedia.org/wiki/Query_string):
 
 <ParamField query='page_number' type='integer'>
-  The page of results you want to retrieve (starting from 1)
+  The page of results you want to retrieve (starting from 1).
 </ParamField>
 
 <ParamField query='page_size' type='integer'>
-  The number of items to return per page
+  The number of items to return per page.
 </ParamField>
 
 ## Example Usage
@@ -83,19 +83,19 @@ Paginated responses include metadata about the pagination in [JSON](https://en.w
 ```
 
 <ResponseField name='pagination.total_records' type='integer'>
-  The total number of items across all pages
+  The total number of items across all pages.
 </ResponseField>
 
 <ResponseField name='pagination.current_page_number' type='integer'>
-  The current page number (if pagination was used)
+  The current page number (if pagination was used).
 </ResponseField>
 
 <ResponseField name='pagination.total_pages' type='integer'>
-  The total number of pages available (if pagination was used)
+  The total number of pages available (if pagination was used).
 </ResponseField>
 
 <ResponseField name='pagination.page_size' type='integer'>
-  The number of items per page
+  The number of items per page.
 </ResponseField>
 
 ## Default Behavior

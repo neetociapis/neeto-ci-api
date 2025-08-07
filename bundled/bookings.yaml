@@ -60,7 +60,7 @@ paths:
                 preferred_meeting_spot:
                   type: string
                   description: |
-                    Your preferred meeting spot. This field is optional. The default is "jitsi". Before passing this value, ensure that the corresponding meeting spot is configured in the "Where" section of the scheduling link.
+                    Your preferred meeting spot. This field is optional. Before passing this value, ensure that the corresponding meeting spot is configured in the "Where" section of the scheduling link.
                   example: jitsi
                   enum:
                     - custom
@@ -345,21 +345,29 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier for the booking.
         sid:
           type: string
+          description: Short identifier (SID) for the booking, used in URLs and API calls.
         parent_booking_id:
           type: string
           nullable: true
+          description: Reference to the parent booking if this is a group booking.
         email:
           type: string
+          description: Email address of the person who made the booking.
         name:
           type: string
+          description: Name of the person who made the booking.
         host_name:
           type: string
+          description: Name of the primary host for the meeting.
         host_email:
           type: string
+          description: Email address of the primary host for the meeting.
         is_multihost:
           type: boolean
+          description: Whether the meeting has multiple hosts.
         multihosts:
           type: array
           items:
@@ -367,61 +375,104 @@ components:
             properties:
               name:
                 type: string
+                description: Name of the host.
               email:
                 type: string
+                description: Email address of the host.
+          description: List of all hosts for the meeting when is_multihost is true.
         starts_at:
           type: string
           format: date-time
+          description: Start time of the booking in UTC.
         ends_at:
           type: string
           format: date-time
+          description: End time of the booking in UTC.
         time_zone:
           type: string
+          description: Time zone of the booking location.
+        starts_at_for_client:
+          type: string
+          description: Start time of the booking in the client's local time zone.
+        ends_at_for_client:
+          type: string
+          description: End time of the booking in the client's local time zone.
         status:
           type: string
+          description: Current status of the booking (e.g., confirmed, cancelled, awaiting_approval, rejected).
         cancel_reason:
           type: string
           nullable: true
+          description: Reason provided when the booking was cancelled.
         cancelled_by:
           type: string
           nullable: true
+          description: Name of the person who cancelled the booking.
         reschedule_requested:
           type: boolean
+          description: Whether a reschedule has been requested for this booking.
+        preferred_meeting_spot:
+          type: string
+          description: Preferred meeting platform or location type selected by the client.
         room_type:
           type: string
           nullable: true
+          description: Type of meeting room or platform being used.
         room_url:
           type: string
           nullable: true
+          description: URL for the meeting room or platform.
         room_id:
           type: string
           nullable: true
+          description: Unique identifier for the meeting room or platform.
         spot_details:
           type: string
           nullable: true
+          description: Additional details about the meeting location or platform.
         created_at:
           type: string
           format: date-time
+          description: Timestamp when the booking was created.
         updated_at:
           type: string
           format: date-time
+          description: Timestamp when the booking was last updated.
         meeting_id:
           type: string
+          description: Unique identifier of the scheduling link this booking belongs to.
+        meeting:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the meeting/scheduling link.
+          description: Basic information about the associated meeting.
         no_show:
           type: boolean
+          description: Whether the booking is marked as no-show by the host.
+        meeting_outcome:
+          type: string
+          nullable: true
+          description: Outcome status of the meeting.
         notes_url:
           type: string
           nullable: true
+          description: URL to access notes or additional information about the booking.
         internal_notes:
           type: string
           nullable: true
+          description: Internal notes about the booking visible only to hosts and admins.
         metadata:
           type: object
           nullable: true
+          description: Additional custom data associated with the booking.
         admin_booking_url:
           type: string
+          description: URL for hosts and admins to view and manage the booking.
         client_booking_url:
           type: string
+          description: URL for clients to view their booking details.
         form_responses:
           type: array
           items:
@@ -429,29 +480,32 @@ components:
             properties:
               field:
                 type: string
+                description: Display name of the form field.
               value:
                 type: string
+                description: Value submitted for the form field.
               type:
                 type: string
+                description: Type of the form field (e.g., name, email, additional_guests).
               field_code:
                 type: string
-              Name:
-                type: string
+                description: Internal code identifier for the form field.
+          description: Responses submitted through the booking form.
     pagination:
       type: object
       properties:
         total_records:
           type: integer
-          description: Total number of records
+          description: Total number of records.
         total_pages:
           type: integer
-          description: Total number of pages available
+          description: Total number of pages available.
         current_page_number:
           type: integer
-          description: Current page number
+          description: Current page number.
         page_size:
           type: integer
-          description: Number of records per page
+          description: Number of records per page.
     booking_list_response:
       allOf:
         - type: object
@@ -460,5 +514,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/booking'
+              description: List of bookings.
             pagination:
               $ref: '#/components/schemas/pagination'

@@ -17,19 +17,24 @@ description: "Understand the HTTP status codes returned by the NeetoCal API."
 </ResponseField>
 
 <ResponseField name='401 Unauthorized'>
-  The request needs to be authenticated. This typically means: - Missing API key
-  - Invalid API key - Expired API key
+  The request needs to be authenticated. This typically means:
+  - Missing API key.
+  - Invalid API key.
+  - Expired API key.
 </ResponseField>
 
 <ResponseField name='403 Forbidden'>
-  An operation was not allowed. This could mean: - Insufficient permissions for
-  the requested action - Attempting to access a resource you don't own - API key
-  doesn't have the required scope.
+  An operation was not allowed. This could mean:
+  - Insufficient permissions for the requested action.
+  - Attempting to access a resource you don't own.
+  - API key doesn't have the required scope.
 </ResponseField>
 
 <ResponseField name='404 Not Found'>
-  The requested URL or resource was not found. This could indicate: - Incorrect
-  endpoint URL - Resource ID doesn't exist - Workspace subdomain is incorrect.
+  The requested URL or resource was not found. This could indicate:
+  - Incorrect endpoint URL.
+  - Resource ID doesn't exist.
+  - Workspace subdomain is incorrect.
 </ResponseField>
 
 <ResponseField name='422 Unprocessable entity'>
@@ -59,7 +64,7 @@ When an error occurs, the API returns a JSON response with error details:
 ```
 
 <ResponseField name='error.message' type='string'>
-  A human-readable error message
+  A human-readable error message.
 </ResponseField>
 
 <Tip>

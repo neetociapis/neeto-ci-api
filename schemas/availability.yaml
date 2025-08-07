@@ -6,12 +6,21 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier for this specific availability period.
+          example: "21c812a7-3859-4f01-b214-850e6f11caad"
         wday:
           type: string
+          description: Day of the week for this availability period. Valid values are "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday".
+          example: "monday"
+          enum: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
         start_time:
           type: string
+          description: Start time of the availability period in 12-hour format with AM/PM designation.
+          example: "09:00 AM"
         end_time:
           type: string
+          description: End time of the availability period in 12-hour format with AM/PM designation.
+          example: "05:00 PM"
 
     # Availability override object structure
     availability_override:
@@ -19,22 +28,46 @@ components:
       properties:
         date:
           type: string
-          description: The date (e.g, "2025-03-07")
+          format: date
+          description: The specific date for this availability override in YYYY-MM-DD format.
+          example: "2025-03-07"
         periods:
           type: array
-          description: Set as blank ( [] ) to set a date as unavailable.
+          description: Time periods for this specific date. Set as empty array ([]) to mark the date as unavailable. If periods are provided, they override the regular weekly schedule for this date.
           items:
             type: object
             properties:
               wday:
                 type: string
-                description: The weekday (e.g., "monday", "tuesday", etc.).
+                description: Day of the week corresponding to the override date. Valid values are "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday".
+                example: "friday"
+                enum: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
               start_time:
                 type: string
-                description: Start time in "HH:MM AM/PM" format.
+                description: Start time for the override period in 12-hour format with AM/PM designation.
+                example: "10:00 AM"
               end_time:
                 type: string
-                description: End time in "HH:MM AM/PM" format.
+                description: End time for the override period in 12-hour format with AM/PM designation.
+                example: "03:00 PM"
+
+    # User object structure for availability
+    availability_user:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user/team member.
+          example: "b6d02dfa-8ef6-453d-b9f7-67a6f20bcaa6"
+        name:
+          type: string
+          description: Full name of the team member.
+          example: "Oliver Smith"
+        email:
+          type: string
+          format: email
+          description: Email address of the team member.
+          example: "oliver@example.com"
 
     # Availability object structure
     availability:
@@ -42,29 +75,51 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier for the availability configuration.
+          example: "01ea5ddf-ed00-4bed-bfa3-ba8ea80a856a"
         sid:
           type: string
+          description: Short identifier (SID) for the availability, used in URLs and API calls for easy reference.
+          example: "2nq7q5c"
         name:
           type: string
+          description: Human-readable name for the availability configuration (e.g., "Working hours", "Custom schedule").
+          example: "Availability for custom user"
         default:
           type: boolean
+          description: Indicates whether this is the default availability configuration for the team member. Only one availability can be set as default per user.
+          example: false
         after_buffer_time:
           type: integer
+          description: Buffer time in minutes after each meeting to allow for wrap-up, notes, or preparation for the next meeting.
+          example: 0
         before_buffer_time:
           type: integer
+          description: Buffer time in minutes before each meeting to allow for setup, preparation, or travel time.
+          example: 0
         periods:
           type: array
           items:
             $ref: '#/components/schemas/availability_period'
+          description: List of time periods defining when the team member is available for meetings throughout the week.
+        overrides:
+          type: array
+          items:
+            $ref: '#/components/schemas/availability_override'
+          description: List of date-specific availability overrides (e.g., holidays, vacation days, or special working hours for specific dates).
+        user:
+          $ref: '#/components/schemas/availability_user'
+          description: Information about the team member this availability configuration belongs to.
 
     # Availability list response structure
     availability_list_response:
-      allOf:
-        - type: object
-          properties:
-            availabilities:
-              type: array
-              items:
-                $ref: '#/components/schemas/availability'
-            pagination:
-              $ref: '../schemas/common.yaml#/components/schemas/pagination'
+      type: object
+      properties:
+        availabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/availability'
+          description: Array of availability configurations for the requested team members. Each availability contains the schedule, buffer times, and associated user information.
+        pagination:
+          $ref: '../schemas/common.yaml#/components/schemas/pagination'
+          description: Pagination information including total records, pages, and current page details.

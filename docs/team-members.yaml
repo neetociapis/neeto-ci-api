@@ -120,7 +120,7 @@ paths:
                 email:
                   type: string
                   description: Email of the team member.
-                  example: "oliver@spinkart.com"
+                  example: "oliver@example.com"
                 first_name:
                   type: string
                   description: First name of the team member.

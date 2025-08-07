@@ -47,6 +47,7 @@ paths:
                 kind:
                   type: string
                   description: Type of the discount code. Either fixed or percentage.
+                  enum: ["fixed", "percentage"]
                   example: "percentage"
                 redeems_limit:
                   type: integer
@@ -61,16 +62,28 @@ paths:
                   description: Date upto which the discount code can be used. If left empty, discount code can be used forever. It should be of the format "DD-MM-YYYY"
                   example: "12-05-2025"
                 days_valid_after_first_use_per_client:
-                  type: string
+                  type: integer
                   description: Number of days upto which the discount code can be used by a particular client after their first use. If left empty, the discount code can be used forever.
                   example: 7
                 allowed_emails:
                   type: array
-                  description: Array of allowed email addresses that can redeem the discount code. If left empty, the discount code can be redeemed using any email IDs.
+                  description: Array of allowed email addresses that can redeem the discount code. If left empty, the discount code can be redeemed using any email address.
+                  items:
+                    type: string
+                    format: email
+                    description: Valid email address
                   example: ["eve@bigbinary.com", "charlie@bigbinary.com"]
                 meeting_ids:
                   type: array
-                  description: Array of meeting IDs in which the discount code can be used in.
+                  items:
+                    type: string
+                    format: SID
+                  description: Array of meeting SIDs in which the discount code can be used in.
+                    You can get `sid` in different ways. Visit the scheduling link page and then click
+                    on "Settings" > "Show SID". That will give you `sid`.
+                    The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+                    Here you will see `sid` for each scheduling link.
+
                   example: ["ktr8qu3", "xzfpwqg", "csesbjq", "c64h5yx"]
               required:
                 - code

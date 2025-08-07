@@ -8,50 +8,55 @@ The documentation includes:
 
 - **Getting Started Guide**: Introduction, authentication, subdomain identification, pagination,
   HTTP response codes and quickstart tutorials
+- **Scheduling Links API**: Endpoints for creating and managing scheduling links and meetings
 - **Bookings API**: Endpoints for creating, listing, rescheduling, and canceling bookings
-- **Slots API**: Endpoints for managing slot availability
 - **Availabilities API**: Endpoints for managing meeting host availabilities
-- **Scheduling Links API**: Endpoints for creating and managing scheduling links
+- **Slots API**: Endpoints for managing slot availability
 - **Team Members API**: Endpoints for managing team members in the workspace
 - **Packages API**: Endpoints for managing workspace packages
 - **Discount Codes API**: Endpoints for managing discount codes for bookings
-- **Forms API**: Endpoints for retrieving forms
-- **Submissions API**: Endpoints for accessing form submission data
 
 ## Project Structure
 
 ```
 neeto-cal-api/
 ├── api-reference/         # API endpoint documentation
-│   ├── bookings/          # Bookings API documentation
-│   ├── slots/             # Slots API documentation
-│   ├── availabilities/    # Availabilities API documentation
 │   ├── scheduling-links/  # Scheduling Links API documentation
+│   ├── bookings/          # Bookings API documentation
+│   ├── availabilities/    # Availabilities API documentation
+│   ├── slots/             # Slots API documentation
 │   ├── team-members/      # Team Members API documentation
 │   ├── packages/          # Packages API documentation
-│   ├── discount-codes/    # Discount Codes API documentation
-│   ├── forms/             # Forms API documentation
-│   └── submissions/       # Submissions API documentation
+│   └── discount-codes/    # Discount Codes API documentation
 ├── assets/                # Static assets (favicon, images)
 ├── bundled/               # Generated OpenAPI bundles (auto-generated)
-├── schemas/               # Contains reusable schema
+│   ├── availabilities.yaml
+│   ├── bookings.yaml
+│   ├── discount-codes.yaml
+│   ├── meetings.yaml
+│   ├── packages.yaml
+│   ├── slots.yaml
+│   └── team-members.yaml
+├── schemas/               # Contains reusable schema definitions
 │   ├── common.yaml        # Shared schemas used across multiple endpoints
 │   ├── booking.yaml       # Schemas related to bookings
 │   ├── meeting.yaml       # Schemas related to meetings/scheduling links
 │   ├── availability.yaml  # Schemas related to availabilities
 │   ├── team-member.yaml   # Schemas related to team members
 │   ├── package.yaml       # Schemas related to packages
-│   ├── discount-code.yaml # Schemas related to discount codes
-│   ├── form.yaml          # Schemas related to forms
-│   └── submission.yaml    # Schemas related to submissions
+│   └── discount-code.yaml # Schemas related to discount codes
 ├── docs/                  # OpenAPI specification files
-│   ├── apis.yaml          # Main NeetoCal API specification
-│   ├── forms.yaml         # Forms API specification
-│   └── submissions.yaml   # Submissions API specification
+│   ├── availabilities.yaml
+│   ├── bookings.yaml
+│   ├── discount-codes.yaml
+│   ├── meetings.yaml
+│   ├── packages.yaml
+│   ├── slots.yaml
+│   └── team-members.yaml
 ├── getting-started/       # Getting started guides
 ├── snippets/              # Reusable content snippets
 ├── scripts/               # Build and automation scripts
-│   └── bundle.sh          # Script to bundle OpenAPI specs
+│   └── bundle.sh          # Script to bundle OpenAPI specs using Redocly
 ├── docs.json              # Mintlify configuration
 ├── theme.css              # Custom theme styling
 └── package.json           # Project dependencies and scripts
@@ -95,7 +100,7 @@ yarn build:dev
 This will:
 
 - Watch for changes in `.yaml` files
-- Automatically bundle OpenAPI specifications using `swagger-cli`
+- Automatically bundle OpenAPI specifications using `@redocly/cli`
 - Generate bundled files in the `bundled/` directory
 - Ignore changes in the `bundled/` directory to prevent infinite loops
 
@@ -114,6 +119,19 @@ This will:
    ```
 
 3. **Make changes to your documentation files** - both the preview and bundled files will update automatically
+
+## API Documentation Structure
+
+The documentation is organized into the following main sections:
+
+- **Getting Started**: Introduction, authentication, and basic setup guides
+- **Scheduling Links API**: Manage scheduling links and meetings
+- **Bookings API**: Handle booking operations (create, list, reschedule, cancel)
+- **Availabilities API**: Manage host availability settings
+- **Slots API**: Query available time slots
+- **Team Members API**: Manage team member operations
+- **Packages API**: Handle workspace package management
+- **Discount Codes API**: Manage discount codes for bookings
 
 ### Other references
 

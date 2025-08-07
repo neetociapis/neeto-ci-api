@@ -81,122 +81,118 @@ components:
       properties:
         id:
           type: string
-          example: a5fe0440-d6e5-4df2-996e-b88ed030f4ac
+          description: Unique identifier for the fee configuration.
+          example: 1b217cc5-69b5-4fb1-a13c-c22f9c14e7f9
         amount:
           type: string
-          example: '102.0'
+          description: The fee amount as a string to preserve decimal precision.
+          example: '120.0'
         currency:
           type: string
+          description: The currency code for the fee amount (e.g., "inr", "usd").
           example: inr
+        feeable_id:
+          type: string
+          description: ID of the entity this fee is associated with (package ID in this case).
+          example: aff17ff8-1bf8-4e77-a3c5-2f86104f9a20
+        feeable_type:
+          type: string
+          description: Type of entity this fee is associated with.
+          example: Package
         payment_provider:
           type: string
-          example: stripe
+          description: Payment service provider used for processing payments (e.g., "stripe", "cash").
+          example: cash
         kind:
           type: string
+          description: Type of fee structure (e.g., "fixed", "percentage").
           example: fixed
         min_amount:
           type: string
-          example: '102.0'
+          description: Minimum amount that can be charged for this fee.
+          example: '120.0'
         taxes:
           type: array
-          items: {}
-          example: []
+          description: Array of tax configurations applied to this fee.
+          items:
+            type: object
         is_default:
           type: boolean
-          example: true
+          description: Indicates whether this is the default fee configuration for the package.
         display_amount:
           type: string
           nullable: true
-          example: null
+          description: Custom display amount for the fee (if different from the actual amount).
         is_tax_enabled:
           type: boolean
-          example: false
+          description: Whether tax calculation is enabled for this fee.
         is_tip_enabled:
           type: boolean
-          example: false
+          description: Whether tipping is enabled for this fee.
         is_tax_applicable_on_tip:
           type: boolean
-          example: false
+          description: Whether taxes are calculated on top of tips.
         vpas:
           type: array
-          items: {}
-          example: []
+          description: Virtual Payment Addresses for UPI payments (India-specific).
+          items:
+            type: object
         amount_in_smallest_currency_unit:
           type: integer
-          example: 10200
-    package_meeting:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 06391a88-183f-40df-8dd3-ab8b29e5b066
-        name:
-          type: string
-          example: Meeting with Oliver Smith
-        sid:
-          type: string
-          example: u9fxy4t
+          description: Fee amount in the smallest currency unit (e.g., paise for INR, cents for USD).
+          example: 12000
     package:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the package.
           example: aff17ff8-1bf8-4e77-a3c5-2f86104f9a20
         name:
           type: string
-          example: test 1
+          description: Human-readable name for the package.
+          example: Consultation Package
         slug:
           type: string
-          example: test-1
+          description: URL-friendly identifier for the package, used in public URLs and API calls.
+          example: consultation-package
         status:
           type: string
+          description: Current status of the package (e.g., "enabled", "disabled").
           example: enabled
+          enum:
+            - enabled
+            - disabled
         duration:
           type: integer
-          example: 300
+          description: Duration of the package in seconds.
+          example: 7200
         fee:
-          oneOf:
-            - $ref: '#/components/schemas/package_fee'
-            - type: array
-              items: {}
-              example: []
-          description: Fee details for the package. Can be an object or an empty array.
-        meetings:
-          type: array
-          description: List of meetings included in the package
-          items:
-            $ref: '#/components/schemas/package_meeting'
-        purchases:
-          type: array
-          description: List of purchases for the package
-          items: {}
-          example: []
-        total_purchases_count:
-          type: integer
-          description: Total number of purchases for the package
-          example: 0
+          $ref: '#/components/schemas/package_fee'
+          description: Fee configuration for the package, including amount, currency, and payment settings.
     pagination:
       type: object
       properties:
         total_records:
           type: integer
-          description: Total number of records
+          description: Total number of records.
         total_pages:
           type: integer
-          description: Total number of pages available
+          description: Total number of pages available.
         current_page_number:
           type: integer
-          description: Current page number
+          description: Current page number.
         page_size:
           type: integer
-          description: Number of records per page
+          description: Number of records per page.
     package_list_response:
-      allOf:
-        - type: object
-          properties:
-            packages:
-              type: array
-              items:
-                $ref: '#/components/schemas/package'
-            pagination:
-              $ref: '#/components/schemas/pagination'
+      type: object
+      properties:
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/package'
+          description: Array of packages available in the workspace, each containing fee configuration and package details.
+        pagination:
+          $ref: '#/components/schemas/pagination'
+          description: Pagination information including total records, pages, and current page details.

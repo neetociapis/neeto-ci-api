@@ -6,3 +6,53 @@ openapi: "/bundled/availabilities.yaml GET /availabilities"
 import SubdomainInfo from "/snippets/subdomain-info.mdx";
 
 <SubdomainInfo />
+
+<Tip>
+  **Pro tip:** In the API playground above, you can easily add multiple email
+  addresses by clicking the **"+"** button next to the `emails[]` parameter. The
+  playground will automatically generate the correct query string format for
+  you.
+</Tip>
+
+## Example Usage
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://yourworkspace.neetocal.com/api/external/v1/availabilities?emails[]=oliver@example.com&emails[]=cypress@example.com&emails[]=john@example.com" \
+  -H "X-Api-Key: YOUR_API_KEY"
+```
+
+```javascript JavaScript
+const emails = [
+  "oliver@example.com",
+  "cypress@example.com",
+  "john@example.com",
+];
+const params = new URLSearchParams();
+emails.forEach((email) => params.append("emails[]", email));
+
+const response = await fetch(
+  `https://yourworkspace.neetocal.com/api/external/v1/availabilities?${params}`,
+  {
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+    },
+  }
+);
+```
+
+```python Python
+import requests
+
+emails = ['oliver@example.com', 'cypress@example.com', 'john@example.com']
+params = [('emails[]', email) for email in emails]
+
+response = requests.get(
+    'https://yourworkspace.neetocal.com/api/external/v1/availabilities',
+    params=params,
+    headers={'X-Api-Key': 'YOUR_API_KEY'}
+)
+```
+
+</CodeGroup>

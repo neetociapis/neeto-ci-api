@@ -44,6 +44,9 @@ paths:
                 kind:
                   type: string
                   description: Type of the discount code. Either fixed or percentage.
+                  enum:
+                    - fixed
+                    - percentage
                   example: percentage
                 redeems_limit:
                   type: integer
@@ -58,18 +61,25 @@ paths:
                   description: Date upto which the discount code can be used. If left empty, discount code can be used forever. It should be of the format "DD-MM-YYYY"
                   example: 12-05-2025
                 days_valid_after_first_use_per_client:
-                  type: string
+                  type: integer
                   description: Number of days upto which the discount code can be used by a particular client after their first use. If left empty, the discount code can be used forever.
                   example: 7
                 allowed_emails:
                   type: array
-                  description: Array of allowed email addresses that can redeem the discount code. If left empty, the discount code can be redeemed using any email IDs.
+                  description: Array of allowed email addresses that can redeem the discount code. If left empty, the discount code can be redeemed using any email address.
+                  items:
+                    type: string
+                    format: email
+                    description: Valid email address
                   example:
                     - eve@bigbinary.com
                     - charlie@bigbinary.com
                 meeting_ids:
                   type: array
-                  description: Array of meeting IDs in which the discount code can be used in.
+                  items:
+                    type: string
+                    format: SID
+                  description: Array of meeting SIDs in which the discount code can be used in. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API. Here you will see `sid` for each scheduling link.
                   example:
                     - ktr8qu3
                     - xzfpwqg
@@ -107,46 +117,48 @@ components:
         id:
           type: string
           description: Unique identifier for the created discount code.
-          example: 362a026a-06b4-4ec2-90d6-1932aad8c86c
+          example: d6ccef53-f369-4b54-a818-6e93e2a0455c
         code:
           type: string
           description: The unique discount code created.
-          example: OFF50
+          example: OFF_60
         value:
           type: integer
           description: Value of the discount.
-          example: 50
+          example: 60
         kind:
           type: string
           description: Type of the discount (fixed or percentage).
-          example: percentage
+          enum:
+            - fixed
+            - percentage
         redeems_limit:
           type: integer
           description: Number of times the discount code can be redeemed.
-          example: 10
+          example: 100
         redeems_limit_by_email:
           type: integer
           description: Number of times the discount code can be redeemed per email.
-          example: 5
+          example: 10
         expires_at:
           type: string
-          description: Expiration date of the discount code.
-          example: 12-05-2025
+          format: date-time
+          description: Expiration date and time of the discount code in ISO 8601 format.
+          example: '2025-08-12T00:00:00.000Z'
         days_valid_after_first_use_per_client:
-          type: string
-          description: Number of days the discount code is valid for a client after the first use.
-          example: 7
-        allowed_emails:
+          type: integer
+          description: Number of days the discount code is valid for a client after their first use. If null, the discount code can be used indefinitely.
+          example: 28
+        meetings:
           type: array
-          description: Array of allowed emails that can redeem the discount code.
+          description: Array of meetings where the discount code can be used. Each meeting is represented as a tuple containing [meeting_id, meeting_name].
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: string
+            description: A tuple containing meeting ID and meeting name
           example:
-            - eve@bigbinary.com
-            - charlie@bigbinary.com
-        meeting_ids:
-          type: array
-          description: Array of meeting IDs where the discount code can be used.
-          example:
-            - ktr8qu3
-            - xzfpwqg
-            - csesbjq
-            - c64h5yx
+            - - 0b947f19-94a3-409b-ae3b-36d79a1b4969
+              - Meeting with consultation team
