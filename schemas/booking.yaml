@@ -152,6 +152,11 @@ components:
                 type: string
                 description: Internal code identifier for the form field.
           description: Responses submitted through the booking form.
+        form_responses_as_hash:
+          type: object
+          description: Form responses organized as key-value pairs for easier access.
+          additionalProperties:
+            type: string
 
     # Booking list response structure
     booking_list_response:
@@ -161,7 +166,7 @@ components:
             bookings:
               type: array
               items:
-                $ref: '#/components/schemas/booking'
+                $ref: "#/components/schemas/booking"
               description: List of bookings.
             pagination:
-              $ref: '../schemas/common.yaml#/components/schemas/pagination'
+              $ref: "../schemas/common.yaml#/components/schemas/pagination"

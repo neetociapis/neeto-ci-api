@@ -61,6 +61,7 @@
         "pages": [
           "api-reference/bookings/make-booking",
           "api-reference/bookings/list-bookings",
+          "api-reference/bookings/get-booking",
           "api-reference/bookings/reschedule-booking",
           "api-reference/bookings/cancel-booking"
         ]

@@ -132,7 +132,7 @@ paths:
 
   /meetings/{meeting_sid}:
     get:
-      summary: Get details of a scheduling link
+      summary: Get scheduling link details
       tags:
         - Scheduling links
       description: This API allows you to fetch details of a specific scheduling link by its SID.

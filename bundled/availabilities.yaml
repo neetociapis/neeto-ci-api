@@ -112,7 +112,7 @@ paths:
         '500':
           description: Internal server error
     get:
-      summary: Get details about an availability
+      summary: Get availability details
       tags:
         - Availabilities
       description: This API allows to get details about an availability.
