@@ -55,7 +55,7 @@ paths:
       summary: Create a scheduling link
       tags:
         - Scheduling links
-      description: This API allows to create a scheduling link.
+      description: This API allows to create a scheduling link. You can create a new scheduling link from scratch or use an existing template as a base. When `template_id` is provided, all template values will be copied to the new scheduling link. However, if you pass values directly in the same API request, those will override the corresponding template values.
       parameters:
         - in: header
           name: X-Api-Key
@@ -70,13 +70,17 @@ paths:
             schema:
               type: object
               properties:
+                template_id:
+                  type: string
+                  description: ID of an existing meeting template to use as a base. When provided, all template values will be copied to the new scheduling link. Values passed in the same request will override template values.
+                  example: cc98d282-4cf6-414d-ba58-53fa94b9bca3
                 slug:
                   type: string
                   description: Slug of the scheduling link. This value should be unique.
                   example: meeting-with-oliver-smith
                 name:
                   type: string
-                  description: New name of the scheduling link.
+                  description: Name of the scheduling link.
                   example: Meeting with Oliver Smith
                 description:
                   type: string
@@ -129,6 +133,8 @@ paths:
           description: Bad Request - Missing/Invalid parameters
         '401':
           description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting does not exist
         '500':
           description: Internal server error
   /meetings/{meeting_sid}:
