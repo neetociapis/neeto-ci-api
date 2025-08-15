@@ -296,6 +296,98 @@ paths:
           description: Unauthorized - Invalid API key
         '500':
           description: Internal server error
+  /meeting_templates:
+    get:
+      summary: List all meeting templates
+      tags:
+        - Scheduling links
+      description: This API allows you to get a list of meeting templates in a workspace.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: Bearer token for API access.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page_number
+          description: Page number. The default value is 1.
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page_size
+          description: Number of templates to receive. The default value is 30.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/meeting'
+                    description: List of meeting templates.
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+              example:
+                templates:
+                  - id: cc98d282-4cf6-414d-ba58-53fa94b9bca3
+                    sid: 8r3rs2k
+                    name: Meeting with Oliver Smith
+                    slug: meeting-with-oliver-smith
+                    description: Schedule a one-on-one meeting with Oliver Smith.
+                    kind: one_on_one
+                    duration: 15
+                    disabled: false
+                    spot: jitsi
+                    spot_in_person_location: null
+                    spot_custom_text: null
+                    spot_phone_call_number: null
+                    is_template: true
+                    schedulable_range_type: number_of_days_into_the_future
+                    schedulable_range_value: '60'
+                    lead_time: 240
+                    start_time_increment: 30
+                    created_at: '2025-08-14T07:26:14.909Z'
+                    updated_at: '2025-08-14T07:26:14.909Z'
+                    deleted_at: null
+                    is_multiple_spots_allowed: false
+                    is_multiple_durations_allowed: false
+                    conditional_pricing_enabled: false
+                    is_email_reminders_enabled: true
+                    is_sms_reminders_enabled: false
+                    organization_id: dfc0e240-15c1-4483-a76e-8d8feb3c162b
+                    rescheduling_lead_time: 0
+                    cancellation_lead_time: 0
+                    booking_modification_allowed: true
+                    cancellation_too_late_notice: null
+                    cancellation_policy: null
+                    rescheduling_too_late_notice: null
+                    pre_booking_allowed: false
+                    original_price_enabled: false
+                    original_price: null
+                    fees: []
+                    durations_possible: []
+                    durations: []
+                    spots: []
+                pagination:
+                  total_records: 1
+                  total_pages: 1
+                  current_page_number: 1
+                  page_size: 30
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
 components:
   schemas:
     meeting:

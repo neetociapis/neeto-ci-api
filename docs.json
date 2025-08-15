@@ -52,7 +52,8 @@
           "api-reference/scheduling-links/list-meetings",
           "api-reference/scheduling-links/get-meeting",
           "api-reference/scheduling-links/update-meeting",
-          "api-reference/scheduling-links/create-one-off-link"
+          "api-reference/scheduling-links/create-one-off-link",
+          "api-reference/scheduling-links/list-meeting-templates"
         ]
       },
       {
