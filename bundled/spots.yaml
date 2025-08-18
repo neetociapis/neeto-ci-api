@@ -1,0 +1,379 @@
+openapi: 3.0.0
+info:
+  description: NeetoCal offers APIs to manage meeting spots (locations/platforms) for scheduling links. To use the APIs, [you will need an API key.](https://help.neetocal.com/articles/api-keys)
+  title: NeetoCal Meeting Spots APIs
+servers:
+  - description: NeetoCal APIs
+    url: https://{workspace}.neetocal.com/api/external/v1
+    variables:
+      workspace:
+        default: spinkart
+        description: Your workspace's subdomain
+tags:
+  - name: Meeting Spots
+    description: APIs to manage meeting locations and platforms (spots) for scheduling links.
+paths:
+  /meetings/{meeting_sid}/spots:
+    get:
+      summary: List all spots for a meeting
+      tags:
+        - Meeting Spots
+      description: This API allows to get a list of all spots configured for a specific meeting.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: |
+            The unique identifier (SID) of the scheduling link you want to use. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. You can also get this from the response of the [List all scheduling links](/api-reference/scheduling-links/list-meetings) endpoint, where it appears as the `sid` property for each scheduling link in the response.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spots:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/spot'
+        '400':
+          description: Bad Request - Invalid meeting SID
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting not found
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new spot
+      tags:
+        - Meeting Spots
+      description: This API allows to create a new spot for a specific meeting.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: |
+            The unique identifier (SID) of the scheduling link you want to use. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. You can also get this from the response of the [List all scheduling links](/api-reference/scheduling-links/list-meetings) endpoint, where it appears as the `sid` property for each scheduling link in the response.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/spot_create_request'
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Spot created successfully
+                  spot:
+                    $ref: '#/components/schemas/spot'
+        '400':
+          description: Bad Request - Invalid meeting SID or spot type
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting not found
+        '409':
+          description: Conflict - Only one spot can be default
+        '500':
+          description: Internal server error
+  /meetings/{meeting_sid}/spots/{id}:
+    get:
+      summary: Get a specific spot
+      tags:
+        - Meeting Spots
+      description: This API allows to get details of a specific spot for a meeting.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: |
+            The unique identifier (SID) of the scheduling link you want to use. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. You can also get this from the response of the [List all scheduling links](/api-reference/scheduling-links/list-meetings) endpoint, where it appears as the `sid` property for each scheduling link in the response.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+        - in: path
+          name: id
+          description: |
+            The unique identifier of the spot. You can get this `id` from the response of the [List spots for a meeting](/api-reference/scheduling-links/spots/list-spots) endpoint, where it appears as the `id` property for each spot in the response.
+          required: true
+          schema:
+            type: string
+            example: 1d35e633-71b9-4ad9-b659-b034f361539b
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/spot'
+        '400':
+          description: Bad Request - Invalid meeting SID or spot ID
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting or spot not found
+        '500':
+          description: Internal server error
+    put:
+      summary: Update a spot
+      tags:
+        - Meeting Spots
+      description: This API allows to update an existing spot for a meeting.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: |
+            The unique identifier (SID) of the scheduling link you want to use. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. You can also get this from the response of the [List all scheduling links](/api-reference/scheduling-links/list-meetings) endpoint, where it appears as the `sid` property for each scheduling link in the response.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+        - in: path
+          name: id
+          description: |
+            The unique identifier of the spot. You can get this `id` from the response of the [List spots for a meeting](/api-reference/scheduling-links/spots/list-spots) endpoint, where it appears as the `id` property for each spot in the response.
+          required: true
+          schema:
+            type: string
+            example: 1d35e633-71b9-4ad9-b659-b034f361539b
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/spot_update_request'
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Spot updated successfully
+                  spot:
+                    $ref: '#/components/schemas/spot'
+        '400':
+          description: Bad Request - Invalid meeting SID, spot ID, or spot type
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting or spot not found
+        '409':
+          description: Conflict - Only one spot can be default
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a spot
+      tags:
+        - Meeting Spots
+      description: This API allows to remove a spot from a meeting.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the [NeetoCal API Keys dashboard](https://help.neetocal.com/articles/api-keys).
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: meeting_sid
+          description: |
+            The unique identifier (SID) of the scheduling link you want to use. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. You can also get this from the response of the [List all scheduling links](/api-reference/scheduling-links/list-meetings) endpoint, where it appears as the `sid` property for each scheduling link in the response.
+          required: true
+          schema:
+            type: string
+            example: vj5pgkh
+        - in: path
+          name: id
+          description: |
+            The unique identifier of the spot. You can get this `id` from the response of the [List spots for a meeting](/api-reference/scheduling-links/spots/list-spots) endpoint, where it appears as the `id` property for each spot in the response.
+          required: true
+          schema:
+            type: string
+            example: 1d35e633-71b9-4ad9-b659-b034f361539b
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Spot destroyed successfully
+        '400':
+          description: Bad Request - Invalid meeting SID or spot ID
+        '401':
+          description: Unauthorized - Invalid API key
+        '404':
+          description: Not Found - Meeting or spot not found
+        '409':
+          description: Conflict - Cannot delete the last remaining spot
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    spot:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the spot.
+          example: 1d35e633-71b9-4ad9-b659-b034f361539b
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The spot type for the meeting.
+          example: in_person
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only populated when spot type is "phone_call", otherwise null.
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only populated when spot type is "custom", otherwise null.
+          example: null
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only populated when spot type is "in_person", otherwise null.
+          example: 123 Main St, Suite 100, City, State 12345
+        is_default:
+          type: boolean
+          description: Whether this spot is the default option.
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the spot was created.
+          example: '2025-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the spot was last updated.
+          example: '2025-01-15T10:30:00Z'
+    spot_create_request:
+      type: object
+      properties:
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The spot type (must be one of the predefined values).
+          example: in_person
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only required when spot type is "phone_call".
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only required when spot type is "custom".
+          example: null
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only required when spot type is "in_person".
+          example: 123 Main St, Suite 100, City, State 12345
+        is_default:
+          type: boolean
+          description: Whether this spot should be the default option (defaults to false).
+          example: false
+    spot_update_request:
+      type: object
+      properties:
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The new spot type (must be one of the predefined values).
+          example: custom
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only required when spot type is "phone_call".
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only required when spot type is "custom".
+          example: Custom meeting instructions
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only required when spot type is "in_person".
+          example: null
+        is_default:
+          type: boolean
+          description: Whether this spot should be the default option.
+          example: true

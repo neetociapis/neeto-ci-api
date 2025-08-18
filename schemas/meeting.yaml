@@ -30,7 +30,18 @@ components:
           description: Whether the scheduling link is currently disabled and not accepting bookings.
         spot:
           type: string
-          enum: [custom, jitsi, google_meet, daily, zoom, whereby, teams, phone_call, in_person]
+          enum:
+            [
+              custom,
+              jitsi,
+              google_meet,
+              daily,
+              zoom,
+              whereby,
+              teams,
+              phone_call,
+              in_person,
+            ]
           description: Meeting platform or location type for the scheduled meeting.
         spot_in_person_location:
           type: string
@@ -49,7 +60,12 @@ components:
           description: Whether this meeting is a template that can be used to create other meetings.
         schedulable_range_type:
           type: string
-          enum: [number_of_days_into_the_future, number_of_business_days_into_the_future, date_range]
+          enum:
+            [
+              number_of_days_into_the_future,
+              number_of_business_days_into_the_future,
+              date_range,
+            ]
           description: How the scheduling range is calculated - by days into future, business days, or specific date range.
         schedulable_range_value:
           type: string
@@ -62,7 +78,7 @@ components:
           description: Time increment in minutes for available booking slots (e.g., 30 for 30-minute slots).
         created_at:
           type: string
-          example: "2024-12-23T05:05:27.037Z"
+          example: "2025-12-23T05:05:27.037Z"
           description: Timestamp when the meeting was created.
         updated_at:
           type: string
@@ -132,6 +148,85 @@ components:
           items:
             type: integer
           description: List of available duration options in minutes when multiple durations are allowed.
+        durations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the duration option.
+                example: "4ece6b6b-4b5f-4c15-9122-a85af189198c"
+              duration:
+                type: integer
+                description: Duration in minutes.
+                example: 30
+              is_default:
+                type: boolean
+                description: Whether this duration is the default option.
+                example: false
+              created_at:
+                type: string
+                format: date-time
+                description: Timestamp when the duration option was created.
+                example: "2025-08-18T07:43:16.775Z"
+              updated_at:
+                type: string
+                format: date-time
+                description: Timestamp when the duration option was last updated.
+                example: "2025-08-18T08:03:58.019Z"
+        spots:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the spot option.
+                example: "bcc90342-9345-4d89-9144-d25d7c7b3521"
+              spot:
+                type: string
+                enum:
+                  - daily
+                  - zoom
+                  - jitsi
+                  - google_meet
+                  - teams
+                  - whereby
+                  - in_person
+                  - custom
+                  - phone_call
+                description: The spot type for the meeting.
+                example: "jitsi"
+              is_default:
+                type: boolean
+                description: Whether this spot is the default option.
+                example: false
+              phone_call_number:
+                type: string
+                nullable: true
+                description: Phone number for phone call spots. Only populated when spot type is "phone_call", otherwise null.
+                example: null
+              in_person_location:
+                type: string
+                nullable: true
+                description: Location details for in-person meetings. Only populated when spot type is "in_person", otherwise null.
+                example: null
+              custom_text:
+                type: string
+                nullable: true
+                description: Custom text for custom spots. Only populated when spot type is "custom", otherwise null.
+                example: null
+              created_at:
+                type: string
+                format: date-time
+                description: Timestamp when the spot option was created.
+                example: "2025-08-18T07:19:28.341Z"
+              updated_at:
+                type: string
+                format: date-time
+                description: Timestamp when the spot option was last updated.
+                example: "2025-08-18T07:35:32.822Z"
 
     meeting_list_response:
       allOf:
@@ -140,7 +235,7 @@ components:
             meetings:
               type: array
               items:
-                $ref: '#/components/schemas/meeting'
+                $ref: "#/components/schemas/meeting"
               description: List of meetings/scheduling links.
             pagination:
-              $ref: '../schemas/common.yaml#/components/schemas/pagination'
+              $ref: "../schemas/common.yaml#/components/schemas/pagination"

@@ -79,7 +79,7 @@ paths:
                   items:
                     type: string
                     format: SID
-                  description: Array of meeting SIDs in which the discount code can be used in. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API. Here you will see `sid` for each scheduling link.
+                  description: Array of meeting SIDs in which the discount code can be used in. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API. Here you will see `sid` for each scheduling link.
                   example:
                     - ktr8qu3
                     - xzfpwqg

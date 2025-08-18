@@ -98,7 +98,7 @@ paths:
               required:
                 - periods
       responses:
-        '200':
+        "200":
           description: OK - Availability updated successfully
           content:
             application/json:
@@ -108,12 +108,12 @@ paths:
                   message:
                     type: string
                   availability:
-                    $ref: '../schemas/availability.yaml#/components/schemas/availability'
-        '400':
+                    $ref: "../schemas/availability.yaml#/components/schemas/availability"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error
     get:
       summary: Get availability details
@@ -135,7 +135,7 @@ paths:
             type: string
           example: 5ybe3cq
       responses:
-        '200':
+        "200":
           description: OK - Request succeeded
           content:
             application/json:
@@ -143,12 +143,12 @@ paths:
                 type: object
                 properties:
                   availability:
-                    $ref: '../schemas/availability.yaml#/components/schemas/availability'
-        '400':
+                    $ref: "../schemas/availability.yaml#/components/schemas/availability"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error
 
   /availabilities/team_member:
@@ -184,17 +184,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK - Request succeeded
           content:
             application/json:
               schema:
-                $ref: '../schemas/availability.yaml#/components/schemas/availability_list_response'
-        '400':
+                $ref: "../schemas/availability.yaml#/components/schemas/availability_list_response"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error
 
   /availabilities:
@@ -224,7 +224,8 @@ paths:
             items:
               type: string
               format: email
-            example: ["oliver@example.com", "cypress@example.com", "john@example.com"]
+            example:
+              ["oliver@example.com", "cypress@example.com", "john@example.com"]
           style: form
           explode: true
         - in: query
@@ -240,17 +241,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK - Request succeeded
           content:
             application/json:
               schema:
-                $ref: '../schemas/availability.yaml#/components/schemas/availability_list_response'
-        '400':
+                $ref: "../schemas/availability.yaml#/components/schemas/availability_list_response"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error
 
   /meetings/{meeting_sid}/availability:
@@ -271,7 +272,7 @@ paths:
           description: The unique SID of the scheduling link you want to fetch.
             You can get `sid` in different ways. Visit the scheduling link page and then click
             on "Settings" > "Show SID". That will give you `sid`.
-            The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+            The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API.
             Here you will see `sid` for each scheduling link.
           required: true
           schema:
@@ -308,7 +309,7 @@ paths:
               required:
                 - periods
       responses:
-        '200':
+        "200":
           description: OK - Meeting updated successfully
           content:
             application/json:
@@ -318,10 +319,10 @@ paths:
                   message:
                     type: string
                   meeting:
-                    $ref: '../schemas/meeting.yaml#/components/schemas/meeting'
-        '400':
+                    $ref: "../schemas/meeting.yaml#/components/schemas/meeting"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error

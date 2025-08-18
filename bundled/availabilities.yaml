@@ -261,7 +261,7 @@ paths:
             type: string
         - in: path
           name: meeting_sid
-          description: The unique SID of the scheduling link you want to fetch. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API. Here you will see `sid` for each scheduling link.
+          description: The unique SID of the scheduling link you want to fetch. You can get `sid` in different ways. Visit the scheduling link page and then click on "Settings" > "Show SID". That will give you `sid`. The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API. Here you will see `sid` for each scheduling link.
           required: true
           schema:
             type: string
@@ -537,7 +537,7 @@ components:
           description: Time increment in minutes for available booking slots (e.g., 30 for 30-minute slots).
         created_at:
           type: string
-          example: '2024-12-23T05:05:27.037Z'
+          example: '2025-12-23T05:05:27.037Z'
           description: Timestamp when the meeting was created.
         updated_at:
           type: string
@@ -607,3 +607,82 @@ components:
           items:
             type: integer
           description: List of available duration options in minutes when multiple durations are allowed.
+        durations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the duration option.
+                example: 4ece6b6b-4b5f-4c15-9122-a85af189198c
+              duration:
+                type: integer
+                description: Duration in minutes.
+                example: 30
+              is_default:
+                type: boolean
+                description: Whether this duration is the default option.
+                example: false
+              created_at:
+                type: string
+                format: date-time
+                description: Timestamp when the duration option was created.
+                example: '2025-08-18T07:43:16.775Z'
+              updated_at:
+                type: string
+                format: date-time
+                description: Timestamp when the duration option was last updated.
+                example: '2025-08-18T08:03:58.019Z'
+        spots:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the spot option.
+                example: bcc90342-9345-4d89-9144-d25d7c7b3521
+              spot:
+                type: string
+                enum:
+                  - daily
+                  - zoom
+                  - jitsi
+                  - google_meet
+                  - teams
+                  - whereby
+                  - in_person
+                  - custom
+                  - phone_call
+                description: The spot type for the meeting.
+                example: jitsi
+              is_default:
+                type: boolean
+                description: Whether this spot is the default option.
+                example: false
+              phone_call_number:
+                type: string
+                nullable: true
+                description: Phone number for phone call spots. Only populated when spot type is "phone_call", otherwise null.
+                example: null
+              in_person_location:
+                type: string
+                nullable: true
+                description: Location details for in-person meetings. Only populated when spot type is "in_person", otherwise null.
+                example: null
+              custom_text:
+                type: string
+                nullable: true
+                description: Custom text for custom spots. Only populated when spot type is "custom", otherwise null.
+                example: null
+              created_at:
+                type: string
+                format: date-time
+                description: Timestamp when the spot option was created.
+                example: '2025-08-18T07:19:28.341Z'
+              updated_at:
+                type: string
+                format: date-time
+                description: Timestamp when the spot option was last updated.
+                example: '2025-08-18T07:35:32.822Z'

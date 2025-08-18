@@ -78,10 +78,11 @@ paths:
                   items:
                     type: string
                     format: SID
-                  description: Array of meeting SIDs in which the discount code can be used in.
+                  description:
+                    Array of meeting SIDs in which the discount code can be used in.
                     You can get `sid` in different ways. Visit the scheduling link page and then click
                     on "Settings" > "Show SID". That will give you `sid`.
-                    The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+                    The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API.
                     Here you will see `sid` for each scheduling link.
 
                   example: ["ktr8qu3", "xzfpwqg", "csesbjq", "c64h5yx"]
@@ -90,7 +91,7 @@ paths:
                 - value
                 - kind
       responses:
-        '200':
+        "200":
           description: OK - Request succeeded
           content:
             application/json:
@@ -102,10 +103,10 @@ paths:
                     description: Success message
                     example: "Discount code creation successful"
                   discount_code:
-                    $ref: '../schemas/discount-code.yaml#/components/schemas/discount_code'
-        '400':
+                    $ref: "../schemas/discount-code.yaml#/components/schemas/discount_code"
+        "400":
           description: Bad Request - Missing/Invalid parameters
-        '401':
+        "401":
           description: Unauthorized - Invalid API key
-        '500':
+        "500":
           description: Internal server error

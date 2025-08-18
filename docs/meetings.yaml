@@ -109,6 +109,107 @@ paths:
                   type: integer
                   description: Start time increment for the scheduling link in minutes. Defaults to 30.
                   example: 30
+                is_multiple_durations_allowed:
+                  type: boolean
+                  description: Whether users can select from multiple meeting duration options.
+                  example: false
+                is_multiple_spots_allowed:
+                  type: boolean
+                  description: Whether users can select from multiple meeting platforms/locations.
+                  example: false
+                spot_phone_call_number:
+                  type: string
+                  description: Phone number for the meeting when spot is set to phone_call.
+                  example: "+1-555-0123"
+                spot_custom_text:
+                  type: string
+                  description: Custom meeting instructions or details when spot is set to custom.
+                  example: "Custom meeting instructions"
+                spot_in_person_location:
+                  type: string
+                  description: Physical location details when spot is set to in_person.
+                  example: "123 Main St, Suite 100"
+                durations:
+                  type: array
+                  description: Array of duration options when multiple durations are allowed.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the duration option.
+                        example: "4ece6b6b-4b5f-4c15-9122-a85af189198c"
+                      duration:
+                        type: integer
+                        description: Duration in minutes (1-1440).
+                        example: 30
+                      is_default:
+                        type: boolean
+                        description: Whether this duration is the default option.
+                        example: true
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Timestamp when the duration option was created.
+                        example: "2025-08-18T07:43:16.775Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Timestamp when the duration option was last updated.
+                        example: "2025-08-18T08:03:58.019Z"
+                spots:
+                  type: array
+                  description: Array of spot options when multiple spots are allowed.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the spot option.
+                        example: "bcc90342-9345-4d89-9144-d25d7c7b3521"
+                      spot:
+                        type: string
+                        enum:
+                          - daily
+                          - zoom
+                          - jitsi
+                          - google_meet
+                          - teams
+                          - whereby
+                          - in_person
+                          - custom
+                          - phone_call
+                        description: The spot type for the meeting.
+                        example: "zoom"
+                      is_default:
+                        type: boolean
+                        description: Whether this spot is the default option.
+                        example: true
+                      phone_call_number:
+                        type: string
+                        nullable: true
+                        description: Phone number for phone call spots. Only populated when spot type is "phone_call", otherwise null.
+                        example: null
+                      in_person_location:
+                        type: string
+                        nullable: true
+                        description: Location details for in-person meetings. Only populated when spot type is "in_person", otherwise null.
+                        example: null
+                      custom_text:
+                        type: string
+                        nullable: true
+                        description: Custom text for custom spots. Only populated when spot type is "custom", otherwise null.
+                        example: null
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Timestamp when the spot option was created.
+                        example: "2025-08-18T07:19:28.341Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Timestamp when the spot option was last updated.
+                        example: "2025-08-18T07:35:32.822Z"
               required:
                 - slug
                 - name
@@ -154,7 +255,7 @@ paths:
           description: The unique SID of the scheduling link you want to fetch.
             You can get `sid` in different ways. Visit the scheduling link page and then click
             on "Settings" > "Show SID". That will give you `sid`.
-            The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+            The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API.
             Here you will see `sid` for each scheduling link.
           required: true
           schema:
@@ -232,6 +333,18 @@ paths:
                   type: integer
                   description: Start time increment for the scheduling link in minutes. Defaults to 30.
                   example: 30
+                spot_phone_call_number:
+                  type: string
+                  description: Phone number for the meeting when spot is set to phone_call.
+                  example: "+1-555-0123"
+                spot_custom_text:
+                  type: string
+                  description: Custom meeting instructions or details when spot is set to custom.
+                  example: "Custom meeting instructions"
+                spot_in_person_location:
+                  type: string
+                  description: Physical location details when spot is set to in_person.
+                  example: "123 Main St, Suite 100"
               required:
                 - hosts
       responses:
@@ -272,17 +385,12 @@ paths:
             You need to pass the `sid` of the scheduling link to get one-time scheduling link.
             You can get `sid` in different ways. Visit the scheduling link page and then click
             on "Settings" > "Show SID". That will give you `sid`.
-            The other way you can get `sid` is by listing scheduling links using our `List all scheduling links` API.
+            The other way you can get `sid` is by listing scheduling links using our [List all scheduling links](/api-reference/scheduling-links/list-meetings) API.
             Here you will see `sid` for each scheduling link.
           required: true
           schema:
             type: string
           example: vj5pgkh
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
         "200":
           description: OK - Request succeeded

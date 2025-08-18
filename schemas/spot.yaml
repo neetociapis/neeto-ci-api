@@ -1,0 +1,134 @@
+components:
+  schemas:
+    spot:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the spot.
+          example: "1d35e633-71b9-4ad9-b659-b034f361539b"
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The spot type for the meeting.
+          example: "in_person"
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only populated when spot type is "phone_call", otherwise null.
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only populated when spot type is "custom", otherwise null.
+          example: null
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only populated when spot type is "in_person", otherwise null.
+          example: "123 Main St, Suite 100, City, State 12345"
+        is_default:
+          type: boolean
+          description: Whether this spot is the default option.
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the spot was created.
+          example: "2025-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the spot was last updated.
+          example: "2025-01-15T10:30:00Z"
+
+    spot_create_request:
+      type: object
+      properties:
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The spot type (must be one of the predefined values).
+          example: "in_person"
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only required when spot type is "phone_call".
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only required when spot type is "custom".
+          example: null
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only required when spot type is "in_person".
+          example: "123 Main St, Suite 100, City, State 12345"
+        is_default:
+          type: boolean
+          description: Whether this spot should be the default option (defaults to false).
+          example: false
+
+    spot_update_request:
+      type: object
+      properties:
+        spot:
+          type: string
+          enum:
+            - daily
+            - zoom
+            - jitsi
+            - google_meet
+            - teams
+            - whereby
+            - in_person
+            - custom
+            - phone_call
+          description: The new spot type (must be one of the predefined values).
+          example: "custom"
+        spot_phone_call_number:
+          type: string
+          nullable: true
+          description: Phone number for phone call spots. Only required when spot type is "phone_call".
+          example: null
+        spot_custom_text:
+          type: string
+          nullable: true
+          description: Custom text for custom spots. Only required when spot type is "custom".
+          example: "Custom meeting instructions"
+        spot_in_person_location:
+          type: string
+          nullable: true
+          description: Location details for in-person meetings. Only required when spot type is "in_person".
+          example: null
+        is_default:
+          type: boolean
+          description: Whether this spot should be the default option.
+          example: true
+
+    spot_list_response:
+      type: object
+      properties:
+        spots:
+          type: array
+          items:
+            $ref: "#/components/schemas/spot"
