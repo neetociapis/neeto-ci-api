@@ -8,49 +8,119 @@ components:
           type: string
           description: The name of the branch to trigger the CI job for
           example: "main"
+          default: "main"
         project_name:
           type: string
           description: The name of the project to trigger the CI job for
           example: "neeto-cal-web"
+          default: "neeto-cal-web"
         workflow_name:
           type: string
           description: The name of the workflow to execute
-          example: "playwright-nightly-staging"
+          example: "playwright-staging"
+          default: "playwright-staging"
       required:
         - branch_name
         - project_name
         - workflow_name
 
+    # Plan details structure
+    plan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the plan
+          example: "be8e68a3-2f79-4be8-86f1-11dfcfac8040"
+        capacity:
+          type: integer
+          description: Capacity limit for the plan
+          example: 50
+        cpu:
+          type: number
+          format: float
+          description: CPU allocation in cores
+          example: 4.0
+        memory:
+          type: number
+          format: float
+          description: Memory allocation in GB
+          example: 8.0
+        name:
+          type: string
+          description: Human-readable name of the plan
+          example: "Professional 2"
+        price:
+          type: number
+          format: float
+          description: Price per unit
+          example: 4.0
+        slug:
+          type: string
+          description: URL-friendly identifier for the plan
+          example: "professional-2"
+        created_at:
+          type: string
+          format: date-time
+          description: When the plan was created
+          example: "2023-08-16T19:14:11.595Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: When the plan was last updated
+          example: "2023-08-16T19:14:11.595Z"
+        ephemeral_storage:
+          type: number
+          format: float
+          description: Ephemeral storage allocation in GB
+          example: 80.0
+    # Workflow structure
+    workflow:
+      type: object
+      properties:
+        is_cypress:
+          type: boolean
+          description: Whether the workflow is a Cypress test workflow
+          example: true
+        name:
+          type: string
+          description: Name of the workflow
+          example: "playwright-staging"
+        plan:
+          $ref: "#/components/schemas/plan"
+
+    # CI job structure
+    ci_job:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the CI job
+          example: "169bf1ed-cc65-471f-b9f3-4f63f32b9400"
+        created_at:
+          type: string
+          format: date-time
+          description: When the CI job was created
+          example: "2025-08-22T12:54:49.049Z"
+        status:
+          type: string
+          description: Current status of the CI job
+          example: "pending"
+        parallelism:
+          type: integer
+          description: Number of parallel executions for this job
+          example: 4
+        url:
+          type: string
+          format: uri
+          description: URL to view the CI job in the web interface
+          example: "https://neetozone.neetoci.com/projects/neeto-record-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400"
+        workflow:
+          $ref: "#/components/schemas/workflow"
+
     # CI job trigger response structure
     ci_job_trigger_response:
       type: object
       properties:
-        message:
-          type: string
-          description: Success message indicating the CI job was triggered
-          example: "CI job triggered successfully"
-        job_id:
-          type: string
-          description: Unique identifier for the triggered CI job
-          example: "ci-job-12345"
-        status:
-          type: string
-          description: Current status of the triggered job
-          example: "queued"
-        project:
-          type: string
-          description: Name of the project the job was triggered for
-          example: "neeto-cal-web"
-        branch:
-          type: string
-          description: Branch name the job was triggered for
-          example: "main"
-        workflow:
-          type: string
-          description: Name of the workflow that was triggered
-          example: "playwright-nightly-staging"
-        triggered_at:
-          type: string
-          format: date-time
-          description: Timestamp when the job was triggered
-          example: "2024-01-15T10:30:00Z"
+        ci_job:
+          $ref: "#/components/schemas/ci_job"

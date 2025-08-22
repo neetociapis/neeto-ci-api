@@ -1,28 +1,38 @@
 ---
 title: "Quickstart"
-description: "Get started with the NeetoCal API in minutes. Make your first API call and retrieve your bookings. You should have your [API key](/getting-started/authentication) & [subdomain](/getting-started/identifying-subdomain) ready with you."
+description: "Get started with the NeetoCI API in minutes. Make your first API call and trigger a CI job. You should have your [API key](/getting-started/authentication) & [subdomain](/getting-started/identifying-subdomain) ready with you."
 ---
 
 ## Step 1: Make Your First API Call
 
-Let's retrieve all bookings in your workspace using a [GET request](https://en.wikipedia.org/wiki/HTTP#Request_methods):
+Let's trigger a CI job in your workspace using a [POST request](https://en.wikipedia.org/wiki/HTTP#Request_methods):
 
 <CodeGroup>
 ```bash curl
-curl -X GET "https://{your-workspace}.neetocal.com/api/external/v1/bookings" \
+curl -X POST "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger" \
   -H "X-Api-Key: your-api-key" \
-  -H "Content-Type: application/json"
+  -H "Content-Type: application/json" \
+  -d '{
+    "project_name": "your-project-name",
+    "branch_name": "main",
+    "workflow_name": "playwright-staging"
+  }'
 ```
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://{your-workspace}.neetocal.com/api/external/v1/bookings",
+  "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger",
   {
-    method: "GET",
+    method: "POST",
     headers: {
       "X-Api-Key": "your-api-key",
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      project_name: "your-project-name",
+      branch_name: "main",
+      workflow_name: "playwright-staging"
+    })
   }
 );
 
@@ -32,14 +42,20 @@ console.log(data);
 
 ```python Python
 import requests
+import json
 
-url = "https://{your-workspace}.neetocal.com/api/external/v1/bookings"
+url = "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger"
 headers = {
     "X-Api-Key": "your-api-key",
     "Content-Type": "application/json"
 }
+payload = {
+    "project_name": "your-project-name",
+    "branch_name": "main",
+    "workflow_name": "playwright-staging"
+}
 
-response = requests.get(url, headers=headers)
+response = requests.post(url, headers=headers, json=payload)
 data = response.json()
 print(data)
 ```
@@ -48,9 +64,17 @@ print(data)
 <?php
 $curl = curl_init();
 
+$payload = json_encode([
+    "project_name" => "your-project-name",
+    "branch_name" => "main",
+    "workflow_name" => "playwright-staging"
+]);
+
 curl_setopt_array($curl, [
-    CURLOPT_URL => "https://{your-workspace}.neetocal.com/api/external/v1/bookings",
+    CURLOPT_URL => "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger",
     CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $payload,
     CURLOPT_HTTPHEADER => [
         "X-Api-Key: your-api-key",
         "Content-Type: application/json"
@@ -68,8 +92,9 @@ print_r($data);
 </CodeGroup>
 
 <Warning>
-  Replace `your-workspace` with your actual workspace subdomain and
-  `your-api-key` with your generated API key.
+  Replace `your-workspace` with your actual workspace subdomain,
+  `your-api-key` with your generated API key, and
+  `your-project-name` with the name of your project in NeetoCI.
 </Warning>
 
 ## Step 2: Understanding the Response
@@ -78,41 +103,48 @@ A successful response will look like this [JSON](https://en.wikipedia.org/wiki/J
 
 ```json
 {
-  "bookings": [
-    {
-      "id": "booking-123",
-      "sid": "abc123",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "host_name": "Jane Smith",
-      "host_email": "jane@example.com",
-      "starts_at": "2025-01-15T10:30:00Z",
-      "ends_at": "2025-01-15T11:00:00Z",
-      "time_zone": "America/New_York",
-      "status": "confirmed",
-      "created_at": "2025-01-10T15:30:00Z",
-      "updated_at": "2025-01-10T15:30:00Z"
+  "ci_job": {
+    "id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+    "created_at": "2025-08-22T12:54:49.049Z",
+    "status": "pending",
+    "parallelism": 4,
+    "url": "https://neetozone.neetoci.com/projects/neeto-record-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+    "workflow": {
+      "is_cypress": true,
+      "name": "playwright-staging",
+      "plan": {
+        "id": "be8e68a3-2f79-4be8-86f1-11dfcfac8040",
+        "capacity": 50,
+        "cpu": 4.0,
+        "memory": 8.0,
+        "name": "Professional 2",
+        "price": 4.0,
+        "slug": "professional-2",
+        "created_at": "2023-08-16T19:14:11.595Z",
+        "updated_at": "2023-08-16T19:14:11.595Z",
+        "ephemeral_storage": 80.0
+      }
     }
-  ],
-  "pagination": {
-    "total_records": 1,
-    "total_pages": 1,
-    "current_page_number": 1,
-    "page_size": 30
   }
 }
 ```
 
+The response includes:
+- **`id`**: Unique identifier for the triggered CI job
+- **`status`**: Current status (pending, running, completed, failed)
+- **`url`**: Direct link to monitor the job in the NeetoCI dashboard
+- **`workflow`**: Details about the executed workflow and its execution plan
+
 ## Next Steps
 
-Now that you've made your first [API](https://en.wikipedia.org/wiki/API) call, you can:
+Now that you've triggered your first CI job, you can:
 
 <CardGroup cols={3}>
   <Card title='Explore API reference' href='/api-reference' icon='code'>
     Browse all available endpoints and their detailed documentation.
   </Card>
-  <Card title='Pagination' href='/getting-started/pagination' icon='list'>
-    Understand how to paginate through API responses efficiently.
+  <Card title='CI Jobs API' href='/api-reference/ci-jobs/trigger-ci-job' icon='play'>
+    Learn more about triggering and managing CI jobs.
   </Card>
   <Card
     title='HTTP response codes'

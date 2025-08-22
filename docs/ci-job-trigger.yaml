@@ -5,7 +5,7 @@ servers:
     variables:
       workspace:
         default: neetozone
-        description: Your workspace's subdomain
+        description: Your workspace's subdomain.
 
 info:
   description: NeetoCI offers APIs to trigger CI jobs and manage continuous integration workflows. To use the APIs, you will need an API key.
@@ -37,14 +37,14 @@ paths:
               $ref: '../schemas/ci-job-trigger.yaml#/components/schemas/ci_job_trigger_request'
       responses:
         '200':
-          description: OK - CI job triggered successfully
+          description: OK - CI job triggered successfully.
           content:
             application/json:
               schema:
                 $ref: '../schemas/ci-job-trigger.yaml#/components/schemas/ci_job_trigger_response'
         '400':
-          description: Bad Request - Missing/Invalid parameters
+          description: Bad Request - Missing/Invalid parameters.
         '401':
-          description: Unauthorized - Invalid API key
+          description: Unauthorized - Invalid API key.
         '500':
-          description: Internal server error
+          description: Internal server error.
