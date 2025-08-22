@@ -8,45 +8,22 @@ The documentation includes:
 
 - **Getting Started Guide**: Introduction, authentication, subdomain identification, pagination,
   HTTP response codes and quickstart tutorials
-- **Team Members API**: Endpoints for managing team members in the workspace
+- **CI Jobs API**: Endpoints for triggering and managing CI jobs in the workspace
 
 ## Project Structure
 
 ```
-neeto-cal-api/
+neeto-ci-api/
 ├── api-reference/         # API endpoint documentation
-│   ├── scheduling-links/  # Scheduling Links API documentation
-│   ├── bookings/          # Bookings API documentation
-│   ├── availabilities/    # Availabilities API documentation
-│   ├── slots/             # Slots API documentation
-│   ├── team-members/      # Team Members API documentation
-│   ├── packages/          # Packages API documentation
-│   └── discount-codes/    # Discount Codes API documentation
+│   └── ci-jobs/           # CI Jobs API documentation
 ├── assets/                # Static assets (favicon, images)
 ├── bundled/               # Generated OpenAPI bundles (auto-generated)
-│   ├── availabilities.yaml
-│   ├── bookings.yaml
-│   ├── discount-codes.yaml
-│   ├── meetings.yaml
-│   ├── packages.yaml
-│   ├── slots.yaml
-│   └── team-members.yaml
+│   └── ci-job-trigger.yaml
 ├── schemas/               # Contains reusable schema definitions
 │   ├── common.yaml        # Shared schemas used across multiple endpoints
-│   ├── booking.yaml       # Schemas related to bookings
-│   ├── meeting.yaml       # Schemas related to meetings/scheduling links
-│   ├── availability.yaml  # Schemas related to availabilities
-│   ├── team-member.yaml   # Schemas related to team members
-│   ├── package.yaml       # Schemas related to packages
-│   └── discount-code.yaml # Schemas related to discount codes
+│   └── ci-job-trigger.yaml # Schemas related to CI job triggers
 ├── docs/                  # OpenAPI specification files
-│   ├── availabilities.yaml
-│   ├── bookings.yaml
-│   ├── discount-codes.yaml
-│   ├── meetings.yaml
-│   ├── packages.yaml
-│   ├── slots.yaml
-│   └── team-members.yaml
+│   └── ci-job-trigger.yaml
 ├── getting-started/       # Getting started guides
 ├── snippets/              # Reusable content snippets
 ├── scripts/               # Build and automation scripts
@@ -119,13 +96,7 @@ This will:
 The documentation is organized into the following main sections:
 
 - **Getting Started**: Introduction, authentication, and basic setup guides
-- **Scheduling Links API**: Manage scheduling links and meetings
-- **Bookings API**: Handle booking operations (create, list, reschedule, cancel)
-- **Availabilities API**: Manage host availability settings
-- **Slots API**: Query available time slots
-- **Team Members API**: Manage team member operations
-- **Packages API**: Handle workspace package management
-- **Discount Codes API**: Manage discount codes for bookings
+- **CI Jobs API**: Trigger and manage CI job operations
 
 ### Other references
 

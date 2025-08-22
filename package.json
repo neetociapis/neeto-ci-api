@@ -1,8 +1,8 @@
 {
-  "name": "neeto-cal-api",
+  "name": "neeto-ci-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/neetozone/neeto-cal-api.git",
+  "repository": "https://github.com/neetozone/neeto-ci-api.git",
   "license": "MIT",
   "devDependencies": {
     "@redocly/cli": "^2.0.2",

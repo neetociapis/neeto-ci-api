@@ -1,19 +1,19 @@
 ---
 title: "Authentication"
-description: "Learn how to authenticate your requests to the NeetoCal API using API keys."
+description: "Learn how to authenticate your requests to the NeetoCI API using API keys."
 ---
 
 ### Generating an API Key
 
-To use the NeetoCal APIs, you must first generate an API key.
-[Learn how to generate your API key here.](https://help.neetocal.com/articles/api-keys)
+To use the NeetoCI APIs, you must first generate an API key.
+[Learn how to generate your API key here.](https://help.neetoci.com/articles/api-keys)
 
 ### Making authenticated API requests
 
 To authenticate your API requests, include a valid API key in the X-Api-Key header.
 
 ```bash
-curl https://{your-workspace}.neetocal.com/api/external/v1/bookings \
+curl https://{your-workspace}.neetoci.com/api/external/v1/jobs \
   --header 'X-Api-Key: your-api-key'
   --H "Content-Type: application/json"
 ```
@@ -56,21 +56,21 @@ Store your API key as an environment variable:
 
 <CodeGroup>
 ```bash .env
-NEETOCAL_API_KEY=your_api_key_here
-NEETOCAL_WORKSPACE=yourworkspace
+NEETOCI_API_KEY=your_api_key_here
+NEETOCI_WORKSPACE=yourworkspace
 ```
 
 ```javascript JavaScript
 // Load from environment
-const apiKey = process.env.NEETOCAL_API_KEY;
-const workspace = process.env.NEETOCAL_WORKSPACE;
+const apiKey = process.env.NEETOCI_API_KEY;
+const workspace = process.env.NEETOCI_WORKSPACE;
 ```
 
 ```python Python
 import os
 
-api_key = os.getenv('NEETOCAL_API_KEY')
-workspace = os.getenv('NEETOCAL_WORKSPACE')
+api_key = os.getenv('NEETOCI_API_KEY')
+workspace = os.getenv('NEETOCI_WORKSPACE')
 ```
 
 </CodeGroup>
