@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "NeetoCal API",
-  "description": "NeetoCal API docs guide to manage scheduling links from external channels",
+  "name": "NeetoCI API",
+  "description": "NeetoCI API docs guide to manage CI/CD pipelines",
   "theme": "mint",
   "colors": {
     "primary": "#10B981",
@@ -14,11 +14,11 @@
     "links": [
       {
         "label": "Blog",
-        "href": "https://www.neeto.com/neetocal/blog"
+        "href": "https://www.neeto.com/neetoci/blog"
       },
       {
         "label": "Help center",
-        "href": "https://help.neetocal.com/"
+        "href": "https://help.neetoci.com/"
       }
     ]
   },
@@ -40,77 +40,7 @@
           "getting-started/identifying-subdomain",
           "getting-started/authentication",
           "getting-started/quickstart",
-          "getting-started/pagination",
           "getting-started/response-codes"
-        ]
-      },
-      {
-        "group": "Scheduling links API",
-        "icon": "calendar",
-        "pages": [
-          "api-reference/scheduling-links/list-meetings",
-          "api-reference/scheduling-links/list-meeting-templates",
-          "api-reference/scheduling-links/get-meeting",
-          "api-reference/scheduling-links/create-meeting",
-          "api-reference/scheduling-links/update-meeting",
-          "api-reference/scheduling-links/create-one-off-link"
-        ]
-      },
-      {
-        "group": "Meeting spots API",
-        "icon": "map-pin",
-        "pages": [
-          "api-reference/scheduling-links/spots/list-spots",
-          "api-reference/scheduling-links/spots/get-spot",
-          "api-reference/scheduling-links/spots/create-spot",
-          "api-reference/scheduling-links/spots/update-spot",
-          "api-reference/scheduling-links/spots/delete-spot"
-        ]
-      },
-      {
-        "group": "Meeting durations API",
-        "icon": "hourglass",
-        "pages": [
-          "api-reference/scheduling-links/durations/list-durations",
-          "api-reference/scheduling-links/durations/get-duration",
-          "api-reference/scheduling-links/durations/create-duration",
-          "api-reference/scheduling-links/durations/update-duration",
-          "api-reference/scheduling-links/durations/delete-duration"
-        ]
-      },
-      {
-        "group": "Bookings API",
-        "icon": "list-ol",
-        "pages": [
-          "api-reference/bookings/list-bookings",
-          "api-reference/bookings/get-booking",
-          "api-reference/bookings/make-booking",
-          "api-reference/bookings/reschedule-booking",
-          "api-reference/bookings/cancel-booking"
-        ]
-      },
-      {
-        "group": "Availabilities API",
-        "icon": "clock",
-        "pages": [
-          "api-reference/availabilities/list-availabilities",
-          "api-reference/availabilities/list-team-member-availabilities",
-          "api-reference/availabilities/get-availability",
-          "api-reference/availabilities/update-availability",
-          "api-reference/availabilities/update-meeting-availability"
-        ]
-      },
-      {
-        "group": "Slots API",
-        "icon": "user-clock",
-        "pages": ["api-reference/slots/list-slots"]
-      },
-      {
-        "group": "Packages API",
-        "icon": "gift",
-        "pages": [
-          "api-reference/packages/list-packages",
-          "api-reference/packages/get-package"
         ]
       },
       {
@@ -121,11 +51,6 @@
           "api-reference/team-members/add-team-members",
           "api-reference/team-members/update-team-member"
         ]
-      },
-      {
-        "group": "Discount Codes API",
-        "icon": "credit-card",
-        "pages": ["api-reference/discount-codes/create-discount-code"]
       }
     ]
   },

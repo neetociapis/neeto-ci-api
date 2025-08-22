@@ -1,6 +1,6 @@
-# NeetoCal API Docs
+# NeetoCI API Docs
 
-This repository contains the documentation for the [NeetoCal APIs](https://apidocs.neetocal.com/getting-started/introduction), built using [Mintlify](https://mintlify.com/).
+This repository contains the documentation for the [NeetoCI APIs](https://apidocs.neetoci.com/getting-started/introduction), built using [Mintlify](https://mintlify.com/).
 
 ## Project Overview
 
@@ -8,13 +8,7 @@ The documentation includes:
 
 - **Getting Started Guide**: Introduction, authentication, subdomain identification, pagination,
   HTTP response codes and quickstart tutorials
-- **Scheduling Links API**: Endpoints for creating and managing scheduling links and meetings
-- **Bookings API**: Endpoints for creating, listing, rescheduling, and canceling bookings
-- **Availabilities API**: Endpoints for managing meeting host availabilities
-- **Slots API**: Endpoints for managing slot availability
 - **Team Members API**: Endpoints for managing team members in the workspace
-- **Packages API**: Endpoints for managing workspace packages
-- **Discount Codes API**: Endpoints for managing discount codes for bookings
 
 ## Project Structure
 
