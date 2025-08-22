@@ -1,0 +1,56 @@
+components:
+  schemas:
+    # CI job trigger request structure
+    ci_job_trigger_request:
+      type: object
+      properties:
+        branch_name:
+          type: string
+          description: The name of the branch to trigger the CI job for
+          example: "main"
+        project_name:
+          type: string
+          description: The name of the project to trigger the CI job for
+          example: "neeto-cal-web"
+        workflow_name:
+          type: string
+          description: The name of the workflow to execute
+          example: "playwright-nightly-staging"
+      required:
+        - branch_name
+        - project_name
+        - workflow_name
+
+    # CI job trigger response structure
+    ci_job_trigger_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message indicating the CI job was triggered
+          example: "CI job triggered successfully"
+        job_id:
+          type: string
+          description: Unique identifier for the triggered CI job
+          example: "ci-job-12345"
+        status:
+          type: string
+          description: Current status of the triggered job
+          example: "queued"
+        project:
+          type: string
+          description: Name of the project the job was triggered for
+          example: "neeto-cal-web"
+        branch:
+          type: string
+          description: Branch name the job was triggered for
+          example: "main"
+        workflow:
+          type: string
+          description: Name of the workflow that was triggered
+          example: "playwright-nightly-staging"
+        triggered_at:
+          type: string
+          format: date-time
+          description: Timestamp when the job was triggered
+          example: "2024-01-15T10:30:00Z"

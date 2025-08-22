@@ -1,11 +1,11 @@
 # Server configuration used across all endpoints
 servers:
-  - description: NeetoCal APIs
-    url: https://{your-workspace}.neetocal.com/api/external/v1
+  - description: NeetoCI APIs
+    url: https://{your-workspace}.neetoci.com/api/v1
     variables:
       your-workspace:
-        default: spinkart
-        description: Replace **spinkart** with your [workspace's subdomain](/getting-started/identifying-subdomain).
+        default: neetozone
+        description: Replace **neetozone** with your [workspace's subdomain](/getting-started/identifying-subdomain).
 
 # Common API Key header parameter
 api_key_header:
@@ -58,7 +58,6 @@ components:
         total_count:
           type: integer
 
-    # Pagination object structure (for NeetoCal APIs)
     pagination:
       type: object
       properties:

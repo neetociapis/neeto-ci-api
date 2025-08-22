@@ -1,75 +1,119 @@
 ---
-title: "HTTP response codes"
-description: "Understand the HTTP status codes returned by the NeetoCal API."
+title: "Response Codes"
+description: "Understand the HTTP status codes returned by the NeetoCI API."
 ---
 
-## Success Codes
+## Overview
 
-<ResponseField name='200 OK'>
-  The request was successful and the server returned the requested data.
-</ResponseField>
+The NeetoCI API uses standard [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to indicate the success or failure of API requests.
 
-## Client error codes
+## Success Responses
 
-<ResponseField name='400 Bad Request'>
-  There was an issue with the request. This usually indicates malformed JSON,
-  missing required parameters, or invalid parameter values.
-</ResponseField>
+### 200 OK
+The request was successful. The response body contains the requested data.
 
-<ResponseField name='401 Unauthorized'>
-  The request needs to be authenticated. This typically means:
-  - Missing API key.
-  - Invalid API key.
-  - Expired API key.
-</ResponseField>
-
-<ResponseField name='403 Forbidden'>
-  An operation was not allowed. This could mean:
-  - Insufficient permissions for the requested action.
-  - Attempting to access a resource you don't own.
-  - API key doesn't have the required scope.
-</ResponseField>
-
-<ResponseField name='404 Not Found'>
-  The requested URL or resource was not found. This could indicate:
-  - Incorrect endpoint URL.
-  - Resource ID doesn't exist.
-  - Workspace subdomain is incorrect.
-</ResponseField>
-
-<ResponseField name='422 Unprocessable entity'>
-  The given request could not be processed by the server due to malformed
-  request. Check the request body once again.
-</ResponseField>
-
-## Server Error Codes
-
-<ResponseField name='500 Internal Server Error'>
-  An unexpected error occurred on the server. If this persists, please contact
-  support.
-</ResponseField>
-
-<ResponseField name='501 Not Implemented'>
-  The server does not support the functionality required to fulfill the request.
-</ResponseField>
-
-## Error Response Format
-
-When an error occurs, the API returns a JSON response with error details:
-
-```json Error Response Example
+**Example**: Successfully triggered a CI job
+```json
 {
-  "message": "The provided API key is invalid or expired"
+  "message": "CI job triggered successfully",
+  "job_id": "ci-job-12345",
+  "status": "queued"
 }
 ```
 
-<ResponseField name='error.message' type='string'>
-  A human-readable error message.
-</ResponseField>
+## Client Error Responses
 
-<Tip>
-  When debugging API issues, the [HTTP status
-  code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) often provides
-  the first clue about what went wrong. Start by checking the status code before
-  diving into the response body.
-</Tip>
+### 400 Bad Request
+The request was malformed or contains invalid parameters.
+
+**Common causes**:
+- Missing required fields in request body
+- Invalid data types
+- Malformed JSON
+
+**Example**:
+```json
+{
+  "error": "Missing required field: branch_name"
+}
+```
+
+### 401 Unauthorized
+Authentication failed. Check your API key.
+
+**Common causes**:
+- Missing API key header
+- Invalid or expired API key
+- Incorrect workspace subdomain
+
+**Example**:
+```json
+{
+  "error": "Could not authenticate, invalid API Key"
+}
+```
+
+### 403 Forbidden
+The request was understood but the server is refusing to authorize it.
+
+**Common causes**:
+- Insufficient permissions for the requested action
+- API key doesn't have access to the specified project
+
+### 404 Not Found
+The requested resource was not found.
+
+**Common causes**:
+- Invalid project name
+- Invalid workflow name
+- Non-existent branch
+
+### 429 Too Many Requests
+Rate limit exceeded. Try again later.
+
+## Server Error Responses
+
+### 500 Internal Server Error
+An unexpected error occurred on the server.
+
+**What to do**:
+- Wait a few minutes and try again
+- If the problem persists, contact support
+
+### 502 Bad Gateway
+The server received an invalid response from an upstream server.
+
+### 503 Service Unavailable
+The service is temporarily unavailable.
+
+**What to do**:
+- Wait a few minutes and try again
+- Check the NeetoCI status page for any ongoing issues
+
+## Handling Errors
+
+Always check the HTTP status code and handle errors appropriately in your application:
+
+```javascript
+const response = await fetch(url, options);
+
+if (!response.ok) {
+  const errorData = await response.json();
+  console.error(`Error ${response.status}:`, errorData.error);
+
+  if (response.status === 401) {
+    // Handle authentication error
+  } else if (response.status === 400) {
+    // Handle validation error
+  } else if (response.status === 429) {
+    // Handle rate limiting
+  }
+} else {
+  const data = await response.json();
+  // Process successful response
+}
+```
+
+## Rate Limiting
+
+API requests are subject to rate limiting to ensure fair use. If you exceed the rate limit, you'll receive a 429 response. Wait before making additional requests.

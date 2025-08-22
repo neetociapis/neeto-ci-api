@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  description: NeetoCI offers APIs to trigger CI jobs and manage continuous integration workflows. To use the APIs, you will need an API key.
+  title: NeetoCI APIs
+servers:
+  - description: NeetoCI APIs
+    url: https://{workspace}.neetoci.com/api/v1
+    variables:
+      workspace:
+        default: neetozone
+        description: Your workspace's subdomain
+tags:
+  - name: CI Jobs
+    description: APIs to trigger and manage CI jobs in the workspace.
+paths:
+  /trigger_ci_job:
+    post:
+      summary: Trigger a CI job
+      tags:
+        - CI Jobs
+      description: This API allows you to trigger a CI job for a specific project and branch with a specified workflow.
+      parameters:
+        - in: header
+          name: X-Api-Key
+          description: You can generate an API key from the NeetoCI API Keys dashboard.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ci_job_trigger_request'
+      responses:
+        '200':
+          description: OK - CI job triggered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ci_job_trigger_response'
+        '400':
+          description: Bad Request - Missing/Invalid parameters
+        '401':
+          description: Unauthorized - Invalid API key
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    ci_job_trigger_request:
+      type: object
+      properties:
+        branch_name:
+          type: string
+          description: The name of the branch to trigger the CI job for
+          example: main
+        project_name:
+          type: string
+          description: The name of the project to trigger the CI job for
+          example: neeto-cal-web
+        workflow_name:
+          type: string
+          description: The name of the workflow to execute
+          example: playwright-nightly-staging
+      required:
+        - branch_name
+        - project_name
+        - workflow_name
+    ci_job_trigger_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message indicating the CI job was triggered
+          example: CI job triggered successfully
+        job_id:
+          type: string
+          description: Unique identifier for the triggered CI job
+          example: ci-job-12345
+        status:
+          type: string
+          description: Current status of the triggered job
+          example: queued
+        project:
+          type: string
+          description: Name of the project the job was triggered for
+          example: neeto-cal-web
+        branch:
+          type: string
+          description: Branch name the job was triggered for
+          example: main
+        workflow:
+          type: string
+          description: Name of the workflow that was triggered
+          example: playwright-nightly-staging
+        triggered_at:
+          type: string
+          format: date-time
+          description: Timestamp when the job was triggered
+          example: '2024-01-15T10:30:00Z'

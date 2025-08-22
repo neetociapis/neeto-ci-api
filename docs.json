@@ -44,12 +44,10 @@
         ]
       },
       {
-        "group": "Team Members API",
-        "icon": "user-group",
+        "group": "CI Jobs API",
+        "icon": "play",
         "pages": [
-          "api-reference/team-members/list-team-members",
-          "api-reference/team-members/add-team-members",
-          "api-reference/team-members/update-team-member"
+          "api-reference/ci-jobs/trigger-ci-job"
         ]
       }
     ]
@@ -63,7 +61,11 @@
       "proxy": true
     },
     "examples": {
-      "languages": ["curl", "javascript", "python"],
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ],
       "defaults": "all"
     }
   },
