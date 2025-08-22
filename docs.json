@@ -8,7 +8,6 @@
     "light": "#34D399",
     "dark": "#059669"
   },
-  "logo": "/assets/logo.svg",
   "favicon": "/assets/favicon.svg",
   "navbar": {
     "links": [
