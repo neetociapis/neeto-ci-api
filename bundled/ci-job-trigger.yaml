@@ -22,7 +22,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: You can generate an API key from the NeetoCI API Keys dashboard [X-Api-Key for neetozone](https://start.1password.com/open/i?a=AD3QJO5IAVBUDLQ7W5XSH62T3Y&v=362hgmqklfeypggznttlaolvjq&i=y4w2ibkkggepmf4dv75lbciiqm&h=neetozone.1password.com).
+          description: You can generate an API key from the NeetoCI API Keys dashboard. [X-Api-Key for neetozone](https://start.1password.com/open/i?a=AD3QJO5IAVBUDLQ7W5XSH62T3Y&v=362hgmqklfeypggznttlaolvjq&i=y4w2ibkkggepmf4dv75lbciiqm&h=neetozone.1password.com).
           required: true
           schema:
             type: string
@@ -52,17 +52,17 @@ components:
       properties:
         branch_name:
           type: string
-          description: The name of the branch to trigger the CI job for
+          description: The name of the branch to trigger the CI job for.
           example: main
           default: main
         project_name:
           type: string
-          description: The name of the project to trigger the CI job for
+          description: The name of the project to trigger the CI job for.
           example: neeto-cal-web
           default: neeto-cal-web
         workflow_name:
           type: string
-          description: The name of the workflow to execute
+          description: The name of the workflow to execute. The recommended workflow to use is `playwright-staging`.
           enum:
             - playwright-nightly-staging
             - playwright-staging

@@ -6,17 +6,17 @@ components:
       properties:
         branch_name:
           type: string
-          description: The name of the branch to trigger the CI job for
+          description: The name of the branch to trigger the CI job for.
           example: "main"
           default: "main"
         project_name:
           type: string
-          description: The name of the project to trigger the CI job for
+          description: The name of the project to trigger the CI job for.
           example: "neeto-cal-web"
           default: "neeto-cal-web"
         workflow_name:
           type: string
-          description: The name of the workflow to execute
+          description: The name of the workflow to execute. The recommended workflow to use is `playwright-staging`.
           enum:
             - playwright-nightly-staging
             - playwright-staging
