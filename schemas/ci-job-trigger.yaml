@@ -26,7 +26,7 @@ components:
           x-enum-descriptions:
             playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
             playwright-staging: Runs the full Playwright test suite on-demand for staging environment verification and validation.
-            playwright-staging-diff: Executes only the Playwright tests affected by changes in the last commit on the main branch for faster feedback during development.
+            playwright-staging-diff: Executes only the Playwright tests affected by changes compared to the target branch for faster feedback during development.
       required:
         - branch_name
         - project_name
