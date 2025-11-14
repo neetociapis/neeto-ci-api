@@ -6,19 +6,27 @@ components:
       properties:
         branch_name:
           type: string
-          description: The name of the branch to trigger the CI job for
+          description: The name of the branch to trigger the CI job for.
           example: "main"
           default: "main"
         project_name:
           type: string
-          description: The name of the project to trigger the CI job for
+          description: The name of the project to trigger the CI job for.
           example: "neeto-cal-web"
           default: "neeto-cal-web"
         workflow_name:
           type: string
-          description: The name of the workflow to execute
+          description: The name of the workflow to execute. The recommended workflow to use is `playwright-staging`.
+          enum:
+            - playwright-nightly-staging
+            - playwright-staging
+            - playwright-staging-diff
           example: "playwright-staging"
           default: "playwright-staging"
+          x-enum-descriptions:
+            playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
+            playwright-staging: Runs the full Playwright test suite on-demand for staging environment verification and validation.
+            playwright-staging-diff: Executes only the Playwright tests affected by changes compared to the target branch for faster feedback during development.
       required:
         - branch_name
         - project_name

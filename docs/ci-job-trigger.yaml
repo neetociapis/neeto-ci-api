@@ -25,7 +25,7 @@ paths:
       parameters:
         - in: header
           name: X-Api-Key
-          description: You can generate an API key from the NeetoCI API Keys dashboard.
+          description: You can generate an API key from the NeetoCI API Keys dashboard. [X-Api-Key for neetozone](https://start.1password.com/open/i?a=AD3QJO5IAVBUDLQ7W5XSH62T3Y&v=362hgmqklfeypggznttlaolvjq&i=y4w2ibkkggepmf4dv75lbciiqm&h=neetozone.1password.com).
           required: true
           schema:
             type: string
