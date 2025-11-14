@@ -17,8 +17,16 @@ components:
         workflow_name:
           type: string
           description: The name of the workflow to execute
+          enum:
+            - playwright-nightly-staging
+            - playwright-staging
+            - playwright-staging-diff
           example: "playwright-staging"
           default: "playwright-staging"
+          x-enum-descriptions:
+            playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
+            playwright-staging: Runs the full Playwright test suite on-demand for staging environment verification and validation.
+            playwright-staging-diff: Executes only the Playwright tests affected by changes in the last commit on the main branch for faster feedback during development.
       required:
         - branch_name
         - project_name
