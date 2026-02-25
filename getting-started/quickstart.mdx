@@ -9,7 +9,7 @@ Let's trigger a CI job in your workspace using a [POST request](https://en.wikip
 
 <CodeGroup>
 ```bash curl
-curl -X POST "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger" \
+curl -X POST "https://{your-subdomain}.neetoci.com/api/external/v1/ci-jobs/trigger" \
   -H "X-Api-Key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -21,7 +21,7 @@ curl -X POST "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigg
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger",
+  "https://{your-subdomain}.neetoci.com/api/external/v1/ci-jobs/trigger",
   {
     method: "POST",
     headers: {
@@ -44,7 +44,7 @@ console.log(data);
 import requests
 import json
 
-url = "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger"
+url = "https://{your-subdomain}.neetoci.com/api/external/v1/ci-jobs/trigger"
 headers = {
     "X-Api-Key": "your-api-key",
     "Content-Type": "application/json"
@@ -71,7 +71,7 @@ $payload = json_encode([
 ]);
 
 curl_setopt_array($curl, [
-    CURLOPT_URL => "https://{your-workspace}.neetoci.com/api/external/v1/ci-jobs/trigger",
+    CURLOPT_URL => "https://{your-subdomain}.neetoci.com/api/external/v1/ci-jobs/trigger",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => $payload,
@@ -92,7 +92,7 @@ print_r($data);
 </CodeGroup>
 
 <Warning>
-  Replace `your-workspace` with your actual workspace subdomain,
+  Replace `your-subdomain` with your actual workspace subdomain,
   `your-api-key` with your generated API key, and
   `your-project-name` with the name of your project in NeetoCI.
 </Warning>
