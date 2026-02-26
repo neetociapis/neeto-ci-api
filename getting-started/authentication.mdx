@@ -13,7 +13,7 @@ To use the NeetoCI APIs, you must first generate an API key.
 To authenticate your API requests, include a valid API key in the X-Api-Key header.
 
 ```bash
-curl https://{your-workspace}.neetoci.com/api/external/v1/jobs \
+curl https://{your-subdomain}.neetoci.com/api/external/v1/jobs \
   --header 'X-Api-Key: your-api-key'
   --H "Content-Type: application/json"
 ```
@@ -57,7 +57,7 @@ Store your API key as an environment variable:
 <CodeGroup>
 ```bash .env
 NEETOCI_API_KEY=your_api_key_here
-NEETOCI_WORKSPACE=yourworkspace
+NEETOCI_WORKSPACE=your-workspace
 ```
 
 ```javascript JavaScript

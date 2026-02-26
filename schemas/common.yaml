@@ -1,9 +1,9 @@
 # Server configuration used across all endpoints
 servers:
   - description: NeetoCI APIs
-    url: https://{your-workspace}.neetoci.com/api/v1
+    url: https://{your-subdomain}.neetoci.com/api/v1
     variables:
-      your-workspace:
+      your-subdomain:
         default: neetozone
         description: Replace **neetozone** with your [workspace's subdomain](/getting-started/identifying-subdomain).
 

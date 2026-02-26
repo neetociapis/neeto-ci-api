@@ -4,9 +4,9 @@ info:
   title: NeetoCI APIs
 servers:
   - description: NeetoCI APIs
-    url: https://{workspace}.neetoci.com/api/v1
+    url: https://{your-subdomain}.neetoci.com/api/v1
     variables:
-      workspace:
+      your-subdomain:
         default: neetozone
         description: Your workspace's subdomain.
 tags:
