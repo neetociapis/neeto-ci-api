@@ -10,8 +10,8 @@ Let's trigger a CI job in your workspace using a [POST request](https://en.wikip
 <CodeGroup>
 ```bash curl
 curl -X POST "https://{your-subdomain}.neetoci.com/api/external/v1/ci-jobs/trigger" \
-  -H "X-Api-Key: your-api-key" \
-  -H "Content-Type: application/json" \
+  -H 'X-Api-Key: your-api-key' \
+  -H 'Content-Type: application/json' \
   -d '{
     "project_name": "your-project-name",
     "branch_name": "main",
