@@ -43,7 +43,7 @@
         ]
       },
       {
-        "group": "CI Jobs API",
+        "group": "CI Jobs",
         "icon": "play",
         "pages": [
           "api-reference/ci-jobs/trigger-ci-job"
