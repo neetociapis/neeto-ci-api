@@ -46,7 +46,7 @@
         "group": "CI Jobs",
         "icon": "play",
         "pages": [
-          "api-reference/ci-jobs/trigger-ci-job"
+          "api-reference/ci-jobs/trigger"
         ]
       }
     ]
