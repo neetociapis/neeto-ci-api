@@ -18,7 +18,7 @@ paths:
       summary: Trigger a CI job
       tags:
         - CI Jobs
-      description: This API allows you to trigger a CI job for a specific project and branch with a specified workflow.
+      description: Trigger a CI job for a specific project and branch.
       parameters:
         - in: header
           name: X-Api-Key
