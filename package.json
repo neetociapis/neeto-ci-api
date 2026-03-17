@@ -6,11 +6,13 @@
   "license": "MIT",
   "devDependencies": {
     "@redocly/cli": "^2.0.2",
+    "husky": "^9.1.7",
     "nodemon": "^3.1.10"
   },
   "scripts": {
     "build:dev": "nodemon --exec 'scripts/bundle.sh'",
-    "docs:preview": "mint dev"
+    "docs:preview": "mint dev",
+    "prepare": "husky"
   },
   "nodemonConfig": {
     "ext": "yaml",
