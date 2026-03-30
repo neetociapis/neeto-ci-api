@@ -17,6 +17,18 @@ api_key_header:
     type: string
     default: "your-api-key"
 
+# Common Accept header parameter
+accept_header:
+  in: header
+  name: Accept
+  description: Specifies the expected response format. Must be set to `application/json` for proper API communication.
+  required: true
+  schema:
+    type: string
+    enum:
+      - application/json
+    default: application/json
+
 # Common pagination parameters
 page_number_param:
   in: query
