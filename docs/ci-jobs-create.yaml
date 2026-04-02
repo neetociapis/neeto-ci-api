@@ -1,28 +1,27 @@
 openapi: 3.0.0
 servers:
   - description: NeetoCI APIs
-    url: https://{your-subdomain}.neetoci.com/api/v1
+    url: https://{your-subdomain}.neetoci.com/api/v2
     variables:
       your-subdomain:
         default: neetozone
         description: Your workspace's subdomain.
 
 info:
-  description: NeetoCI offers APIs to trigger CI jobs and manage continuous integration workflows. To use the APIs, you will need an API key.
+  description: NeetoCI offers APIs to create CI jobs and manage continuous integration workflows. To use the APIs, you will need an API key.
   title: NeetoCI APIs
 
 tags:
   - name: CI Jobs
-    description: APIs to trigger and manage CI jobs in the workspace.
+    description: APIs to create and manage CI jobs in the workspace.
 
 paths:
-  /trigger_ci_job:
+  /ci-jobs:
     post:
-      deprecated: true
-      summary: Trigger a CI job
+      summary: Create a CI job
       tags:
         - CI Jobs
-      description: This API allows you to trigger a CI job for a specific project and branch with a specified workflow.
+      description: This API allows you to create a CI job for a specific project and branch with a specified workflow.
       parameters:
         - in: header
           name: X-Api-Key
@@ -37,8 +36,8 @@ paths:
             schema:
               $ref: '../schemas/ci-job-trigger.yaml#/components/schemas/ci_job_trigger_request'
       responses:
-        '200':
-          description: OK - CI job triggered successfully.
+        '201':
+          description: Created - CI job created successfully.
           content:
             application/json:
               schema:
