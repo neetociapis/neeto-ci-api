@@ -12,7 +12,8 @@
   "scripts": {
     "build:dev": "nodemon --exec 'scripts/bundle.sh'",
     "docs:preview": "mint dev",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "scripts/bundle.sh"
   },
   "nodemonConfig": {
     "ext": "yaml",
