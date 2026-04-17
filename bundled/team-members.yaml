@@ -192,6 +192,7 @@ components:
       required: true
       schema:
         type: string
+        default: your-api-key
     accept_header:
       in: header
       name: Accept
