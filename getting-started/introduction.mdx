@@ -7,14 +7,10 @@ The NeetoCI API is organized around [REST](https://en.wikipedia.org/wiki/REST) p
 
 Before you start with NeetoCI APIs you will need the following:
 
-1. [Workspace Subdomain](/getting-started/workspace-subdomain).
-2. [An API key](/getting-started/authentication).
+1. [Workspace subdomain](/getting-started/workspace-subdomain).
+2. [API key](/getting-started/authentication).
 
-## Quick start
-
-Get started with the NeetoCI API in minutes. Make your first API call and trigger a CI job. You should have your [API key](/getting-started/authentication) and [Workspace Subdomain](/getting-started/workspace-subdomain) ready with you.
-
-### Step 1: Make Your First API Call
+## Making your first API call
 
 Let's create a CI job in your workspace using a [POST request](https://en.wikipedia.org/wiki/HTTP#Request_methods):
 
@@ -108,65 +104,7 @@ print_r($data);
   `your-project-name` with the name of your project in NeetoCI.
 </Warning>
 
-### Step 2: Understanding the Response
-
-A successful response will look like this [JSON](https://en.wikipedia.org/wiki/JSON) format:
-
-```json
-{
-  "ci_job": {
-    "id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
-    "created_at": "2025-08-22T12:54:49.049Z",
-    "status": "pending",
-    "parallelism": 4,
-    "url": "https://neetozone.neetoci.com/projects/neeto-record-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400",
-    "workflow": {
-      "is_cypress": true,
-      "name": "playwright-staging",
-      "plan": {
-        "id": "be8e68a3-2f79-4be8-86f1-11dfcfac8040",
-        "capacity": 50,
-        "cpu": 4.0,
-        "memory": 8.0,
-        "name": "Professional 2",
-        "price": 4.0,
-        "slug": "professional-2",
-        "created_at": "2023-08-16T19:14:11.595Z",
-        "updated_at": "2023-08-16T19:14:11.595Z",
-        "ephemeral_storage": 80.0
-      }
-    }
-  }
-}
-```
-
-The response includes:
-- **`id`**: Unique identifier for the triggered CI job
-- **`status`**: Current status (pending, running, completed, failed)
-- **`url`**: Direct link to monitor the job in the NeetoCI dashboard
-- **`workflow`**: Details about the executed workflow and its execution plan
-
-### Next Steps
-
-Now that you've created your first CI job, you can:
-
-<CardGroup cols={3}>
-  <Card title='Explore API reference' href='/api-reference' icon='code'>
-    Browse all available endpoints and their detailed documentation.
-  </Card>
-  <Card title='CI Jobs API' href='/api-reference/ci-jobs/create' icon='play'>
-    Learn more about creating and managing CI jobs.
-  </Card>
-  <Card
-    title='HTTP response codes'
-    href='/getting-started/response-codes'
-    icon='reply'
-  >
-    Learn what different response codes mean and how to handle them.
-  </Card>
-</CardGroup>
-
-<Card icon="question" title='Need help?'>
+<Card title='Need help?'>
   Visit our [help center](https://help.neetoci.com) or contact our by sending
   an email to [support@neetoci.com](mailto:support@neetoci.com).
 </Card>
