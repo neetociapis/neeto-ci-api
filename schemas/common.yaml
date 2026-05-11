@@ -11,7 +11,7 @@ servers:
 api_key_header:
   in: header
   name: X-Api-Key
-  description: X-Api-Key is used to authenticate requests using an API key. Provide your API key in this header to access protected endpoints. Refer to [Authentication](/getting-started/authentication) for more information.
+  description: Use the X-Api-Key header to provide your workspace API key. Refer to [Authentication](/getting-started/authentication) for more information.
   required: true
   schema:
     type: string
