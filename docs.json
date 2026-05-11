@@ -36,7 +36,7 @@
         "icon": "rocket",
         "pages": [
           "getting-started/introduction",
-          "getting-started/identifying-subdomain",
+          "getting-started/workspace-subdomain",
           "getting-started/authentication",
           "getting-started/response-codes"
         ]

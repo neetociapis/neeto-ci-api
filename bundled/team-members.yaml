@@ -8,7 +8,7 @@ servers:
     variables:
       your-subdomain:
         default: neetozone
-        description: Replace **neetozone** with your [workspace's subdomain](/getting-started/identifying-subdomain).
+        description: Replace **neetozone** with your [workspace's subdomain](/getting-started/workspace-subdomain).
 tags:
   - name: Team Members
     description: APIs to manage team members in the workspace.
