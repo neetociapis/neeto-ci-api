@@ -44,26 +44,23 @@
       {
         "group": "CI Jobs",
         "icon": "play",
-        "pages": [
-          "api-reference/ci-jobs/create"
-        ]
-      },
-      {
-        "group": "API v1 (Deprecated)",
-        "icon": "triangle-exclamation",
-        "pages": [
-          "api-reference-v1/ci-jobs/trigger"
-        ]
+        "pages": ["api-reference/ci-jobs/create"]
       },
       {
         "group": "Team Members",
         "icon": "user-group",
         "pages": [
           "api-reference/team-members/list",
+          "api-reference/team-members/get",
           "api-reference/team-members/add",
           "api-reference/team-members/update",
           "api-reference/team-members/remove"
         ]
+      },
+      {
+        "group": "API v1 (Deprecated)",
+        "icon": "triangle-exclamation",
+        "pages": ["api-reference-v1/ci-jobs/trigger"]
       }
     ]
   },
@@ -76,11 +73,7 @@
       "proxy": true
     },
     "examples": {
-      "languages": [
-        "curl",
-        "javascript",
-        "python"
-      ],
+      "languages": ["curl", "javascript", "python"],
       "defaults": "all"
     }
   },

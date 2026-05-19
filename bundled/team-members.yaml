@@ -4,7 +4,7 @@ info:
   version: 1.0.0
 servers:
   - description: NeetoCI APIs
-    url: https://{your-subdomain}.neetoci.com/api/v1
+    url: https://{your-subdomain}.neetoci.com/api/external/v2
     variables:
       your-subdomain:
         default: neetozone
@@ -13,7 +13,7 @@ tags:
   - name: Team Members
     description: APIs to manage team members in the workspace.
 paths:
-  /team_members:
+  /team-members:
     get:
       summary: List team members
       tags:
@@ -82,8 +82,8 @@ paths:
               required:
                 - emails
       responses:
-        '200':
-          description: OK - Users added successfully
+        '201':
+          description: Created - Users added successfully
           content:
             application/json:
               schema:
@@ -92,7 +92,33 @@ paths:
                   message:
                     type: string
                     example: Users added successfully
-  /team_members/{team_member_id}:
+  /team-members/{team_member_id}:
+    get:
+      summary: Get team member details
+      tags:
+        - Team Members
+      description: Retrieves details of a specific team member.
+      parameters:
+        - $ref: '#/components/parameters/api_key_header'
+        - $ref: '#/components/parameters/accept_header'
+        - in: path
+          name: team_member_id
+          description: ID of the team member. You can get this by listing all team members using the [List team members](/api-reference/team-members/list) API.
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: aaaabbbb-cccc-dddd-eeee-ffff00001111
+      responses:
+        '200':
+          description: OK - Request succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_member:
+                    $ref: '#/components/schemas/team_member'
     delete:
       summary: Remove team member
       tags:
@@ -108,18 +134,10 @@ paths:
           schema:
             type: string
             format: uuid
-            example: 13c02be6-8bd4-4dda-b9e6-07df53feb8a4
+            example: aaaabbbb-cccc-dddd-eeee-ffff00001111
       responses:
-        '200':
-          description: OK - Team member removed successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Team member has been removed
+        '204':
+          description: No Content - Team member removed successfully
         '422':
           description: Unprocessable Entity - Cannot remove the last admin of the workspace
           content:
@@ -145,7 +163,7 @@ paths:
           schema:
             type: string
             format: uuid
-            example: 13c02be6-8bd4-4dda-b9e6-07df53feb8a4
+            example: aaaabbbb-cccc-dddd-eeee-ffff00001111
       requestBody:
         required: true
         content:
@@ -224,21 +242,29 @@ components:
         id:
           type: string
           format: uuid
+          example: aaaabbbb-cccc-dddd-eeee-ffff00001111
         email:
           type: string
+          example: oliver@example.com
         first_name:
           type: string
+          example: Oliver
         last_name:
           type: string
+          example: Smith
         time_zone:
           type: string
+          example: Asia/Kolkata
         profile_image_url:
           type: string
           nullable: true
+          example: null
         active:
           type: boolean
+          example: true
         organization_role:
           type: string
+          example: Admin
     pagination:
       type: object
       properties:

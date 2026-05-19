@@ -7,21 +7,29 @@ components:
         id:
           type: string
           format: uuid
+          example: "aaaabbbb-cccc-dddd-eeee-ffff00001111"
         email:
           type: string
+          example: "oliver@example.com"
         first_name:
           type: string
+          example: "Oliver"
         last_name:
           type: string
+          example: "Smith"
         time_zone:
           type: string
+          example: "Asia/Kolkata"
         profile_image_url:
           type: string
           nullable: true
+          example: null
         active:
           type: boolean
+          example: true
         organization_role:
           type: string
+          example: "Admin"
 
     # Team member list response structure
     team_member_list_response:
@@ -31,6 +39,6 @@ components:
             team_members:
               type: array
               items:
-                $ref: '#/components/schemas/team_member'
+                $ref: "#/components/schemas/team_member"
             pagination:
-              $ref: '../schemas/common.yaml#/components/schemas/pagination'
+              $ref: "../schemas/common.yaml#/components/schemas/pagination"
