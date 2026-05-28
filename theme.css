@@ -12,15 +12,15 @@
 
 [data-nav="true"] a,
 #navbar-transition a,
-.navbar-link,
-nav a {
+#navbar a,
+.navbar-link {
   color: rgb(255, 255, 255) !important;
 }
 
 [data-nav="true"] a:hover,
 #navbar-transition a:hover,
-.navbar-link:hover,
-nav a:hover {
+#navbar a:hover,
+.navbar-link:hover {
   color: rgb(238, 238, 238) !important;
 }
 
