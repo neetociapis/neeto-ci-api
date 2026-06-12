@@ -5,13 +5,12 @@ plan: standard-2
 commands:
   - checkout
   - neetoci-version node 22.13
-  - npm i -g mint
-  - mint broken-links
-  - yarn install --frozen-lockfile
+  - cache restore
+  - yarn install
+  - cache store
   - yarn build
+  - bash .neetoci/scripts/check_links.sh
   - bash .neetoci/scripts/validate_bundled.sh
 
 triggers:
-  - event: branch
-    branch_name: main
   - event: pull_request
