@@ -7,13 +7,16 @@
   "devDependencies": {
     "@redocly/cli": "^2.0.2",
     "husky": "^9.1.7",
+    "mint": "4.2.577",
     "nodemon": "^3.1.10"
   },
   "scripts": {
+    "build": "scripts/bundle.sh",
     "build:dev": "nodemon --exec 'scripts/bundle.sh'",
     "docs:preview": "mint dev",
-    "prepare": "husky",
-    "build": "scripts/bundle.sh"
+    "check:openapi": "mint openapi-check",
+    "check:links": "mint broken-links",
+    "prepare": "husky"
   },
   "nodemonConfig": {
     "ext": "yaml",
