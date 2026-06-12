@@ -18,15 +18,21 @@ components:
           type: string
           description: The name of the workflow to execute. The recommended workflow to use is `playwright-staging`.
           enum:
-            - playwright-nightly-staging
+            - playwright
+            - playwright-webkit
             - playwright-staging
+            - playwright-staging-webkit
             - playwright-staging-diff
+            - playwright-nightly-staging
           example: "playwright-staging"
           default: "playwright-staging"
           x-enum-descriptions:
-            playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
-            playwright-staging: Runs the full Playwright test suite on-demand for staging environment verification and validation.
+            playwright: Runs the full Playwright test suite on Chromium against the local/development environment.
+            playwright-webkit: Runs the full Playwright test suite on WebKit against the local/development environment.
+            playwright-staging: Runs the full Playwright test suite on Chromium against the staging environment for verification and validation.
+            playwright-staging-webkit: Runs the full Playwright test suite on WebKit against the staging environment.
             playwright-staging-diff: Executes only the Playwright tests affected by changes compared to the target branch for faster feedback during development.
+            playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
       required:
         - branch_name
         - project_name
@@ -88,7 +94,11 @@ components:
       properties:
         is_cypress:
           type: boolean
-          description: Whether the workflow is a Cypress test workflow
+          description: Whether the workflow is a Cypress/Playwright test workflow
+          example: true
+        is_playwright:
+          type: boolean
+          description: Whether the workflow is a Cypress/Playwright test workflow
           example: true
         name:
           type: string
