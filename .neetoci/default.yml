@@ -3,31 +3,23 @@ fail_fast: true
 plan: standard-2
 
 paths:
-  - app/**
-  - bin/**
-  - config/**
-  - db/**
-  - lib/**
-  - test/**
-  - .neetoci/default.yml
-  - .neetoci/scripts/run_eslint_on_modified_files.sh
-  - .neetoci/scripts/run_rubocop_and_erblint_on_modified_files.sh
-  - .neetoci/scripts/check_schema_drift.sh
-  - Gemfile*
+  - api-reference/**
+  - api-reference-v1/**
+  - assets/**
+  - bundled/**
+  - bundled-v1/**
+  - docs/**
+  - docs-v1/**
+  - getting-started/**
+  - schemas/**
+  - scripts/**
+  - snippets/**
+  - docs.json
+  - theme.css
   - package.json
   - yarn.lock
-  - Rakefile
-  - .env.test
-  - config.ru
-  - .*.yml
-  - .ruby-version
-  - .node-version
-  - .nvmrc
-  - .active_record_doctor.rb
-  - .prettierrc.js
-  - "*.config.*"
-  - .eslintignore
-  - .eslintrc.js
+  - .neetoci/default.yml
+  - .neetoci/scripts/*
 
 commands:
   - checkout
