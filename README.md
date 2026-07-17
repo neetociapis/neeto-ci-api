@@ -1,8 +1,6 @@
 # NeetoCI API Docs
 
-This repository contains the documentation for the [NeetoCI
-APIs](https://apidocs.neetoci.com/getting-started/introduction), built using
-[Mintlify](https://mintlify.com/).
+This repository contains the documentation for the [NeetoCI APIs](https://apidocs.neetoci.com/getting-started/introduction), built using [Mintlify](https://mintlify.com/).
 
 ## Development Setup
 
@@ -26,8 +24,7 @@ APIs](https://apidocs.neetoci.com/getting-started/introduction), built using
    yarn docs:preview
    ```
 
-   A local preview will be available at `http://localhost:3000`. You can
-   customize the port using the `--port` flag:
+   A local preview will be available at `http://localhost:3000`. You can customize the port using the `--port` flag:
 
    ```bash
    yarn docs:preview --port 3333
@@ -37,8 +34,7 @@ APIs](https://apidocs.neetoci.com/getting-started/introduction), built using
 
 5. ### Build the API
 
-   After making code changes you must run `yarn build:dev`. This will make
-   changes in the `bundled` folder which is what mintlify uses. You should NEVER
-   make changes to the `bundled` folder directly.
+   After making code changes you must run `yarn build:dev`. This will make changes in the `bundled` folder which is what mintlify uses.
+   You should NEVER make changes to the `bundled` folder directly.
 
    Refer to [llm.md](llm.md) for more info.
