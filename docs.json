@@ -35,26 +35,26 @@
         "group": "Getting Started",
         "icon": "rocket",
         "pages": [
-          "getting-started/introduction",
-          "getting-started/workspace-subdomain",
-          "getting-started/authentication",
-          "getting-started/response-codes"
+          "api/introduction",
+          "api/workspace-subdomain",
+          "api/authentication",
+          "api/response-codes"
         ]
       },
       {
         "group": "CI Jobs",
         "icon": "play",
-        "pages": ["api-reference/ci-jobs/create"]
+        "pages": ["api/ci-jobs/create"]
       },
       {
         "group": "Team Members",
         "icon": "user-group",
         "pages": [
-          "api-reference/team-members/list",
-          "api-reference/team-members/get",
-          "api-reference/team-members/add",
-          "api-reference/team-members/update",
-          "api-reference/team-members/remove"
+          "api/team-members/list",
+          "api/team-members/get",
+          "api/team-members/add",
+          "api/team-members/update",
+          "api/team-members/remove"
         ]
       },
       {
@@ -84,5 +84,27 @@
   "appearance": {
     "default": "light",
     "strict": true
-  }
+  },
+  "redirects": [
+    {
+      "source": "/getting-started/introduction",
+      "destination": "/api/introduction"
+    },
+    {
+      "source": "/getting-started/workspace-subdomain",
+      "destination": "/api/workspace-subdomain"
+    },
+    {
+      "source": "/getting-started/authentication",
+      "destination": "/api/authentication"
+    },
+    {
+      "source": "/getting-started/response-codes",
+      "destination": "/api/response-codes"
+    },
+    {
+      "source": "/api-reference/:slug*",
+      "destination": "/api/:slug*"
+    }
+  ]
 }

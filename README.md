@@ -1,6 +1,6 @@
 # NeetoCI API Docs
 
-This repository contains the documentation for the [NeetoCI APIs](https://apidocs.neetoci.com/getting-started/introduction), built using [Mintlify](https://mintlify.com/).
+This repository contains the documentation for the [NeetoCI APIs](https://apidocs.neetoci.com/api/introduction), built using [Mintlify](https://mintlify.com/).
 
 ## Development Setup
 

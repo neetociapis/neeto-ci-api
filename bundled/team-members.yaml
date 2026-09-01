@@ -8,7 +8,7 @@ servers:
     variables:
       your-subdomain:
         default: neetozone
-        description: Replace **neetozone** with your [workspace's subdomain](/getting-started/workspace-subdomain).
+        description: Replace **neetozone** with your [workspace's subdomain](/api/workspace-subdomain).
 tags:
   - name: Team Members
     description: APIs to manage team members in the workspace.
@@ -103,7 +103,7 @@ paths:
         - $ref: '#/components/parameters/accept_header'
         - in: path
           name: team_member_id
-          description: ID of the team member. You can get this by listing all team members using the [List team members](/api-reference/team-members/list) API.
+          description: ID of the team member. You can get this by listing all team members using the [List team members](/api/team-members/list) API.
           required: true
           schema:
             type: string
@@ -129,7 +129,7 @@ paths:
         - $ref: '#/components/parameters/accept_header'
         - in: path
           name: team_member_id
-          description: Id of the team member that you want to remove. You can get `team_member_id` by listing all team members using our [List team members](/api-reference/team-members/list) API. Here you will see id for each team member.
+          description: Id of the team member that you want to remove. You can get `team_member_id` by listing all team members using our [List team members](/api/team-members/list) API. Here you will see id for each team member.
           required: true
           schema:
             type: string
@@ -158,7 +158,7 @@ paths:
         - $ref: '#/components/parameters/accept_header'
         - in: path
           name: team_member_id
-          description: Id of the team member that you want to update. You can get `team_member_id` by listing all team members using our [List team members](/api-reference/team-members/list) API. Here you will see id for each team member.
+          description: Id of the team member that you want to update. You can get `team_member_id` by listing all team members using our [List team members](/api/team-members/list) API. Here you will see id for each team member.
           required: true
           schema:
             type: string
@@ -206,7 +206,7 @@ components:
     api_key_header:
       in: header
       name: X-Api-Key
-      description: Use the X-Api-Key header to provide your workspace API key. Refer to [Authentication](/getting-started/authentication) for more information.
+      description: Use the X-Api-Key header to provide your workspace API key. Refer to [Authentication](/api/authentication) for more information.
       required: true
       schema:
         type: string

@@ -9,7 +9,7 @@ servers:
     variables:
       your-subdomain:
         default: neetozone
-        description: Replace **neetozone** with your [workspace's subdomain](/getting-started/workspace-subdomain).
+        description: Replace **neetozone** with your [workspace's subdomain](/api/workspace-subdomain).
 
 tags:
   - name: Team Members
@@ -106,7 +106,7 @@ paths:
         - $ref: '../schemas/common.yaml#/accept_header'
         - in: path
           name: team_member_id
-          description: ID of the team member. You can get this by listing all team members using the [List team members](/api-reference/team-members/list) API.
+          description: ID of the team member. You can get this by listing all team members using the [List team members](/api/team-members/list) API.
           required: true
           schema:
             type: string
@@ -133,7 +133,7 @@ paths:
         - $ref: '../schemas/common.yaml#/accept_header'
         - in: path
           name: team_member_id
-          description: Id of the team member that you want to remove. You can get `team_member_id` by listing all team members using our [List team members](/api-reference/team-members/list) API. Here you will see id for each team member.
+          description: Id of the team member that you want to remove. You can get `team_member_id` by listing all team members using our [List team members](/api/team-members/list) API. Here you will see id for each team member.
           required: true
           schema:
             type: string
@@ -163,7 +163,7 @@ paths:
         - $ref: '../schemas/common.yaml#/accept_header'
         - in: path
           name: team_member_id
-          description: Id of the team member that you want to update. You can get `team_member_id` by listing all team members using our [List team members](/api-reference/team-members/list) API. Here you will see id for each team member.
+          description: Id of the team member that you want to update. You can get `team_member_id` by listing all team members using our [List team members](/api/team-members/list) API. Here you will see id for each team member.
           required: true
           schema:
             type: string

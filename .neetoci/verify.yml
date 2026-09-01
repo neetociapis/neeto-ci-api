@@ -3,14 +3,13 @@ fail_fast: true
 plan: standard-2
 
 paths:
-  - api-reference/**
+  - api/**
   - api-reference-v1/**
   - assets/**
   - bundled/**
   - bundled-v1/**
   - docs/**
   - docs-v1/**
-  - getting-started/**
   - schemas/**
   - scripts/**
   - snippets/**
