@@ -103,6 +103,10 @@
       "destination": "/api/response-codes"
     },
     {
+      "source": "/getting-started",
+      "destination": "/api/introduction"
+    },
+    {
       "source": "/api-reference/:slug*",
       "destination": "/api/:slug*"
     }
