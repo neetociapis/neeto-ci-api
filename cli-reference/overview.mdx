@@ -1,0 +1,129 @@
+---
+title: "Commands overview"
+description: "Every neetoci command grouped by resource, with links to the full reference."
+---
+
+## Global flags
+
+These flags work on every command and are left out of the per-command flag tables below. See [Output formats](/cli/output-formats) for details.
+
+| Flag | Description |
+| --- | --- |
+| `--json` | Output as JSON |
+| `--quiet` | Output raw data only (no envelope) |
+| `--toon` | Output in TOON format (token-optimized for AI agents) |
+| `--subdomain` | Override saved subdomain |
+
+### ci-jobs
+
+Manage CI jobs
+
+| Command | Description |
+| --- | --- |
+| [`neetoci ci-jobs cancel`](/cli-reference/ci-jobs#cancel-a-ci-job) | Cancel a running CI job |
+| [`neetoci ci-jobs create`](/cli-reference/ci-jobs#trigger-a-ci-job) | Trigger a new CI job |
+| [`neetoci ci-jobs list`](/cli-reference/ci-jobs#list-ci-jobs) | List CI jobs for a project |
+| [`neetoci ci-jobs logs`](/cli-reference/ci-jobs#show-ci-job-logs) | Show the per-pod logs of a CI job |
+| [`neetoci ci-jobs rerun`](/cli-reference/ci-jobs#rerun-a-ci-job) | Rerun a CI job |
+| [`neetoci ci-jobs resource-metrics`](/cli-reference/ci-jobs#show-resource-metrics) | View a CI job's per-pod CPU and memory metrics (for debugging OOM/perf) |
+| [`neetoci ci-jobs show`](/cli-reference/ci-jobs#show-a-ci-job) | Show a CI job |
+
+### debug-sessions
+
+Manage CI job debug sessions
+
+| Command | Description |
+| --- | --- |
+| [`neetoci debug-sessions create`](/cli-reference/debug-sessions#start-a-debug-session) | Start a debug session for a finished CI job |
+| [`neetoci debug-sessions show`](/cli-reference/debug-sessions#show-a-debug-session) | Show a debug session |
+| [`neetoci debug-sessions ssh-key`](/cli-reference/debug-sessions#show-the-ssh-key) | Show the SSH private key for a debug session |
+| [`neetoci debug-sessions stop`](/cli-reference/debug-sessions#stop-a-debug-session) | Stop a debug session |
+
+### doctor
+
+Check CLI health and connectivity
+
+| Command | Description |
+| --- | --- |
+| [`neetoci doctor`](/cli-reference/utility#doctor) | Check CLI health and connectivity |
+
+### global-env-vars
+
+Manage global environment variables
+
+| Command | Description |
+| --- | --- |
+| [`neetoci global-env-vars create`](/cli-reference/global-env-vars#create-a-global-environment-variable) | Create a global environment variable |
+| [`neetoci global-env-vars delete`](/cli-reference/global-env-vars#delete-a-global-environment-variable) | Delete a global environment variable |
+| [`neetoci global-env-vars update`](/cli-reference/global-env-vars#update-a-global-environment-variable) | Update a global environment variable |
+
+### login
+
+Authenticate to NeetoCI via browser
+
+| Command | Description |
+| --- | --- |
+| [`neetoci login`](/cli-reference/utility#login) | Authenticate to NeetoCI via browser |
+
+### logout
+
+Sign out and clear saved credentials
+
+| Command | Description |
+| --- | --- |
+| [`neetoci logout`](/cli-reference/utility#logout) | Sign out and clear saved credentials |
+
+### project-env-vars
+
+Manage a project's environment variables
+
+| Command | Description |
+| --- | --- |
+| [`neetoci project-env-vars create`](/cli-reference/project-env-vars#create-a-project-environment-variable) | Create a project environment variable |
+| [`neetoci project-env-vars delete`](/cli-reference/project-env-vars#delete-a-project-environment-variable) | Delete a project environment variable |
+| [`neetoci project-env-vars update`](/cli-reference/project-env-vars#update-a-project-environment-variable) | Update a project environment variable |
+
+### projects
+
+Manage projects
+
+| Command | Description |
+| --- | --- |
+| [`neetoci projects list`](/cli-reference/projects#list-projects) | List projects |
+
+### setup
+
+Set up NeetoCI for AI coding assistants
+
+| Command | Description |
+| --- | --- |
+| [`neetoci setup claude`](/cli-reference/utility#ai-assistant-setup) | Register NeetoCI plugin with Claude Code |
+| [`neetoci setup codex`](/cli-reference/utility#ai-assistant-setup) | Add NeetoCI instructions for OpenAI Codex |
+| [`neetoci setup copilot`](/cli-reference/utility#ai-assistant-setup) | Add NeetoCI instructions for GitHub Copilot |
+| [`neetoci setup cursor`](/cli-reference/utility#ai-assistant-setup) | Write NeetoCI rules for Cursor IDE |
+| [`neetoci setup gemini`](/cli-reference/utility#ai-assistant-setup) | Add NeetoCI instructions for Gemini CLI |
+| [`neetoci setup windsurf`](/cli-reference/utility#ai-assistant-setup) | Write NeetoCI rules for Windsurf IDE |
+
+### update
+
+Update the CLI to the latest version
+
+| Command | Description |
+| --- | --- |
+| [`neetoci update`](/cli-reference/utility#update) | Update the CLI to the latest version |
+
+### version
+
+Print the CLI version
+
+| Command | Description |
+| --- | --- |
+| [`neetoci version`](/cli-reference/utility#version) | Print the CLI version |
+
+### whoami
+
+Show current authenticated user(s)
+
+| Command | Description |
+| --- | --- |
+| [`neetoci whoami`](/cli-reference/utility#whoami) | Show current authenticated user(s) |

@@ -1,0 +1,132 @@
+---
+title: "Output formats"
+description: "Pretty tables, JSON, quiet, and TOON - and when to use each."
+---
+
+Every command can return one of four output formats. In an interactive terminal, pretty output is the default. Use the flags below for machine-readable output.
+
+| Format | Flag | Best for |
+| --- | --- | --- |
+| Pretty | _(default in a terminal)_ | Reading a result yourself. |
+| JSON | `--json` | Machine-readable payloads with pagination metadata. |
+| Quiet | `--quiet` | Piping an identifier into another command or `jq`. |
+| TOON | `--toon` | Feeding list/show output back to an LLM (fewer tokens than JSON). |
+
+If more than one is set, precedence is `--toon` > `--quiet` > `--json` > pretty.
+
+## Pretty
+
+The default in a terminal: tables for lists and key-value pairs for a single record. It is intended for people, not scripts.
+
+```bash
+neetoci ci-jobs list --project neeto-cal-web
+```
+
+## JSON
+
+JSON wraps the resource body with breadcrumbs and, for list commands, pagination details:
+
+```json
+{
+  "data": [
+    {
+      "id": "7c1f3a52-0d6b-4e8f-9a21-5b3c8d2e1f04",
+      "name": "neeto-cal-web",
+      "status": "active",
+      "repository_full_name": "neetozone/neeto-cal-web",
+      "account_login": "neetozone",
+      "is_private": true,
+      "created_at": "2025-11-03T06:42:18.310Z",
+      "default_branch": "main",
+      "url": "https://acme.neetoci.com/neeto-cal-web"
+    }
+  ],
+  "breadcrumbs": [{ "label": "List jobs", "command": "neetoci ci-jobs list --project <name>" }],
+  "pagination": {
+    "page": 1,
+    "pages": 3,
+    "count": 75
+  }
+}
+```
+
+For list commands, `data` is the array of records; the CLI removes the API response's resource key (`projects`, `ci_jobs`). For `show` and `create`, `data` holds the API response body, such as `{ "ci_job": { ... } }`.
+
+`breadcrumbs` is omitted when empty, and `pagination` appears only on list commands. The CLI automatically uses JSON when output is piped (a non-TTY); use `--json` to force it.
+
+## Quiet
+
+`--quiet` returns only the `data` payload. For `create` commands whose response is a single record with an `id`, it prints just that id; for `delete`, it prints `success`. Everything else prints the raw `data` payload without the envelope. This is useful in scripts:
+
+```bash
+neetoci ci-jobs create \
+  --project neeto-cal-web --branch main --workflow playwright \
+  --quiet
+# prints the new CI job id
+```
+
+## TOON
+
+`--toon` encodes the same data as [TOON](https://github.com/alpkeskin/gotoon) (Token-Optimized Output Notation). It keeps the JSON shape while compressing whitespace and keys, typically using 30 to 60% fewer tokens. Use it when giving list or show output to an AI assistant.
+
+```bash
+neetoci ci-jobs list --project neeto-cal-web --toon
+```
+
+## Pagination
+
+List commands (`projects list` and `ci-jobs list`) return results in pages. The flags below control paging, and the JSON envelope's `pagination` block shows your position in the result set.
+
+### Pagination Parameters
+
+<ParamField body="--page" type="integer">
+  The page of results to retrieve, starting from 1.
+</ParamField>
+
+<ParamField body="--page-size" type="integer">
+  The number of records to return per page (max 100).
+</ParamField>
+
+### Example Usage
+
+```bash
+neetoci ci-jobs list --project neeto-cal-web --page 2 --page-size 50
+```
+
+This returns the second page of CI jobs, with 50 records per page.
+
+### Response Structure
+
+For list commands the JSON envelope carries a `pagination` block alongside the data:
+
+```json
+{
+  "pagination": {
+    "page": 2,
+    "pages": 5,
+    "count": 250
+  }
+}
+```
+
+<ResponseField name="pagination.page" type="integer">
+  The page you are currently on.
+</ResponseField>
+
+<ResponseField name="pagination.pages" type="integer">
+  The total number of pages available.
+</ResponseField>
+
+<ResponseField name="pagination.count" type="integer">
+  The total number of records across all pages.
+</ResponseField>
+
+### Default Behavior
+
+If you omit both flags, the CLI lets the server use its defaults: page 1 with 30 records. Either flag overrides the defaults; `--page-size` accepts up to 100, and the server caps larger values at 100.
+
+### Best Practices
+
+- To retrieve every page, increment `--page` until `page == pages`.
+- Use `--json` or `--toon` in scripts when you need the `pagination` block. `--quiet` removes the envelope, so it does not include pagination metadata.
+- Check `count` before you begin to estimate the work involved.

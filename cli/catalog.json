@@ -1,0 +1,350 @@
+[
+  {
+    "command": "neetoci ci-jobs",
+    "description": "Manage CI jobs",
+    "subcommands": [
+      {
+        "command": "neetoci ci-jobs cancel",
+        "description": "Cancel a running CI job"
+      },
+      {
+        "command": "neetoci ci-jobs create",
+        "description": "Trigger a new CI job",
+        "flags": [
+          {
+            "name": "branch",
+            "type": "string",
+            "description": "Branch to run against",
+            "required": true
+          },
+          {
+            "name": "commit",
+            "type": "string",
+            "description": "Commit SHA (defaults to latest on the branch)"
+          },
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          },
+          {
+            "name": "workflow",
+            "type": "string",
+            "description": "Workflow name (config file name without .yml)",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci ci-jobs list",
+        "description": "List CI jobs for a project",
+        "flags": [
+          {
+            "name": "branch",
+            "type": "string",
+            "description": "Filter by branch name"
+          },
+          {
+            "name": "page",
+            "type": "int",
+            "default": "0",
+            "description": "Page number"
+          },
+          {
+            "name": "page-size",
+            "type": "int",
+            "default": "0",
+            "description": "Items per page (max 100)"
+          },
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci ci-jobs logs",
+        "description": "Show the per-pod logs of a CI job",
+        "flags": [
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci ci-jobs rerun",
+        "description": "Rerun a CI job"
+      },
+      {
+        "command": "neetoci ci-jobs resource-metrics",
+        "description": "View a CI job's per-pod CPU and memory metrics (for debugging OOM/perf)",
+        "flags": [
+          {
+            "name": "end",
+            "type": "string",
+            "description": "Window end (Unix seconds)"
+          },
+          {
+            "name": "metric",
+            "type": "string",
+            "description": "Filter metric: cpu, memory, or all (default all)"
+          },
+          {
+            "name": "pod",
+            "type": "string",
+            "description": "Only include this pod"
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": "Window start (Unix seconds)"
+          },
+          {
+            "name": "step",
+            "type": "int",
+            "default": "0",
+            "description": "Resolution in seconds"
+          },
+          {
+            "name": "summary",
+            "type": "bool",
+            "default": "false",
+            "description": "Return peak values only (omit time-series)"
+          }
+        ]
+      },
+      {
+        "command": "neetoci ci-jobs show",
+        "description": "Show a CI job"
+      }
+    ]
+  },
+  {
+    "command": "neetoci debug-sessions",
+    "description": "Manage CI job debug sessions",
+    "subcommands": [
+      {
+        "command": "neetoci debug-sessions create",
+        "description": "Start a debug session for a finished CI job",
+        "flags": [
+          {
+            "name": "duration",
+            "type": "int",
+            "default": "1800",
+            "description": "Session duration in seconds (300-3600)"
+          },
+          {
+            "name": "job",
+            "type": "string",
+            "description": "CI job ID",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci debug-sessions show",
+        "description": "Show a debug session"
+      },
+      {
+        "command": "neetoci debug-sessions ssh-key",
+        "description": "Show the SSH private key for a debug session"
+      },
+      {
+        "command": "neetoci debug-sessions stop",
+        "description": "Stop a debug session"
+      }
+    ]
+  },
+  {
+    "command": "neetoci doctor",
+    "description": "Check CLI health and connectivity"
+  },
+  {
+    "command": "neetoci global-env-vars",
+    "description": "Manage global environment variables",
+    "subcommands": [
+      {
+        "command": "neetoci global-env-vars create",
+        "description": "Create a global environment variable",
+        "flags": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "Variable key",
+            "required": true
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "Variable value",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci global-env-vars delete",
+        "description": "Delete a global environment variable"
+      },
+      {
+        "command": "neetoci global-env-vars update",
+        "description": "Update a global environment variable",
+        "flags": [
+          {
+            "name": "value",
+            "type": "string",
+            "description": "Variable value",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "command": "neetoci login",
+    "description": "Authenticate to NeetoCI via browser"
+  },
+  {
+    "command": "neetoci logout",
+    "description": "Sign out and clear saved credentials",
+    "flags": [
+      {
+        "name": "all",
+        "type": "bool",
+        "default": "false",
+        "description": "Sign out of every saved subdomain"
+      }
+    ]
+  },
+  {
+    "command": "neetoci project-env-vars",
+    "description": "Manage a project's environment variables",
+    "subcommands": [
+      {
+        "command": "neetoci project-env-vars create",
+        "description": "Create a project environment variable",
+        "flags": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "Variable key",
+            "required": true
+          },
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "Variable value",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci project-env-vars delete",
+        "description": "Delete a project environment variable",
+        "flags": [
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          }
+        ]
+      },
+      {
+        "command": "neetoci project-env-vars update",
+        "description": "Update a project environment variable",
+        "flags": [
+          {
+            "name": "project",
+            "type": "string",
+            "description": "Project name",
+            "required": true
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "Variable value",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "command": "neetoci projects",
+    "description": "Manage projects",
+    "subcommands": [
+      {
+        "command": "neetoci projects list",
+        "description": "List projects",
+        "flags": [
+          {
+            "name": "page",
+            "type": "int",
+            "default": "0",
+            "description": "Page number"
+          },
+          {
+            "name": "page-size",
+            "type": "int",
+            "default": "0",
+            "description": "Items per page (max 100)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "command": "neetoci setup",
+    "description": "Set up NeetoCI for AI coding assistants",
+    "subcommands": [
+      {
+        "command": "neetoci setup claude",
+        "description": "Register NeetoCI plugin with Claude Code"
+      },
+      {
+        "command": "neetoci setup codex",
+        "description": "Add NeetoCI instructions for OpenAI Codex"
+      },
+      {
+        "command": "neetoci setup copilot",
+        "description": "Add NeetoCI instructions for GitHub Copilot"
+      },
+      {
+        "command": "neetoci setup cursor",
+        "description": "Write NeetoCI rules for Cursor IDE"
+      },
+      {
+        "command": "neetoci setup gemini",
+        "description": "Add NeetoCI instructions for Gemini CLI"
+      },
+      {
+        "command": "neetoci setup windsurf",
+        "description": "Write NeetoCI rules for Windsurf IDE"
+      }
+    ]
+  },
+  {
+    "command": "neetoci update",
+    "description": "Update the CLI to the latest version"
+  },
+  {
+    "command": "neetoci version",
+    "description": "Print the CLI version"
+  },
+  {
+    "command": "neetoci whoami",
+    "description": "Show current authenticated user(s)"
+  }
+]

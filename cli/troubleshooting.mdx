@@ -1,0 +1,81 @@
+---
+title: "Troubleshooting"
+description: "Diagnose authentication and connectivity issues with neetoci doctor."
+---
+
+## Run the doctor
+
+When something goes wrong, start with `neetoci doctor`. It checks your authentication, API connection, and CLI version.
+
+```bash
+neetoci doctor
+```
+
+```text Sample output
+✓ Authentication: authenticated as oliver@example.com on acme.neetoci.com
+✓ API connection: https://acme.neetoci.com (responding in 214ms)
+✓ CLI version: 1.0.8
+```
+
+Each check runs on its own, so a failed authentication check does not skip the connection check. The command always exits 0, so read the marks rather than the exit code.
+
+When multiple workspaces are signed in, name the one to check. When no workspace is signed in, `--subdomain` still lets the doctor test the API connection:
+
+```bash
+neetoci doctor --subdomain your-workspace
+```
+
+## Common errors
+
+When a command fails, it exits non-zero and prints an error message on standard error. For usage mistakes such as an unknown flag or command, it adds `Run 'neetoci --help' for usage.`
+
+<AccordionGroup>
+  <Accordion title="Not authenticated. Run 'neetoci login' to authenticate.">
+    **Problem**: no workspace is signed in. <br />
+    **Solution**: run [`neetoci login --subdomain <name>`](/cli/authentication).
+  </Accordion>
+  <Accordion title="Multiple subdomains authenticated (acme, beta); specify --subdomain.">
+    **Problem**: more than one workspace is signed in, so the target is ambiguous. <br />
+    **Solution**: add `--subdomain <name>` to the command.
+  </Accordion>
+  <Accordion title='Not authenticated for "foo". Authenticated subdomains: acme, beta.'>
+    **Problem**: the `--subdomain` value does not match any signed-in workspace. <br />
+    **Solution**: use one of the listed subdomains, or [sign in](/cli/authentication) to the new one.
+  </Accordion>
+  <Accordion title="Subdomain not found. Please check that you entered the correct subdomain.">
+    **Problem**: `neetoci login` could not find a workspace at that subdomain. <br />
+    **Solution**: enter only the first part of your workspace URL - `acme` for `acme.neetoci.com`.
+  </Accordion>
+  <Accordion title="NeetoCI CLI authentication timed out after 2 minutes. Please try again.">
+    **Problem**: the browser sign-in was not approved within two minutes. The CLI reports `Authentication session expired. Please try again.` when the server expired the session first. <br />
+    **Solution**: run `neetoci login` again and approve the sign-in in the browser.
+  </Accordion>
+  <Accordion title='required flag(s) "xxx" not set'>
+    **Problem**: a required flag was omitted. <br />
+    **Solution**: check the command's [reference page](/cli-reference/overview) or run `neetoci <command> --help` for the required flags.
+  </Accordion>
+  <Accordion title="Could not connect to NeetoCI. Check your internet connection: ...">
+    **Problem**: the request never reached the server. <br />
+    **Solution**: check your network, then run `neetoci doctor`. If you set `NEETOCI_BASE_URL`, make sure it points at a reachable server.
+  </Accordion>
+  <Accordion title="API error (401): ...">
+    **Problem**: the server rejected the saved session. The CLI adds `Suggestion: Authentication session expired. Run 'neetoci login' to re-authenticate.` <br />
+    **Solution**: run [`neetoci login`](/cli/authentication) again for that workspace.
+  </Accordion>
+  <Accordion title="API error (403 / 404 / 422 / 429): ...">
+    **Problem**: the server rejected the request and the CLI passes its message through, followed by a suggestion: `You do not have permission to perform this action.` (403), `Resource not found. Check the ID and try again.` (404), `Check required fields with 'neetoci <command> --help'.` (422), or `Rate limited. Wait and try again.` (429). <br />
+    **Solution**: follow the suggestion. Validation errors from the API list every failing field under the first message.
+  </Accordion>
+  <Accordion title="Claude Code not found (~/.claude/ does not exist).">
+    **Problem**: `neetoci setup claude` ran on a machine without Claude Code. <br />
+    **Solution**: install Claude Code and open it once so that `~/.claude` exists, then run the command again. See [AI assistants](/cli/ai-assistants).
+  </Accordion>
+</AccordionGroup>
+
+## Check the version
+
+```bash
+neetoci version
+```
+
+Prints the CLI version, commit hash, and build date - useful when reporting an issue. Run [`neetoci update`](/cli/installation#update) to move to the latest release.

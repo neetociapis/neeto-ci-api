@@ -1,0 +1,318 @@
+---
+title: "CI jobs"
+description: "List, trigger, inspect, cancel, and rerun CI jobs, and read their logs and resource metrics."
+---
+
+import CiJobsListFlags from '/snippets/cli/ci-jobs/list.mdx'
+import CiJobsCreateFlags from '/snippets/cli/ci-jobs/create.mdx'
+import CiJobsLogsFlags from '/snippets/cli/ci-jobs/logs.mdx'
+import CiJobsResourceMetricsFlags from '/snippets/cli/ci-jobs/resource-metrics.mdx'
+
+A CI job is one run of a workflow against a branch or commit of a project. For fields and response details, see the [API reference](/api/ci-jobs/create). Sample outputs on this page use `--json`.
+
+## List CI jobs
+
+This command shows the CI jobs of one project, most recent first. Use this when you want to find a job's ID or check what is running on a branch.
+
+```bash
+neetoci ci-jobs list --project neeto-cal-web
+neetoci ci-jobs list --project neeto-cal-web --branch main --page-size 50
+```
+
+<CiJobsListFlags />
+
+```json Sample output (--json)
+{
+  "data": [
+    {
+      "id": "4a7e2c91-53b8-4f0d-a6e1-9c8b7d6e5f40",
+      "status": "running",
+      "trigger": "branch",
+      "created_at": "2026-08-20T10:31:02.417Z",
+      "started_at": 1787221880233000,
+      "ended_at": null,
+      "parallelism": 2,
+      "url": "https://acme.neetoci.com/neeto-cal-web/jobs/4a7e2c91-53b8-4f0d-a6e1-9c8b7d6e5f40",
+      "workflow": {
+        "name": "playwright",
+        "is_playwright": true,
+        "is_playwright_dev": false,
+        "plan": { "name": "Professional 2", "cpu": 4.0, "memory": 8.0 }
+      },
+      "branch_name": "main",
+      "commit_sha": "9b1d4e7f2a3c5d6e8f0a1b2c3d4e5f6a7b8c9d0e"
+    },
+    {
+      "id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "status": "success",
+      "trigger": "pull_request",
+      "created_at": "2026-08-20T09:14:11.595Z",
+      "started_at": 1787217270102000,
+      "ended_at": 1787217707884000,
+      "parallelism": 2,
+      "url": "https://acme.neetoci.com/neeto-cal-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "workflow": {
+        "name": "playwright",
+        "is_playwright": true,
+        "is_playwright_dev": false,
+        "plan": { "name": "Professional 2", "cpu": 4.0, "memory": 8.0 }
+      },
+      "branch_name": "fix-time-zone-picker",
+      "commit_sha": "3f9c2e1b7a4d5c6e8f90a1b2c3d4e5f6a7b8c9d0",
+      "pull_request": {
+        "number": 482,
+        "title": "Fixed the time zone picker on the booking page",
+        "url": "https://github.com/neetozone/neeto-cal-web/pull/482"
+      }
+    }
+  ],
+  "breadcrumbs": [
+    { "label": "Show", "command": "neetoci ci-jobs show <id>" },
+    { "label": "Logs", "command": "neetoci ci-jobs logs <id> --project neeto-cal-web" }
+  ],
+  "pagination": { "page": 1, "pages": 1, "count": 2 }
+}
+```
+
+`status` is one of `in_queue`, `pending`, `running`, `success`, `failure`, or `error`. `trigger` is one of `api`, `branch`, `cron`, `pull_request`, or `pull_request_labeled`. `started_at` and `ended_at` are Unix timestamps in microseconds and stay `null` until the job reaches that point. `branch_name`, `commit_sha`, and `pull_request` appear only for jobs started from a GitHub commit.
+
+## Show a CI job
+
+This command shows details for one CI job, including its pods. Use this when you want to check a job's status, commit, and per-pod outcome after finding its ID from `ci-jobs list`.
+
+```bash
+neetoci ci-jobs show <id>
+```
+
+**Required arguments:**
+
+- `<id>` - CI job UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "ci_job": {
+      "id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "status": "success",
+      "trigger": "pull_request",
+      "created_at": "2026-08-20T09:14:11.595Z",
+      "started_at": 1787217270102000,
+      "ended_at": 1787217707884000,
+      "parallelism": 2,
+      "url": "https://acme.neetoci.com/neeto-cal-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "project_name": "neeto-cal-web",
+      "workflow": {
+        "name": "playwright",
+        "is_playwright": true,
+        "is_playwright_dev": false,
+        "plan": { "name": "Professional 2", "cpu": 4.0, "memory": 8.0 }
+      },
+      "branch_name": "fix-time-zone-picker",
+      "commit_sha": "3f9c2e1b7a4d5c6e8f90a1b2c3d4e5f6a7b8c9d0",
+      "pull_request": {
+        "number": 482,
+        "title": "Fixed the time zone picker on the booking page",
+        "url": "https://github.com/neetozone/neeto-cal-web/pull/482"
+      },
+      "pods": [
+        {
+          "identifier": "3f8a2c9e7b1d4f6a8c0e2b4d6f8a1c3e",
+          "name": "neetoci-169bf1ed-0",
+          "status": "success",
+          "started_at": 1787217275410000,
+          "ended_at": 1787217701226000,
+          "parallelism_index": 0
+        },
+        {
+          "identifier": "a91c4e6f8b0d2a4c6e8f0b2d4a6c8e0f",
+          "name": "neetoci-169bf1ed-1",
+          "status": "success",
+          "started_at": 1787217275903000,
+          "ended_at": 1787217707884000,
+          "parallelism_index": 1
+        }
+      ]
+    }
+  },
+  "breadcrumbs": [
+    { "label": "Cancel", "command": "neetoci ci-jobs cancel 169bf1ed-cc65-471f-b9f3-4f63f32b9400" },
+    { "label": "Rerun", "command": "neetoci ci-jobs rerun 169bf1ed-cc65-471f-b9f3-4f63f32b9400" }
+  ]
+}
+```
+
+A pod's `status` is one of `running`, `success`, `failure`, or `error`. `pods` lists the job's named pods in creation order.
+
+## Trigger a CI job
+
+This command starts a new CI job. Use this when you want to run a workflow on a branch or commit from a script or another CI system instead of pushing to GitHub.
+
+```bash
+neetoci ci-jobs create --project neeto-cal-web --branch main --workflow playwright
+neetoci ci-jobs create --project neeto-cal-web --branch main --workflow playwright \
+  --commit 9b1d4e7f2a3c5d6e8f0a1b2c3d4e5f6a7b8c9d0e
+```
+
+<CiJobsCreateFlags />
+
+`--workflow` is the workflow's config file name without `.yml`, for example `playwright` for `.neetoci/playwright.yml`. `--commit` defaults to the latest commit on the branch.
+
+```json Sample output (--json)
+{
+  "data": {
+    "ci_job": {
+      "id": "8e2d6f4a-1b3c-4d5e-9f70-2a4b6c8d0e1f",
+      "created_at": "2026-08-20T11:02:37.208Z",
+      "status": "in_queue",
+      "parallelism": 2,
+      "url": "https://acme.neetoci.com/neeto-cal-web/jobs/8e2d6f4a-1b3c-4d5e-9f70-2a4b6c8d0e1f",
+      "workflow": {
+        "is_playwright": true,
+        "is_playwright_dev": false,
+        "name": "playwright",
+        "plan": {
+          "id": "be8e68a3-2f79-4be8-86f1-11dfcfac8040",
+          "name": "Professional 2",
+          "slug": "professional-2",
+          "cpu": 4.0,
+          "memory": 8.0,
+          "capacity": 50,
+          "ephemeral_storage": 80.0,
+          "price": 4.0,
+          "created_at": "2023-08-16T19:14:11.595Z",
+          "updated_at": "2023-08-16T19:14:11.595Z"
+        },
+        "is_cypress": true
+      }
+    }
+  }
+}
+```
+
+<Tip>
+  In `--quiet` mode this prints the new job `id`, which you can pass straight to
+  `ci-jobs show` or `ci-jobs logs`. `is_cypress` is a backward-compatible alias
+  of `is_playwright`.
+</Tip>
+
+## Cancel a CI job
+
+This command cancels a CI job. Use this when you want to stop a queued or running job without opening NeetoCI.
+
+```bash
+neetoci ci-jobs cancel <id>
+```
+
+**Required arguments:**
+
+- `<id>` - CI job UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "notice_code": "thumbs_up"
+  }
+}
+```
+
+The response confirms the request. Run `ci-jobs show` to see the job's final status.
+
+## Rerun a CI job
+
+This command reruns a CI job on the same commit and workflow. Use this when a job failed for a reason unrelated to the code, such as a flaky test or an infrastructure error.
+
+```bash
+neetoci ci-jobs rerun <id>
+```
+
+**Required arguments:**
+
+- `<id>` - CI job UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "notice_code": "thumbs_up",
+    "message": "Please wait while we rerun the job."
+  }
+}
+```
+
+The rerun is queued in the background, so the response does not include the new job. Run `ci-jobs list` for the project to find it.
+
+## Show CI job logs
+
+This command lists each pod of a CI job with a download URL for its log file. Use this when you want to read the output of a finished job or attach it to a bug report.
+
+```bash
+neetoci ci-jobs logs <id> --project neeto-cal-web
+```
+
+**Required arguments:**
+
+- `<id>` - CI job UUID
+
+<CiJobsLogsFlags />
+
+```json Sample output (--json)
+{
+  "data": {
+    "ci_job_id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+    "job_url": "https://acme.neetoci.com/neeto-cal-web/jobs/169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+    "pods": [
+      {
+        "identifier": "3f8a2c9e7b1d4f6a8c0e2b4d6f8a1c3e",
+        "name": "neetoci-169bf1ed-0",
+        "status": "success",
+        "started_at": 1787217275410000,
+        "ended_at": 1787217701226000,
+        "log_url": "https://acme.neetoci.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6IjNmOGEyYzllIiwicHVyIjoiYmxvYl9pZCJ9fQ/neetoci-169bf1ed-0.log"
+      },
+      {
+        "identifier": "a91c4e6f8b0d2a4c6e8f0b2d4a6c8e0f",
+        "name": "neetoci-169bf1ed-1",
+        "status": "success",
+        "started_at": 1787217275903000,
+        "ended_at": 1787217707884000,
+        "log_url": "https://acme.neetoci.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6ImE5MWM0ZTZmIiwicHVyIjoiYmxvYl9pZCJ9fQ/neetoci-169bf1ed-1.log"
+      }
+    ]
+  }
+}
+```
+
+`log_url` is `null` while no log file has been stored for the pod. Fetch the file with `curl -L <log_url>`.
+
+## Show resource metrics
+
+This command shows the CPU and memory a CI job's pods used while running. Use this when a job was killed for running out of memory or took longer than expected and you want to see which pod hit its limits.
+
+```bash
+neetoci ci-jobs resource-metrics <id> --summary
+neetoci ci-jobs resource-metrics <id> --metric memory --pod neetoci-169bf1ed-0 --step 60
+```
+
+**Required arguments:**
+
+- `<id>` - CI job UUID
+
+<CiJobsResourceMetricsFlags />
+
+```json Sample output (--json, with --summary)
+{
+  "data": {
+    "ci_job_id": "169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+    "containers": [
+      {
+        "container": "production-169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+        "pods": [
+          { "pod": "neetoci-169bf1ed-0", "peak_cpu": 82.4, "peak_memory": 3221225472.0 },
+          { "pod": "neetoci-169bf1ed-1", "peak_cpu": 76.9, "peak_memory": 2952790016.0 }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Without `--summary`, each pod also carries `cpu` and `memory` arrays of `{ "timestamp", "value" }` points. CPU values are a percentage of the pod's CPU quota and memory values are bytes; `timestamp` is in Unix seconds. The window defaults to the job's start and end times and `--step` defaults to 15 seconds.

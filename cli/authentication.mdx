@@ -1,0 +1,83 @@
+---
+title: "Authentication"
+description: "Sign in through the browser and manage credentials for one or more workspaces."
+---
+
+The CLI uses your browser to sign you in and saves your session locally, so you never need to enter an API key.
+
+## Sign in
+
+```bash
+neetoci login --subdomain your-workspace
+```
+
+Your browser opens to complete sign-in. Once you approve it, the CLI saves credentials for that subdomain. If you omit `--subdomain`, the CLI prompts for it.
+
+If the browser does not open, the CLI prints the sign-in URL so you can open it yourself. It waits up to two minutes for you to approve the sign-in and then reports that the session timed out.
+
+<Tip>
+  Your subdomain is the first part of your workspace URL - for
+  `https://spinkart.neetoci.com`, the subdomain is `spinkart`.
+</Tip>
+
+## Where credentials are stored
+
+Credentials for every signed-in workspace live in a single file:
+
+```
+~/.config/neetoci/auth.json
+```
+
+Removing this file signs you out of every workspace, the same as `neetoci logout --all`.
+
+<Warning>
+  This file holds your session tokens, so anyone who can read it can act as you.
+  The CLI creates it with owner-only permissions. Keep it out of version control
+  and shared logs.
+</Warning>
+
+## Check who you are
+
+```bash
+neetoci whoami
+```
+
+Lists every signed-in account. When exactly one is signed in, it is marked `(default)`. Pass `--subdomain <name>` to show just one.
+
+## Sign out
+
+```bash
+neetoci logout --subdomain your-workspace    # remove one workspace
+neetoci logout --all                         # remove every workspace
+neetoci logout                               # remove the only one, if a single workspace is signed in
+```
+
+## Working with multiple workspaces
+
+You can sign in to several subdomains at once. To add another workspace, name its subdomain:
+
+```bash
+neetoci login --subdomain globex
+```
+
+When more than one workspace is signed in, every command that talks to the API requires `--subdomain`. If you omit it, the CLI errors and lists the signed-in workspaces.
+
+```bash
+neetoci projects list --subdomain acme
+neetoci projects list --subdomain globex
+```
+
+With one signed-in workspace, it is the default and `--subdomain` stays optional.
+
+## Pointing at another server
+
+Set `NEETOCI_BASE_URL` to make the CLI talk to a staging or local server instead of `https://<subdomain>.neetoci.com`. It applies to sign-in and to every API call.
+
+```bash
+export NEETOCI_BASE_URL=http://acme.lvh.me:8980
+neetoci login --subdomain acme
+```
+
+## Troubleshooting
+
+If sign-in or connection problems come up, run `neetoci doctor` first. See [Troubleshooting](/cli/troubleshooting) for common issues and fixes.

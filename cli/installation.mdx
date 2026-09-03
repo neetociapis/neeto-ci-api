@@ -1,0 +1,69 @@
+---
+title: "Installation"
+description: "Install the neetoci CLI on macOS, Linux, or Windows."
+---
+
+Install the `neetoci` binary with the command for your platform, then [verify it](#verify-the-installation).
+
+<CodeGroup>
+```bash macOS
+brew trust neetozone/tap
+brew install neetozone/tap/neetoci
+```
+
+```bash Linux
+curl -fsSL https://neetoci.com/cli/install.sh | sh
+```
+
+```powershell Windows
+irm https://neetoci.com/cli/install.ps1 | iex
+```
+</CodeGroup>
+
+The shell and Windows installers download the latest release for your architecture (`amd64` or `arm64`), extract it, and add `neetoci` to your `PATH`.
+
+## Other install methods
+
+<AccordionGroup>
+  <Accordion title="macOS - shell script">
+    ```bash
+    curl -fsSL https://neetoci.com/cli/install.sh | sh
+    ```
+
+    Installs to `/usr/local/bin` and may prompt for `sudo`.
+  </Accordion>
+  <Accordion title="Windows - Command Prompt (CMD)">
+    ```cmd
+    curl -fsSL https://neetoci.com/cli/install.cmd -o install.cmd && install.cmd
+    ```
+
+    Extracts to `%LOCALAPPDATA%\Programs\neetoci` and adds it to your user `PATH`. This is equivalent to the PowerShell method.
+  </Accordion>
+</AccordionGroup>
+
+## Verify the installation
+
+Restart your terminal, then run:
+
+```bash
+neetoci --help
+```
+
+You should see the list of available commands. To check the installed version:
+
+```bash
+neetoci version
+```
+
+## Update
+
+```bash
+neetoci update
+```
+
+The command detects how the CLI was installed and runs the matching upgrade: `brew update && brew upgrade` for a Homebrew install, the shell installer on macOS and Linux otherwise, and the PowerShell installer on Windows. On a Homebrew install you can also run `brew upgrade neetoci` directly.
+
+<Tip>
+  Next, [sign in](/cli/authentication) to a workspace and run `neetoci doctor`
+  to confirm the CLI can reach NeetoCI.
+</Tip>

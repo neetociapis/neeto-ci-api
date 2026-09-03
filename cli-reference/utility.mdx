@@ -1,0 +1,182 @@
+---
+title: "Utility commands"
+description: "Authentication, diagnostics, versioning, updates, AI-assistant setup, and shell completion."
+---
+
+import LogoutFlags from '/snippets/cli/logout.mdx'
+
+These commands manage the CLI itself rather than a NeetoCI resource.
+
+## Authentication
+
+### login
+
+```bash
+neetoci login --subdomain your-workspace
+```
+
+Opens your browser to sign in and saves credentials for the workspace. Omit `--subdomain` to be prompted.
+
+```text Sample output
+Opening browser for authentication...
+If the browser doesn't open, visit: https://acme.neetoci.com/api/cli/v1/login?token=...
+Waiting for authentication.... done!
+Authenticated as oliver@example.com on acme.neetoci.com.
+```
+
+### logout
+
+```bash
+neetoci logout --subdomain your-workspace
+neetoci logout --all
+```
+
+<LogoutFlags />
+
+```text Sample output
+Signed out of acme.neetoci.com.
+```
+
+### whoami
+
+```bash
+neetoci whoami
+```
+
+Lists each signed-in account and marks it `(default)` when only one is signed in. Pass `--subdomain <name>` to show one workspace.
+
+```text Sample output
+Authenticated as oliver@example.com on acme.neetoci.com (default).
+```
+
+## Diagnostics
+
+### doctor
+
+```bash
+neetoci doctor
+```
+
+Checks authentication, API reachability, and the CLI version. See [Troubleshooting](/cli/troubleshooting). When several workspaces are signed in, pass `--subdomain <name>`.
+
+```text Sample output
+✓ Authentication: authenticated as oliver@example.com on acme.neetoci.com
+✓ API connection: https://acme.neetoci.com (responding in 214ms)
+✓ CLI version: 1.0.8
+```
+
+### version
+
+```bash
+neetoci version
+```
+
+Prints the CLI version, commit hash, and build date. With `--json` it prints `{ "binary", "version", "commit", "date" }`.
+
+```text Sample output
+neetoci 1.0.8 (commit: 28bddb2, built: 2026-08-28T10:12:44Z)
+```
+
+### update
+
+```bash
+neetoci update
+```
+
+Updates the CLI to the latest release. It detects how the CLI was installed and runs the matching command: `brew update && brew upgrade` when the binary lives in a Homebrew Cellar, the shell installer on macOS and Linux otherwise, and the PowerShell installer on Windows. See [Installation](/cli/installation#update).
+
+```text Sample output
+Detected Homebrew install.
+Running: brew update && brew upgrade neetozone/homebrew-tap/neetoci
+```
+
+### commands
+
+```bash
+neetoci commands
+```
+
+Prints the complete command and flag catalog for the installed version as JSON. It is useful in scripts and with AI assistants. `help`, `completion`, and `commands` itself are left out of the catalog.
+
+```json Sample output
+[
+  {
+    "command": "neetoci projects",
+    "description": "Manage projects",
+    "subcommands": [
+      {
+        "command": "neetoci projects list",
+        "description": "List projects",
+        "flags": [
+          { "name": "page", "type": "int", "default": "0", "description": "Page number" },
+          { "name": "page-size", "type": "int", "default": "0", "description": "Items per page (max 100)" }
+        ]
+      }
+    ]
+  }
+]
+```
+
+## AI-assistant setup
+
+Add NeetoCI instructions to your AI coding assistant. See [AI assistants](/cli/ai-assistants) for what each command writes and when to re-run it.
+
+```bash
+neetoci setup claude
+neetoci setup cursor
+neetoci setup windsurf
+neetoci setup copilot
+neetoci setup gemini
+neetoci setup codex
+```
+
+```text Sample output
+NeetoCI plugin extracted to /Users/oliver/.config/neetoci/claude-plugin
+
+To finish installation, open Claude Code and run these slash commands:
+  /plugin marketplace add /Users/oliver/.config/neetoci/claude-plugin
+  /plugin install neetoci@neetoci
+
+(Claude Code installs plugins via interactive slash commands - there is no shell equivalent today.)
+```
+
+## Shell completion
+
+Shell completion fills in command names, subcommands, and flags when you press `Tab`. It saves you from having to remember the full command tree or look up `--help`.
+
+`neetoci completion <shell>` installs completion for your shell. It writes a script under `~/.config/neetoci/completions` (or `~/.config/fish/completions` for fish) and configures your shell to load it the next time it starts.
+
+<CodeGroup>
+```bash Zsh
+neetoci completion zsh
+```
+
+```bash Bash
+neetoci completion bash
+```
+
+```bash Fish
+neetoci completion fish
+```
+
+```powershell PowerShell
+neetoci completion powershell
+```
+</CodeGroup>
+
+| Shell | Script | Loader |
+| --- | --- | --- |
+| zsh | `~/.config/neetoci/completions/_neetoci` | Block in `~/.zshrc` that adds the directory to `fpath` and runs `compinit` |
+| bash | `~/.config/neetoci/completions/neetoci.bash` | Block in `~/.bashrc` that sources the script |
+| fish | `~/.config/fish/completions/neetoci.fish` | None needed; fish loads it automatically |
+| PowerShell | `~/.config/neetoci/completions/neetoci.ps1` | Block in `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` that dot-sources the script |
+
+Start a new shell (or run `source ~/.zshrc`) to enable it. After upgrading the CLI, run the command again to update the available completions. Re-running it replaces the existing script and configuration without adding duplicates.
+
+<Note>
+  To configure it yourself, pass `--print` to write the raw script to standard output instead of installing it:
+
+  ```bash
+  neetoci completion zsh --print
+  ```
+</Note>

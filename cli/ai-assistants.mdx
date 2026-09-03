@@ -1,0 +1,56 @@
+---
+title: "AI assistants"
+description: "Set up NeetoCI for Claude, Cursor, Copilot, and other AI coding assistants."
+---
+
+Use the CLI with an AI coding assistant to manage NeetoCI in plain language. The `neetoci setup` commands add NeetoCI instructions for your assistant, while [`--toon`](/cli/output-formats) keeps command output compact for it to read.
+
+## Set up your assistant
+
+Run the subcommand for the tool you use:
+
+| Command | What it does |
+| --- | --- |
+| `neetoci setup claude` | Extracts the NeetoCI plugin (manifest, hooks, and skill) to `~/.config/neetoci/claude-plugin` and prints the slash commands that register it with Claude Code. |
+| `neetoci setup cursor` | Writes `.cursor/rules/neetoci.mdc` in the current project. |
+| `neetoci setup windsurf` | Writes `.windsurf/rules/neetoci.md` in the current project. |
+| `neetoci setup copilot` | Adds a NeetoCI section to `.github/copilot-instructions.md` in the current project. |
+| `neetoci setup gemini` | Adds a NeetoCI section to `GEMINI.md` in the current project. |
+| `neetoci setup codex` | Adds a NeetoCI section to `AGENTS.md` in the current project. |
+
+Every subcommand except `setup claude` writes into the current directory, so run it from the root of the project the assistant works in.
+
+```bash
+neetoci setup claude
+```
+
+`setup claude` needs an existing `~/.claude` directory. After it runs, open Claude Code and finish the installation with the two slash commands it prints:
+
+```text
+/plugin marketplace add ~/.config/neetoci/claude-plugin
+/plugin install neetoci@neetoci
+```
+
+## Re-run after every upgrade
+
+The instructions describe the commands and flags of the installed version, so run the setup command again after upgrading the CLI. `setup cursor` and `setup windsurf` overwrite their rule file. `setup copilot`, `setup gemini`, and `setup codex` keep the rest of the file and replace only the NeetoCI section, which sits between `<!-- neetoci:start -->` and `<!-- neetoci:end -->` markers, so re-running never adds a duplicate.
+
+After setup, your assistant can check the commands and flags available in your installed CLI version:
+
+```bash
+neetoci commands
+```
+
+The command prints the complete catalog as JSON.
+
+## Tips for agent workflows
+
+<Tip>
+  Prefer `--toon` when the assistant needs to read a list or record, and
+  `--quiet` when it needs to pipe an identifier into the next command. See
+  [Output formats](/cli/output-formats).
+</Tip>
+
+- Sign in once with [`neetoci login`](/cli/authentication); the assistant reuses the stored credentials.
+- When several workspaces are signed in, the assistant must pass `--subdomain <name>` on each command.
+- Run [`neetoci doctor`](/cli/troubleshooting) first to confirm the assistant is signed in and connected.

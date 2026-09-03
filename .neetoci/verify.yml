@@ -8,6 +8,8 @@ paths:
   - assets/**
   - bundled/**
   - bundled-v1/**
+  - cli/**
+  - cli-reference/**
   - docs/**
   - docs-v1/**
   - schemas/**
@@ -15,6 +17,7 @@ paths:
   - snippets/**
   - docs.json
   - theme.css
+  - os-detect.js
   - package.json
   - yarn.lock
   - .neetoci/verify.yml

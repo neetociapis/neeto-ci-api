@@ -39,6 +39,14 @@ This repository contains the documentation for the [NeetoCI APIs](https://apidoc
 
    Refer to [llm.md](llm.md) for more info.
 
+## CLI documentation
+
+The CLI tab is split into hand-written guides and a generated command reference.
+
+- `cli/*.mdx` (guides) and `cli-reference/<resource>.mdx` (per-resource pages) are written by hand. The reference pages import the generated flag tables from `snippets/cli/**` and add headings, usage examples, required arguments, and sample output.
+- `snippets/cli/**` and `cli-reference/overview.mdx` are generated from `cli/catalog.json` by `scripts/generate-cli-reference.mjs`. Never edit them by hand; hand edits are overwritten on the next build.
+- Refresh `cli/catalog.json` from the CLI, not by hand. With the `neetoci` binary on your `PATH`, run `yarn cli:catalog` to snapshot `neetoci commands`, then `yarn cli:build` to regenerate the snippets and the overview. `yarn build` also runs `cli:build`.
+
 ## Publishing
 
 Production documentation is published by synchronizing `origin/main` to the private GitHub repository connected to

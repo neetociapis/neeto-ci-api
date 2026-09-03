@@ -30,37 +30,78 @@
     }
   },
   "navigation": {
-    "pages": [
+    "tabs": [
       {
-        "group": "Getting Started",
-        "icon": "rocket",
-        "pages": [
-          "api/introduction",
-          "api/workspace-subdomain",
-          "api/authentication",
-          "api/response-codes"
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket",
+            "pages": [
+              "api/introduction",
+              "api/workspace-subdomain",
+              "api/authentication",
+              "api/response-codes"
+            ]
+          },
+          {
+            "group": "CI Jobs",
+            "icon": "play",
+            "pages": [
+              "api/ci-jobs/create"
+            ]
+          },
+          {
+            "group": "Team Members",
+            "icon": "user-group",
+            "pages": [
+              "api/team-members/list",
+              "api/team-members/get",
+              "api/team-members/add",
+              "api/team-members/update",
+              "api/team-members/remove"
+            ]
+          },
+          {
+            "group": "API v1 (Deprecated)",
+            "icon": "triangle-exclamation",
+            "pages": [
+              "api-reference-v1/ci-jobs/trigger"
+            ]
+          }
         ]
       },
       {
-        "group": "CI Jobs",
-        "icon": "play",
-        "pages": ["api/ci-jobs/create"]
-      },
-      {
-        "group": "Team Members",
-        "icon": "user-group",
-        "pages": [
-          "api/team-members/list",
-          "api/team-members/get",
-          "api/team-members/add",
-          "api/team-members/update",
-          "api/team-members/remove"
+        "tab": "CLI",
+        "icon": "rectangle-terminal",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket",
+            "pages": [
+              "cli/introduction",
+              "cli/installation",
+              "cli/authentication",
+              "cli/output-formats",
+              "cli/ai-assistants",
+              "cli/troubleshooting"
+            ]
+          },
+          {
+            "group": "Commands",
+            "icon": "terminal",
+            "pages": [
+              "cli-reference/overview",
+              "cli-reference/ci-jobs",
+              "cli-reference/debug-sessions",
+              "cli-reference/global-env-vars",
+              "cli-reference/project-env-vars",
+              "cli-reference/projects",
+              "cli-reference/utility"
+            ]
+          }
         ]
-      },
-      {
-        "group": "API v1 (Deprecated)",
-        "icon": "triangle-exclamation",
-        "pages": ["api-reference-v1/ci-jobs/trigger"]
       }
     ]
   },
@@ -73,7 +114,11 @@
       "proxy": true
     },
     "examples": {
-      "languages": ["curl", "javascript", "python"],
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ],
       "defaults": "all"
     }
   },

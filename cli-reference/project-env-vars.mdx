@@ -1,0 +1,78 @@
+---
+title: "Project environment variables"
+description: "Create, update, and delete environment variables scoped to one project."
+---
+
+import ProjectEnvVarsCreateFlags from '/snippets/cli/project-env-vars/create.mdx'
+import ProjectEnvVarsUpdateFlags from '/snippets/cli/project-env-vars/update.mdx'
+import ProjectEnvVarsDeleteFlags from '/snippets/cli/project-env-vars/delete.mdx'
+
+A project environment variable is available to the CI jobs of one project. Every command takes `--project` with the project name from `projects list`. As a security measure, the API never returns a variable's value and has no endpoint that lists variables, so the CLI has no list or show command. Review which keys exist in the NeetoCI web UI. Sample outputs on this page use `--json`.
+
+## Create a project environment variable
+
+This command adds a variable to one project. Use this for secrets and settings that only that repository's jobs need.
+
+```bash
+neetoci project-env-vars create --project neeto-cal-web --key RAILS_MASTER_KEY --value 4f2c9b1e7d3a5c8e0b6f1a2d4e6c8b0a
+```
+
+<ProjectEnvVarsCreateFlags />
+
+```json Sample output (--json)
+{
+  "data": {
+    "environment_variable": {
+      "id": "5d41402a-bc4b-4a76-b971-9d911017c592",
+      "key": "RAILS_MASTER_KEY"
+    }
+  }
+}
+```
+
+In `--quiet` mode this prints the new variable's `id`.
+
+## Update a project environment variable
+
+This command replaces a variable's value. Use this when rotating a secret for one project.
+
+```bash
+neetoci project-env-vars update RAILS_MASTER_KEY --project neeto-cal-web --value 8a0c6e4b2d1f3a5c7e9b0d2f4a6c8e1b
+```
+
+**Required arguments:**
+
+- `<key>` - Variable key, matched case-insensitively
+
+<ProjectEnvVarsUpdateFlags />
+
+```json Sample output (--json)
+{
+  "data": {
+    "environment_variable": {
+      "id": "5d41402a-bc4b-4a76-b971-9d911017c592",
+      "key": "RAILS_MASTER_KEY"
+    }
+  }
+}
+```
+
+## Delete a project environment variable
+
+This command removes a variable from one project. Use this when the project no longer needs it.
+
+```bash
+neetoci project-env-vars delete RAILS_MASTER_KEY --project neeto-cal-web
+```
+
+**Required arguments:**
+
+- `<key>` - Variable key, matched case-insensitively
+
+<ProjectEnvVarsDeleteFlags />
+
+```text Sample output
+Project environment variable deleted.
+```
+
+`--quiet` prints `success`.

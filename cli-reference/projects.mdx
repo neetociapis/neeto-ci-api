@@ -1,0 +1,54 @@
+---
+title: "Projects"
+description: "List the projects in your workspace."
+---
+
+import ProjectsListFlags from '/snippets/cli/projects/list.mdx'
+
+A project is a GitHub repository connected to NeetoCI. Its `name` is the value every `--project` flag takes. Sample outputs on this page use `--json`.
+
+## List projects
+
+This command shows the active projects in your workspace, sorted by name. Use this when you need a project's name for `ci-jobs list` or `ci-jobs create`, or to check which repositories are connected.
+
+```bash
+neetoci projects list
+neetoci projects list --page 2 --page-size 50
+```
+
+<ProjectsListFlags />
+
+```json Sample output (--json)
+{
+  "data": [
+    {
+      "id": "7c1f3a52-0d6b-4e8f-9a21-5b3c8d2e1f04",
+      "name": "neeto-cal-web",
+      "status": "active",
+      "repository_full_name": "neetozone/neeto-cal-web",
+      "account_login": "neetozone",
+      "is_private": true,
+      "created_at": "2025-11-03T06:42:18.310Z",
+      "default_branch": "main",
+      "url": "https://acme.neetoci.com/neeto-cal-web"
+    },
+    {
+      "id": "b4d9e6f1-2a3c-4d5e-8f70-1a2b3c4d5e6f",
+      "name": "neeto-form-web",
+      "status": "active",
+      "repository_full_name": "neetozone/neeto-form-web",
+      "account_login": "neetozone",
+      "is_private": true,
+      "created_at": "2026-01-14T11:05:52.774Z",
+      "default_branch": "main",
+      "url": "https://acme.neetoci.com/neeto-form-web"
+    }
+  ],
+  "breadcrumbs": [
+    { "label": "List jobs", "command": "neetoci ci-jobs list --project <name>" }
+  ],
+  "pagination": { "page": 1, "pages": 1, "count": 2 }
+}
+```
+
+Archived projects are left out, so `status` is always `active`. `default_branch` falls back to the string `default` when the repository has not reported one yet.

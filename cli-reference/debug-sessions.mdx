@@ -1,0 +1,140 @@
+---
+title: "Debug sessions"
+description: "Start, inspect, connect to, and stop SSH debug sessions on finished CI jobs."
+---
+
+import DebugSessionsCreateFlags from '/snippets/cli/debug-sessions/create.mdx'
+
+A debug session is a machine that reproduces a finished CI job's environment and that you can reach over SSH. Sample outputs on this page use `--json`.
+
+## Start a debug session
+
+This command starts a debug session for a finished CI job. Use this when a job fails in a way you cannot reproduce locally and you want a shell on the same machine type.
+
+```bash
+neetoci debug-sessions create --job 169bf1ed-cc65-471f-b9f3-4f63f32b9400
+neetoci debug-sessions create --job 169bf1ed-cc65-471f-b9f3-4f63f32b9400 --duration 3600
+```
+
+<DebugSessionsCreateFlags />
+
+The job must have finished. `--duration` is in seconds, from 300 to 3600, and defaults to 1800. The session ends on its own when the duration runs out, and it counts towards the workspace's monthly usage. This endpoint accepts only sessions signed in with `neetoci login`; it rejects API keys.
+
+```json Sample output (--json)
+{
+  "data": {
+    "metadata": {
+      "name": "Debug session for 169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "id": "d2e5f8a1-4b7c-4d9e-a0f1-2b3c4d5e6f70",
+      "create_time": "2026-08-20T10:02:41.118Z",
+      "update_time": "2026-08-20T10:02:41.118Z",
+      "start_time": null,
+      "finish_time": null
+    },
+    "spec": {
+      "project_id": "7c1f3a52-0d6b-4e8f-9a21-5b3c8d2e1f04",
+      "agent": {
+        "machine": { "type": "professional-2", "os_image": "ubuntu2004" }
+      }
+    },
+    "status": {
+      "state": "QUEUED",
+      "agent": {}
+    }
+  },
+  "breadcrumbs": [
+    { "label": "SSH key", "command": "neetoci debug-sessions ssh-key <id>" },
+    { "label": "Stop", "command": "neetoci debug-sessions stop <id>" }
+  ]
+}
+```
+
+`status.state` moves from `QUEUED` through `PENDING` to `RUNNING`, and ends at `FINISHED`. `status.agent` stays empty until the session is running. In `--quiet` mode this prints the whole payload, because the session ID sits under `metadata`.
+
+## Show a debug session
+
+This command shows the state of a debug session and, once it is running, the address to connect to. Use this to poll a new session until it reaches `RUNNING`.
+
+```bash
+neetoci debug-sessions show <id>
+```
+
+**Required arguments:**
+
+- `<id>` - Debug session UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "metadata": {
+      "name": "Debug session for 169bf1ed-cc65-471f-b9f3-4f63f32b9400",
+      "id": "d2e5f8a1-4b7c-4d9e-a0f1-2b3c4d5e6f70",
+      "create_time": "2026-08-20T10:02:41.118Z",
+      "update_time": "2026-08-20T10:03:29.502Z",
+      "start_time": "2026-08-20T10:03:29.410Z",
+      "finish_time": null
+    },
+    "spec": {
+      "project_id": "7c1f3a52-0d6b-4e8f-9a21-5b3c8d2e1f04",
+      "agent": {
+        "machine": { "type": "professional-2", "os_image": "ubuntu2004" }
+      }
+    },
+    "status": {
+      "state": "RUNNING",
+      "agent": {
+        "ip": "34.120.18.77",
+        "name": "debug-session-d2e5f8a1",
+        "ports": [{ "name": "ssh", "number": 30022 }]
+      }
+    }
+  }
+}
+```
+
+Connect with SSH to `status.agent.ip` on the port listed under `status.agent.ports`, using the key from `debug-sessions ssh-key`.
+
+## Show the SSH key
+
+This command prints the private key that opens the session. Use this once the session is running, then save the key to a file with restricted permissions.
+
+```bash
+neetoci debug-sessions ssh-key <id>
+neetoci debug-sessions ssh-key <id> --quiet | jq -r .key > debug-session.pem && chmod 600 debug-session.pem
+```
+
+**Required arguments:**
+
+- `<id>` - Debug session UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA2f7VJcQ1Y8Yp3q0Zk2xvYw5tFq9r1LhU7bJwXcN4eP0sD6aG\n...\n-----END RSA PRIVATE KEY-----\n"
+  }
+}
+```
+
+In `--quiet` mode this prints the `{ "key": ... }` object without the envelope, which is what the `jq` pipeline above reads.
+
+## Stop a debug session
+
+This command ends a debug session before its duration runs out. Use this when you are done, so the machine stops counting towards usage.
+
+```bash
+neetoci debug-sessions stop <id>
+```
+
+**Required arguments:**
+
+- `<id>` - Debug session UUID
+
+```json Sample output (--json)
+{
+  "data": {
+    "notice_code": "thumbs_up"
+  }
+}
+```
+
+The session's `status.state` becomes `FINISHED` and `metadata.finish_time` is set.

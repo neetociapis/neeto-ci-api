@@ -1,0 +1,75 @@
+---
+title: "Global environment variables"
+description: "Create, update, and delete environment variables shared by every project."
+---
+
+import GlobalEnvVarsCreateFlags from '/snippets/cli/global-env-vars/create.mdx'
+import GlobalEnvVarsUpdateFlags from '/snippets/cli/global-env-vars/update.mdx'
+
+A global environment variable is available to every CI job in the workspace. As a security measure, the API never returns a variable's value and has no endpoint that lists variables, so the CLI has no list or show command. Review which keys exist in the NeetoCI web UI. Sample outputs on this page use `--json`.
+
+## Create a global environment variable
+
+This command adds a variable to the workspace. Use this when every project needs the same secret or setting, such as a registry token.
+
+```bash
+neetoci global-env-vars create --key SLACK_WEBHOOK_URL --value https://hooks.slack.com/services/T0000/B0000/XXXX
+```
+
+<GlobalEnvVarsCreateFlags />
+
+```json Sample output (--json)
+{
+  "data": {
+    "environment_variable": {
+      "id": "e3b0c442-98fc-4c14-9afb-f4c8996fb924",
+      "key": "SLACK_WEBHOOK_URL"
+    }
+  }
+}
+```
+
+In `--quiet` mode this prints the new variable's `id`.
+
+## Update a global environment variable
+
+This command replaces a variable's value. Use this when rotating a secret.
+
+```bash
+neetoci global-env-vars update SLACK_WEBHOOK_URL --value https://hooks.slack.com/services/T0000/B0000/YYYY
+```
+
+**Required arguments:**
+
+- `<key>` - Variable key, matched case-insensitively
+
+<GlobalEnvVarsUpdateFlags />
+
+```json Sample output (--json)
+{
+  "data": {
+    "environment_variable": {
+      "id": "e3b0c442-98fc-4c14-9afb-f4c8996fb924",
+      "key": "SLACK_WEBHOOK_URL"
+    }
+  }
+}
+```
+
+## Delete a global environment variable
+
+This command removes a variable from the workspace. Use this when no project needs it any more.
+
+```bash
+neetoci global-env-vars delete SLACK_WEBHOOK_URL
+```
+
+**Required arguments:**
+
+- `<key>` - Variable key, matched case-insensitively
+
+```text Sample output
+Global environment variable deleted.
+```
+
+`--quiet` prints `success`.

@@ -1,0 +1,37 @@
+---
+title: "NeetoCI CLI"
+description: "Trigger CI jobs, read logs and metrics, manage environment variables, and debug finished jobs from your terminal."
+---
+
+The **NeetoCI CLI** (`neetoci`) lets you manage NeetoCI from your terminal. It covers the [v2 REST API](/api/introduction): list projects, trigger and inspect CI jobs, read per-pod logs and resource metrics, manage environment variables, and open SSH debug sessions on finished jobs.
+
+It is designed for people comfortable with a terminal or HTTP. You do not need to be a developer: run `neetoci setup` to connect an AI assistant such as Claude or Cursor, then describe the task in plain language.
+
+## Why use the CLI?
+
+<CardGroup cols={2}>
+  <Card title="Script your pipeline" icon="terminal">
+    Trigger jobs, check their status, and rerun failures from shell scripts and other CI steps.
+  </Card>
+  <Card title="Debug from the terminal" icon="magnifying-glass">
+    Pull a job's per-pod log files and CPU and memory metrics, pipe them to `jq`, and find OOM kills without opening the browser.
+  </Card>
+  <Card title="Manage configuration" icon="key">
+    Create, rotate, and delete global and project environment variables without leaving your shell.
+  </Card>
+  <Card title="Built for AI agents" icon="robot">
+    Use token-efficient `--toon` output and one-command setup for Claude, Cursor, Copilot, and more.
+  </Card>
+</CardGroup>
+
+## What you need
+
+1. Access to one or more NeetoCI workspaces.
+2. Permission to manage the resources you want to work with (projects, CI jobs, environment variables, and so on).
+3. The `neetoci` binary. See [Installation](/cli/installation).
+
+<Note>
+  Unlike the API, which authenticates with an `X-Api-Key` header, the CLI signs
+  you in through your browser and stores credentials locally. See
+  [Authentication](/cli/authentication).
+</Note>
