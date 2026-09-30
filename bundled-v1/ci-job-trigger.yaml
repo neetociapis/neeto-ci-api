@@ -70,7 +70,7 @@ components:
             - playwright-staging
             - playwright-staging-webkit
             - playwright-staging-diff
-            - playwright-nightly-staging
+            - playwright-nightly
           example: playwright-staging
           default: playwright-staging
           x-enum-descriptions:
@@ -79,7 +79,7 @@ components:
             playwright-staging: Runs the full Playwright test suite on Chromium against the staging environment for verification and validation.
             playwright-staging-webkit: Runs the full Playwright test suite on WebKit against the staging environment.
             playwright-staging-diff: Executes only the Playwright tests affected by changes compared to the target branch for faster feedback during development.
-            playwright-nightly-staging: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
+            playwright-nightly: Executes the complete Playwright test suite on a scheduled nightly basis for comprehensive regression testing.
       required:
         - branch_name
         - project_name
